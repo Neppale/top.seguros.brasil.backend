@@ -27,12 +27,14 @@ string dbConnectionString = builder.Configuration["dbConnectionStringDev"];
 if (app.Environment.IsDevelopment())
 {
   app.UseSwagger();
+  // app.UseSwaggerUI(c => c.SwaggerEndpoint("https://api.verissimo.dev/openapi.json",
+  //                                   $"{builder.Environment.ApplicationName} v1"));
   app.UseSwaggerUI();
 }
 
 else
 {
-    ; // Pega a variável de ambiente de nome "dbConnectionStringProd" do arquivo Secrets.json
+  ; // Pega a variável de ambiente de nome "dbConnectionStringProd" do arquivo Secrets.json
 }
 
 
@@ -54,7 +56,7 @@ app.MapGet("/cliente/debug", () =>
       phone1: "(11)94019-3706",
       phone2: null,
       status: true);
-    Console.WriteLine("[INFO] A request for 'cliente' was made. The response was a mock. :)");
+  Console.WriteLine("[INFO] A request for 'cliente' was made. The response was a mock. :)");
   return data;
 })
 .WithName("cliente/debug");
@@ -160,17 +162,17 @@ app.MapGet("/apolice/debug", () =>
 
 app.MapGet("/cliente/", () =>
 {
-    Cliente cliente = new();
-    var data = cliente.GetCliente(dbConnectionString: dbConnectionString);
-    return data;
+  Cliente cliente = new();
+  var data = cliente.GetCliente(dbConnectionString: dbConnectionString);
+  return data;
 })
 .WithName("/cliente/");
 
 app.MapGet("/cliente/{id:int}", (int id) =>
 {
-    Cliente cliente = new();
-    var data = cliente.GetCliente(id: id, dbConnectionString: dbConnectionString);
-    return data;
+  Cliente cliente = new();
+  var data = cliente.GetCliente(id: id, dbConnectionString: dbConnectionString);
+  return data;
 })
 .WithName("/cliente/{id:int}");
 
@@ -178,17 +180,17 @@ app.MapGet("/cliente/{id:int}", (int id) =>
 
 app.MapGet("/apolice/", () =>
 {
-    Apolice apolice = new();
-    var data = apolice.GetApolice(dbConnectionString: dbConnectionString);
-    return data;
+  Apolice apolice = new();
+  var data = apolice.GetApolice(dbConnectionString: dbConnectionString);
+  return data;
 })
 .WithName("/apolice/");
 
 app.MapGet("/apolice/{id:int}", (int id) =>
 {
-    Apolice apolice = new();
-    var data = apolice.GetApolice(id: id, dbConnectionString: dbConnectionString);
-    return data;
+  Apolice apolice = new();
+  var data = apolice.GetApolice(id: id, dbConnectionString: dbConnectionString);
+  return data;
 })
 .WithName("/apolice/{id:int}");
 
@@ -196,19 +198,91 @@ app.MapGet("/apolice/{id:int}", (int id) =>
 
 app.MapGet("/cobertura/", () =>
 {
-    Cobertura cobertura = new();
-    var data = cobertura.GetCobertura(dbConnectionString: dbConnectionString);
-    return data;
+  Cobertura cobertura = new();
+  var data = cobertura.GetCobertura(dbConnectionString: dbConnectionString);
+  return data;
 })
 .WithName("/cobertura/");
 
 app.MapGet("/cobertura/{id:int}", (int id) =>
 {
-    Cobertura cobertura = new();
-    var data = cobertura.GetCobertura(id: id, dbConnectionString: dbConnectionString);
-    return data;
+  Cobertura cobertura = new();
+  var data = cobertura.GetCobertura(id: id, dbConnectionString: dbConnectionString);
+  return data;
 })
 .WithName("/cobertura/{id:int}");
+
+// OCORRENCIAS
+
+app.MapGet("/ocorrencia/", () =>
+{
+  Ocorrencia ocorrencia = new();
+  var data = ocorrencia.GetOcorrencia(dbConnectionString: dbConnectionString);
+  return data;
+})
+.WithName("/ocorrencia/");
+
+app.MapGet("/ocorrencia/{id:int}", (int id) =>
+{
+  Ocorrencia ocorrencia = new();
+  var data = ocorrencia.GetOcorrencia(id: id, dbConnectionString: dbConnectionString);
+  return data;
+})
+.WithName("/ocorrencia/{id:int}");
+
+// TERCEIRIZADOS
+
+app.MapGet("/terceirizado/", () =>
+{
+  Terceirizado terceirizado = new();
+  var data = terceirizado.GetTerceirizado(dbConnectionString: dbConnectionString);
+  return data;
+})
+.WithName("/terceirizado/");
+
+app.MapGet("/terceirizado/{id:int}", (int id) =>
+{
+  Terceirizado terceirizado = new();
+  var data = terceirizado.GetTerceirizado(id: id, dbConnectionString: dbConnectionString);
+  return data;
+})
+.WithName("/terceirizado/{id:int}");
+
+// USUARIOS
+
+app.MapGet("/usuario/", () =>
+{
+  Usuario usuario = new();
+  var data = usuario.GetUsuario(dbConnectionString: dbConnectionString);
+  return data;
+})
+.WithName("/usuario/");
+
+app.MapGet("/usuario/{id:int}", (int id) =>
+{
+  Usuario usuario = new();
+  var data = usuario.GetUsuario(id: id, dbConnectionString: dbConnectionString);
+  return data;
+})
+.WithName("/usuario/{id:int}");
+
+// VEICULOS
+
+app.MapGet("/veiculo/", () =>
+{
+  Veiculo veiculo = new();
+  var data = veiculo.GetVeiculo(dbConnectionString: dbConnectionString);
+  return data;
+})
+.WithName("/veiculo/");
+
+app.MapGet("/veiculo/{id:int}", (int id) =>
+{
+  Veiculo veiculo = new();
+  var data = veiculo.GetVeiculo(id: id, dbConnectionString: dbConnectionString);
+  return data;
+})
+.WithName("/veiculo/{id:int}");
 
 app.Run();
 
