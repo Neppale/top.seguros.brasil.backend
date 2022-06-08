@@ -176,6 +176,13 @@ app.MapGet("/cliente/{id:int}", (int id) =>
 })
 .WithName("/cliente/{id:int}");
 
+app.MapPost("/cliente/", (Cliente cliente) =>
+{
+  var data = cliente.PostCliente(cliente: cliente, dbConnectionString: dbConnectionString);
+  return data;
+})
+.WithName("POST /cliente/");
+
 // APOLICES 
 
 app.MapGet("/apolice/", () =>
