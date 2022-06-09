@@ -45,119 +45,119 @@ connectionString.Open();
 #region [DEBUG ENDPOINTS]
 
 
-app.MapGet("/cliente/debug", () =>
-{
-  Cliente data = new Cliente(
-      fullName: "Gabriel Verissimo Dias",
-      email: "gabriel@verissimo.dev",
-      password: "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e",
-      cpf: "000.000.000 - 00",
-      cnh: "56739225646",
-      cep: "02867-070",
-      birthdate: DateFormatter.FormatDate(2003, 07, 22),
-      phone1: "(11)94019-3706",
-      phone2: null,
-      status: true);
-  Console.WriteLine("[INFO] A request for 'cliente' was made. The response was a mock. :)");
-  return data;
-})
-.WithName("cliente/debug");
+// app.MapGet("/cliente/debug", () =>
+// {
+//   Cliente data = new Cliente(
+//       fullName: "Gabriel Verissimo Dias",
+//       email: "gabriel@verissimo.dev",
+//       password: "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e",
+//       cpf: "000.000.000 - 00",
+//       cnh: "56739225646",
+//       cep: "02867-070",
+//       birthdate: DateFormatter.FormatDate(2003, 07, 22),
+//       phone1: "(11)94019-3706",
+//       phone2: null,
+//       status: true);
+//   Console.WriteLine("[INFO] A request for 'cliente' was made. The response was a mock. :)");
+//   return data;
+// })
+// .WithName("cliente/debug");
 
-app.MapGet("/usuario/debug", () =>
-{
-  Usuario data = new Usuario(
-    fullName: "Jefferson Oliveira Silva",
-    email: "jefferson.silva@topseguros.br",
-    password: "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e",
-    type: "Corretor",
-    status: true);
+// app.MapGet("/usuario/debug", () =>
+// {
+//   Usuario data = new Usuario(
+//     fullName: "Jefferson Oliveira Silva",
+//     email: "jefferson.silva@topseguros.br",
+//     password: "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e",
+//     type: "Corretor",
+//     status: true);
 
-  Console.WriteLine("[INFO] A request for 'usuario' was made. The response was a mock. :)");
-  return data;
-})
-.WithName("usuario/debug");
+//   Console.WriteLine("[INFO] A request for 'usuario' was made. The response was a mock. :)");
+//   return data;
+// })
+// .WithName("usuario/debug");
 
-app.MapGet("/cobertura/debug", () =>
-{
-  Cobertura data = new Cobertura(
-    name: "Essencial",
-    description: "Menos dor de cabeca",
-    price: 23.90,
-    status: true);
+// app.MapGet("/cobertura/debug", () =>
+// {
+//   Cobertura data = new Cobertura(
+//     name: "Essencial",
+//     description: "Menos dor de cabeca",
+//     price: 23.90,
+//     status: true);
 
-  Console.WriteLine("[INFO] A request for 'cobertura' was made. The response was a mock. :)");
-  return data;
-})
-.WithName("cobertura/debug");
+//   Console.WriteLine("[INFO] A request for 'cobertura' was made. The response was a mock. :)");
+//   return data;
+// })
+// .WithName("cobertura/debug");
 
-app.MapGet("/terceirizado/debug", () =>
-{
-  Terceirizado data = new Terceirizado(
-      fullName: "Evandro Dias",
-      function: "Guincheiro",
-      price: 100.00,
-      cnpj: "72.223.762/0001-68",
-      phone: "(11)98738-4468",
-      status: true);
+// app.MapGet("/terceirizado/debug", () =>
+// {
+//   Terceirizado data = new Terceirizado(
+//       fullName: "Evandro Dias",
+//       function: "Guincheiro",
+//       price: 100.00,
+//       cnpj: "72.223.762/0001-68",
+//       phone: "(11)98738-4468",
+//       status: true);
 
-  Console.WriteLine("[INFO] A request for 'terceirizado' was made. The response was a mock. :)");
-  return data;
-})
-.WithName("terceirizado/debug");
+//   Console.WriteLine("[INFO] A request for 'terceirizado' was made. The response was a mock. :)");
+//   return data;
+// })
+// .WithName("terceirizado/debug");
 
-app.MapGet("/veiculo/debug", () =>
-{
-  Veiculo data = new Veiculo(brand: "Mazda",
-    model: "RX 7 2.6 Turbo",
-    year: 1993,
-    usage: "Passeio",
-    plate: "NDD-9961",
-    renavam: "93696427753",
-    sinistrado: false,
-    idcliente: 1);
+// app.MapGet("/veiculo/debug", () =>
+// {
+//   Veiculo data = new Veiculo(brand: "Mazda",
+//     model: "RX 7 2.6 Turbo",
+//     year: 1993,
+//     usage: "Passeio",
+//     plate: "NDD-9961",
+//     renavam: "93696427753",
+//     sinistrado: false,
+//     idcliente: 1);
 
-  Console.WriteLine("[INFO] A request for 'veiculo' was made. The response was a mock. :)");
-  return data;
-})
-.WithName("veiculo/debug");
+//   Console.WriteLine("[INFO] A request for 'veiculo' was made. The response was a mock. :)");
+//   return data;
+// })
+// .WithName("veiculo/debug");
 
-app.MapGet("/ocorrencia/debug", () =>
-{
-  Ocorrencia data = new Ocorrencia(
-    date: DateFormatter.FormatDate(2022, 05, 03),
-    place: "Av. Paulista, 900",
-    UF: "SP",
-    city: "Sao Paulo",
-    description: "Assalto de veiculo a mao armada",
-    type: "Assalto",
-    document: null,
-    status: "Analise",
-    idterceirizado: null,
-    idcliente: 1,
-    idveiculo: 1);
+// app.MapGet("/ocorrencia/debug", () =>
+// {
+//   Ocorrencia data = new Ocorrencia(
+//     date: DateFormatter.FormatDate(2022, 05, 03),
+//     place: "Av. Paulista, 900",
+//     UF: "SP",
+//     city: "Sao Paulo",
+//     description: "Assalto de veiculo a mao armada",
+//     type: "Assalto",
+//     document: null,
+//     status: "Analise",
+//     idterceirizado: null,
+//     idcliente: 1,
+//     idveiculo: 1);
 
-  Console.WriteLine("[INFO] A request for 'ocorrencia' was made. The response was a mock. :)");
-  return data;
-})
-.WithName("ocorrencia/debug");
+//   Console.WriteLine("[INFO] A request for 'ocorrencia' was made. The response was a mock. :)");
+//   return data;
+// })
+// .WithName("ocorrencia/debug");
 
-app.MapGet("/apolice/debug", () =>
-{
-  Apolice data = new Apolice(
-    startDate: DateFormatter.FormatDate(2022, 01, 01),
-    endDate: DateFormatter.FormatDate(2023, 01, 01),
-    premium: 130.00,
-    indemnity: 52452.00,
-    idcobertura: 1,
-    idusuario: 1,
-    idcliente: 1,
-    idveiculo: 1,
-    status: "Aprovado");
+// app.MapGet("/apolice/debug", () =>
+// {
+//   Apolice data = new Apolice(
+//     startDate: DateFormatter.FormatDate(2022, 01, 01),
+//     endDate: DateFormatter.FormatDate(2023, 01, 01),
+//     premium: 130.00,
+//     indemnity: 52452.00,
+//     idcobertura: 1,
+//     idusuario: 1,
+//     idcliente: 1,
+//     idveiculo: 1,
+//     status: "Aprovado");
 
-  Console.WriteLine("[INFO] A request for 'apolice' was made. The response was a mock. :)");
-  return data;
-})
-.WithName("apolice/debug");
+//   Console.WriteLine("[INFO] A request for 'apolice' was made. The response was a mock. :)");
+//   return data;
+// })
+// .WithName("apolice/debug");
 
 
 
@@ -170,7 +170,7 @@ app.MapGet("/apolice/debug", () =>
 
 app.MapGet("/healthcheck/", () =>
 {
-    return HealthCheck.Check(dbConnectionString: dbConnectionString);
+  return HealthCheck.Check(dbConnectionString: dbConnectionString);
 })
 .WithName("/healthcheck/");
 
@@ -200,6 +200,12 @@ app.MapPost("/cliente/", (Cliente cliente) =>
 })
 .WithName("POST /cliente/");
 
+app.MapPut("/cliente/", (Cliente cliente) =>
+{
+  return Results.StatusCode(501);
+})
+.WithName("PUT /cliente/");
+
 // APOLICES 
 
 app.MapGet("/apolice/", () =>
@@ -225,6 +231,12 @@ app.MapPost("/apolice/", (Apolice apolice) =>
 })
 .WithName("POST /apolice/");
 
+app.MapPut("/apolice/", (Apolice apolice) =>
+{
+  return Results.StatusCode(501);
+})
+.WithName("PUT /apolice/");
+
 // COBERTURAS
 
 app.MapGet("/cobertura/", () =>
@@ -249,6 +261,12 @@ app.MapPost("/cobertura/", (Cobertura cobertura) =>
   return data;
 })
 .WithName("POST /cobertura/");
+
+app.MapPut("/cobertura/", (Cobertura cobertura) =>
+{
+  return Results.StatusCode(501);
+})
+.WithName("PUT /cobertura/");
 
 // OCORRENCIAS
 
@@ -293,6 +311,12 @@ app.MapPost("/terceirizado/", (Terceirizado terceirizado) =>
 })
 .WithName("POST /terceirizado/");
 
+app.MapPut("/terceirizado/", (Terceirizado terceirizado) =>
+{
+  return Results.StatusCode(501);
+})
+.WithName("PUT /terceirizado/");
+
 // USUARIOS
 
 app.MapGet("/usuario/", () =>
@@ -318,6 +342,11 @@ app.MapPost("/usuario/", (Usuario usuario) =>
 })
 .WithName("POST /usuario/");
 
+app.MapPut("/usuario/", (Usuario usuario) =>
+{
+  return Results.StatusCode(501);
+})
+.WithName("PUT /usuario/");
 
 // VEICULOS
 
@@ -343,6 +372,12 @@ app.MapPost("/veiculo/", (Veiculo veiculo) =>
   return data;
 })
 .WithName("POST /veiculo/");
+
+app.MapPut("/veiculo/", (Veiculo veiculo) =>
+{
+  return Results.StatusCode(501);
+})
+.WithName("PUT /veiculo/");
 
 #endregion
 
