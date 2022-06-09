@@ -90,7 +90,7 @@ public class Cliente : ModeloClasses<Cliente>
 
       var data = connectionString.Query<Cliente>($"INSERT INTO Clientes (email, senha, nome_completo, cpf, cnh, cep, data_nascimento, telefone1, telefone2, status) VALUES ('{cliente.email}', '{cliente.senha}', '{cliente.nome_completo}', '{cliente.cpf}', '{cliente.cnh}', '{cliente.cep}', '{cliente.data_nascimento}', '{cliente.telefone1}', '{cliente.telefone2}', '{cliente.status}')");
 
-      return Results.CreatedAtRoute("Há um campo inválido na sua requisição.");
+      return Results.StatusCode(201);
     }
     catch (BadHttpRequestException)
     {

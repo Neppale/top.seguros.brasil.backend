@@ -210,6 +210,13 @@ app.MapGet("/apolice/{id:int}", (int id) =>
 })
 .WithName("/apolice/{id:int}");
 
+app.MapPost("/apolice/", (Apolice apolice) =>
+{
+  var data = apolice.Insert(apolice: apolice, dbConnectionString: dbConnectionString);
+  return data;
+})
+.WithName("POST /apolice/");
+
 // COBERTURAS
 
 app.MapGet("/cobertura/", () =>
