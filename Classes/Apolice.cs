@@ -29,42 +29,42 @@ public class Apolice
 
   }
 
-    public Apolice(string startDate, string endDate, double premium, double indemnity, int idcobertura, int idusuario, int idcliente, int idveiculo, string status)
-    {
+  public Apolice(string startDate, string endDate, double premium, double indemnity, int idcobertura, int idusuario, int idcliente, int idveiculo, string status)
+  {
 
-        this.data_inicio = startDate;
-        this.data_fim = endDate;
-        this.premio = premium;
-        this.indenizacao = indemnity;
-        this.id_cobertura = idcobertura;
-        this.id_usuario = idusuario;
-        this.id_cliente = idcliente;
-        this.id_veiculo = idveiculo;
-        this.status = status;
-    }
+    this.data_inicio = startDate;
+    this.data_fim = endDate;
+    this.premio = premium;
+    this.indenizacao = indemnity;
+    this.id_cobertura = idcobertura;
+    this.id_usuario = idusuario;
+    this.id_cliente = idcliente;
+    this.id_veiculo = idveiculo;
+    this.status = status;
+  }
 
-    // Esta função retorna todas as apolices.
-    public IEnumerable<Apolice> GetApolice(string dbConnectionString)
-    {
-        SqlConnection connectionString = new SqlConnection(dbConnectionString);
+  // Esta funï¿½ï¿½o retorna todas as apolices.
+  public IEnumerable<Apolice> Get(string dbConnectionString)
+  {
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-        var data = connectionString.Query<Apolice>("SELECT * from Apolices");
+    var data = connectionString.Query<Apolice>("SELECT * from Apolices");
 
-        Console.WriteLine("[INFO] A request for all 'apolices' was made. The response is not a mock. :)");
+    Console.WriteLine("[INFO] A request for all 'apolices' was made. The response is not a mock. :)");
 
-        return data;
-    }
+    return data;
+  }
 
-    // Esta função retorna apenas uma apolice em específico.
-    public IEnumerable<Apolice> GetApolice(int id, string dbConnectionString)
-    {
-        SqlConnection connectionString = new SqlConnection(dbConnectionString);
-        var data = connectionString.Query<Apolice>($"SELECT * from Apolices WHERE id_apolice={id}");
+  // Esta funï¿½ï¿½o retorna apenas uma apolice em especï¿½fico.
+  public IEnumerable<Apolice> Get(int id, string dbConnectionString)
+  {
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+    var data = connectionString.Query<Apolice>($"SELECT * from Apolices WHERE id_apolice={id}");
 
-        Console.WriteLine("[INFO] A request for a single 'apolice' was made. The response is not a mock. :)");
+    Console.WriteLine("[INFO] A request for a single 'apolice' was made. The response is not a mock. :)");
 
-        if (data.Count() == 0) throw new BadHttpRequestException("Apólice não encontrada.", statusCode: 404);
+    if (data.Count() == 0) throw new BadHttpRequestException("Apï¿½lice nï¿½o encontrada.", statusCode: 404);
 
-        return data;
-    }
+    return data;
+  }
 }

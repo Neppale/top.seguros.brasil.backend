@@ -1,6 +1,7 @@
-﻿using Dapper;
+﻿using tsb.mininal.policy.engine.Utils;
+using Dapper;
 using Microsoft.Data.SqlClient;
-public class Cliente
+public class Cliente : ModeloClasses<Cliente>
 {
   public int id_cliente { get; set; }
   public string nome_completo { get; set; }
@@ -44,8 +45,8 @@ public class Cliente
     this.status = status;
   }
 
-  // Esta função retorna todos os clientes do banco de dados.
-  public IEnumerable<Cliente> GetCliente(string dbConnectionString)
+  /** <summary> Esta função retorna todos os clientes no banco de dados. </summary>**/
+  public IEnumerable<Cliente> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
@@ -56,8 +57,8 @@ public class Cliente
     return data;
   }
 
-  // Esta função retorna apenas um cliente em específico.
-  public IEnumerable<Cliente> GetCliente(int id, string dbConnectionString)
+  /** <summary> Esta função retorna um cliente em específico no banco de daods. </summary>**/
+  public IEnumerable<Cliente> Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Cliente>($"SELECT * from Clientes WHERE id_cliente={id}");
@@ -69,19 +70,29 @@ public class Cliente
     return data;
   }
 
-  // Esta função cadastra um cliente do banco de dados.
-  public string PostCliente(Cliente cliente, string dbConnectionString)
+
+  /** <summary> Esta função insere um cliente no banco de dados. </summary>**/
+  public string Insert(Cliente cliente, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     Console.WriteLine("[INFO] A request to post to 'clientes' was made :)");
 
     try
     {
+      // Verificando se alguma das propriedades do cliente é nulo.
+      bool nullPropertyFound = cliente.GetType().GetProperties()
+                              .All(p => p.GetValue(cliente) != null);
+      if (nullPropertyFound) throw new BadHttpRequestException("CPF informado é inválido.", statusCode: 400);
+
+      // Verificação de CPF
+      bool cpfValidity = CpfValidator.Validate(cliente.cpf);
+      if (!cpfValidity) throw new BadHttpRequestException("CPF informado é inválido.", statusCode: 400);
+
       var data = connectionString.Query<Cliente>($"INSERT INTO Clientes (email, senha, nome_completo, cpf, cnh, cep, data_nascimento, telefone1, telefone2, status) VALUES ('{cliente.email}', '{cliente.senha}', '{cliente.nome_completo}', '{cliente.cpf}', '{cliente.cnh}', '{cliente.cep}', '{cliente.data_nascimento}', '{cliente.telefone1}', '{cliente.telefone2}', '{cliente.status}')");
 
       return "Cliente salvo com sucesso.";
     }
-    catch (System.Exception)
+    catch (BadHttpRequestException)
     {
       //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
       throw new BadHttpRequestException("Houve um erro com sua requisição. Verifique os detalhes do JSON enviado e tente novamente.", statusCode: 400);

@@ -37,7 +37,7 @@ public class Veiculo
     this.id_cliente = idcliente;
   }
 
-  public IEnumerable<Veiculo> GetVeiculo(string dbConnectionString)
+  public IEnumerable<Veiculo> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Veiculo>("SELECT * from Veiculos");
@@ -47,7 +47,7 @@ public class Veiculo
     return data;
   }
   // Esta função retorna apenas um Veiculo em específico.
-  public IEnumerable<Veiculo> GetVeiculo(int id, string dbConnectionString)
+  public IEnumerable<Veiculo> Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Veiculo>($"SELECT * from Veiculos WHERE id_Veiculo={id}");

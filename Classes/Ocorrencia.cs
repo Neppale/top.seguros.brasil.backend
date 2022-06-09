@@ -50,7 +50,7 @@ public class Ocorrencia
 
   // Esta função retorna todas as ocorrencias.
 
-  public IEnumerable<Ocorrencia> GetOcorrencia(string dbConnectionString)
+  public IEnumerable<Ocorrencia> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Ocorrencia>("SELECT id_ocorrencia, data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado from Ocorrencias");
@@ -62,7 +62,7 @@ public class Ocorrencia
   }
 
   // Esta função retorna apenas uma ocorrencia em específico.
-  public IEnumerable<Ocorrencia> GetOcorrencia(int id, string dbConnectionString)
+  public IEnumerable<Ocorrencia> Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Ocorrencia>($"SELECT id_ocorrencia, data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado from Ocorrencias WHERE id_ocorrencia={id}");

@@ -34,7 +34,7 @@ public class Terceirizado
   }
 
   // Esta função retorna todos os terceirizados.
-  public IEnumerable<Terceirizado> GetTerceirizado(string dbConnectionString)
+  public IEnumerable<Terceirizado> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Terceirizado>("SELECT * from Terceirizados");
@@ -44,7 +44,7 @@ public class Terceirizado
     return data;
   }
   // Esta função retorna apenas um terceirizado em específico.
-  public IEnumerable<Terceirizado> GetTerceirizado(int id, string dbConnectionString)
+  public IEnumerable<Terceirizado> Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Terceirizado>($"SELECT * from Terceirizados WHERE id_terceirizado={id}");

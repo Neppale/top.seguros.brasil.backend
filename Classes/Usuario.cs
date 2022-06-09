@@ -29,7 +29,7 @@ public class Usuario
     this.senha = password;
     this.status = status;
   }
-  public IEnumerable<Usuario> GetUsuario(string dbConnectionString)
+  public IEnumerable<Usuario> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Usuario>("SELECT * from Usuarios");
@@ -39,7 +39,7 @@ public class Usuario
     return data;
   }
   // Esta função retorna apenas um Usuario em específico.
-  public IEnumerable<Usuario> GetUsuario(int id, string dbConnectionString)
+  public IEnumerable<Usuario> Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Usuario>($"SELECT * from Usuarios WHERE id_Usuario={id}");
