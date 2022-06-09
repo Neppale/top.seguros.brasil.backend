@@ -7,27 +7,26 @@ namespace tsb.mininal.policy.engine.Utils
   {
     public static IResult Check(string dbConnectionString)
     {
-            int count = 0;
             SqlConnection connectionString = new SqlConnection(dbConnectionString);
-            
-            connectionString.Query($"SELECT * from Clientes");
-            count++;
-            connectionString.Query($"SELECT * from Coberturas");
-            count++;
-            connectionString.Query($"SELECT * from Usuarios");
-            count++;
-            connectionString.Query($"SELECT * from Veiculos");
-            count++;
-            connectionString.Query($"SELECT * from Terceirizados");
-            count++;
-            connectionString.Query($"SELECT * from Apolices");
-            count++;
+           
+            // Clean code? I don't know her.
+            if (!connectionString.QuerySingle<bool>($"SELECT * from Clientes WHERE id_cliente = 1")) return Results.StatusCode(503);
 
-            return Results.Accepted();
+            if (!connectionString.QuerySingle<bool>($"SELECT * from Coberturas  WHERE id_cobertura = 1")) return Results.StatusCode(503);
+
+            if (!connectionString.QuerySingle<bool>($"SELECT * from Usuarios WHERE id_usuario = 1")) return Results.StatusCode(503);
+
+            if (!connectionString.QuerySingle<bool>($"SELECT * from Veiculos WHERE id_veiculo = 1")) return Results.StatusCode(503);
+
+            if (!connectionString.QuerySingle<bool>($"SELECT * from Terceirizados WHERE id_terceirizado = 1")) return Results.StatusCode(503);
+
+            if (!connectionString.QuerySingle<bool>($"SELECT * from Apolices WHERE id_apolice = 1")) return Results.StatusCode(503);
+
+            if (!connectionString.QuerySingle<bool>($"SELECT id_cobertura from Coberturas WHERE id_cobertura = 1")) return Results.StatusCode(503);
+
+
+
+            return Results.Ok();
         }
-    public static string FormatDate()
-    {
-      return "1970-01-01";
-    }
   }
 }

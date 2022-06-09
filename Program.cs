@@ -170,8 +170,7 @@ app.MapGet("/apolice/debug", () =>
 
 app.MapGet("/healthcheck/", () =>
 {
-  IResult result = Results.Ok();
-  return result;
+    return HealthCheck.Check(dbConnectionString: dbConnectionString);
 })
 .WithName("/healthcheck/");
 
