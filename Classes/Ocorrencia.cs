@@ -48,7 +48,7 @@ public class Ocorrencia
     this.status = status;
   }
 
-  // Esta função retorna todas as ocorrencias.
+  /** <summary> Esta função retorna todas as ocorrências no banco de dados. </summary>**/
 
   public IEnumerable<Ocorrencia> Get(string dbConnectionString)
   {
@@ -61,7 +61,7 @@ public class Ocorrencia
     return data;
   }
 
-  // Esta função retorna apenas uma ocorrencia em específico.
+  /** <summary> Esta função retorna uma ocorrecia específica no banco de dados. </summary>**/
   public IEnumerable<Ocorrencia> Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);

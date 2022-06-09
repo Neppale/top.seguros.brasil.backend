@@ -33,7 +33,7 @@ public class Terceirizado
     this.status = status;
   }
 
-  // Esta função retorna todos os terceirizados.
+  /** <summary> Esta função retorna todos os terceirizados no banco de dados. </summary>**/
   public IEnumerable<Terceirizado> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
@@ -43,7 +43,7 @@ public class Terceirizado
 
     return data;
   }
-  // Esta função retorna apenas um terceirizado em específico.
+  /** <summary> Esta função retorna um terceirizado específico no banco de dados. </summary>**/
   public IEnumerable<Terceirizado> Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);

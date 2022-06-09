@@ -72,7 +72,7 @@ public class Cliente : ModeloClasses<Cliente>
 
 
   /** <summary> Esta função insere um cliente no banco de dados. </summary>**/
-  public string Insert(Cliente cliente, string dbConnectionString)
+  public IResult Insert(Cliente cliente, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     Console.WriteLine("[INFO] A request to post to 'clientes' was made :)");
@@ -80,22 +80,22 @@ public class Cliente : ModeloClasses<Cliente>
     try
     {
       // Verificando se alguma das propriedades do cliente é nulo.
-      bool nullPropertyFound = cliente.GetType().GetProperties()
+      bool NullProperty = cliente.GetType().GetProperties()
                               .All(p => p.GetValue(cliente) != null);
-      if (nullPropertyFound) throw new BadHttpRequestException("CPF informado é inválido.", statusCode: 400);
+      if (NullProperty) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
       // Verificação de CPF
       bool cpfValidity = CpfValidator.Validate(cliente.cpf);
-      if (!cpfValidity) throw new BadHttpRequestException("CPF informado é inválido.", statusCode: 400);
+      if (!cpfValidity) return Results.BadRequest("O CPF informado é inválido.");
 
       var data = connectionString.Query<Cliente>($"INSERT INTO Clientes (email, senha, nome_completo, cpf, cnh, cep, data_nascimento, telefone1, telefone2, status) VALUES ('{cliente.email}', '{cliente.senha}', '{cliente.nome_completo}', '{cliente.cpf}', '{cliente.cnh}', '{cliente.cep}', '{cliente.data_nascimento}', '{cliente.telefone1}', '{cliente.telefone2}', '{cliente.status}')");
 
-      return "Cliente salvo com sucesso.";
+      return Results.CreatedAtRoute("Há um campo inválido na sua requisição.");
     }
     catch (BadHttpRequestException)
     {
       //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
-      throw new BadHttpRequestException("Houve um erro com sua requisição. Verifique os detalhes do JSON enviado e tente novamente.", statusCode: 400);
+      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
 
   }

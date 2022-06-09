@@ -157,6 +157,15 @@ app.MapGet("/apolice/debug", () =>
 })
 .WithName("apolice/debug");
 
+// HEALTHCHECK
+
+app.MapGet("/healthcheck/", () =>
+{
+  IResult result = Results.Ok();
+  return result;
+})
+.WithName("/healthcheck/");
+
 
 // CLIENTES 
 

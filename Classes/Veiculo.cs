@@ -37,6 +37,7 @@ public class Veiculo
     this.id_cliente = idcliente;
   }
 
+  /** <summary> Esta função retorna todos os veículos no banco de dados. </summary>**/
   public IEnumerable<Veiculo> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
@@ -46,7 +47,7 @@ public class Veiculo
 
     return data;
   }
-  // Esta função retorna apenas um Veiculo em específico.
+  /** <summary> Esta função retorna um veículo específico no banco de dados. </summary>**/
   public IEnumerable<Veiculo> Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);

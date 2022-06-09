@@ -26,7 +26,7 @@ public class Cobertura
     this.status = status;
   }
 
-  // Esta função retorna todas as coberturas.
+  /** <summary> Esta função retorna todas as coberturas no banco de dados. </summary>**/
 
   public IEnumerable<Cobertura> Get(string dbConnectionString)
   {
@@ -39,7 +39,7 @@ public class Cobertura
     return data;
   }
 
-  // Esta função retorna apenas uma cobertura em específico.
+  /** <summary> Esta função retorna uma cobertura específica no banco de dados. </summary>**/
   public IEnumerable<Cobertura> Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);

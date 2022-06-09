@@ -43,7 +43,7 @@ public class Apolice
     this.status = status;
   }
 
-  // Esta fun��o retorna todas as apolices.
+  /** <summary> Esta função retorna as apólices no banco de dados. </summary>**/
   public IEnumerable<Apolice> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
@@ -55,7 +55,7 @@ public class Apolice
     return data;
   }
 
-  // Esta fun��o retorna apenas uma apolice em espec�fico.
+  /** <summary> Esta função retorna uma apólice específica no banco de dados. </summary>**/
   public IEnumerable<Apolice> Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);

@@ -29,6 +29,8 @@ public class Usuario
     this.senha = password;
     this.status = status;
   }
+
+  /** <summary> Esta função retorna todos os usuários no banco de dados. </summary>**/
   public IEnumerable<Usuario> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
@@ -38,7 +40,7 @@ public class Usuario
 
     return data;
   }
-  // Esta função retorna apenas um Usuario em específico.
+  /** <summary> Esta função retorna um usuário específico no banco de dados. </summary>**/
   public IEnumerable<Usuario> Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
