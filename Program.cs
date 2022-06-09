@@ -3,6 +3,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.Data.SqlClient;
 using Dapper;
 
+#region [CONFIGURATION]
 var builder = WebApplication.CreateBuilder(args);
 
 // Adiciona servicos ao container.
@@ -37,10 +38,11 @@ app.MapControllerRoute(
 SqlConnection connectionString = new SqlConnection(dbConnectionString);
 connectionString.Open();
 
+#endregion
 
 
 
-
+#region [DEBUG ENDPOINTS]
 
 
 app.MapGet("/cliente/debug", () =>
@@ -157,6 +159,13 @@ app.MapGet("/apolice/debug", () =>
 })
 .WithName("apolice/debug");
 
+
+
+#endregion
+
+
+
+#region [ACTUAL ENDPOINTS]
 // HEALTHCHECK
 
 app.MapGet("/healthcheck/", () =>
@@ -235,6 +244,13 @@ app.MapGet("/cobertura/{id:int}", (int id) =>
 })
 .WithName("/cobertura/{id:int}");
 
+app.MapPost("/cobertura/", (Cobertura cobertura) =>
+{
+  var data = cobertura.Insert(cobertura: cobertura, dbConnectionString: dbConnectionString);
+  return data;
+})
+.WithName("POST /cobertura/");
+
 // OCORRENCIAS
 
 app.MapGet("/ocorrencia/", () =>
@@ -271,6 +287,13 @@ app.MapGet("/terceirizado/{id:int}", (int id) =>
 })
 .WithName("/terceirizado/{id:int}");
 
+app.MapPost("/terceirizado/", (Terceirizado terceirizado) =>
+{
+  var data = terceirizado.Insert(terceirizado: terceirizado, dbConnectionString: dbConnectionString);
+  return data;
+})
+.WithName("POST /terceirizado/");
+
 // USUARIOS
 
 app.MapGet("/usuario/", () =>
@@ -289,6 +312,14 @@ app.MapGet("/usuario/{id:int}", (int id) =>
 })
 .WithName("/usuario/{id:int}");
 
+app.MapPost("/usuario/", (Usuario usuario) =>
+{
+  var data = usuario.Insert(usuario: usuario, dbConnectionString: dbConnectionString);
+  return data;
+})
+.WithName("POST /usuario/");
+
+
 // VEICULOS
 
 app.MapGet("/veiculo/", () =>
@@ -306,6 +337,15 @@ app.MapGet("/veiculo/{id:int}", (int id) =>
   return data;
 })
 .WithName("/veiculo/{id:int}");
+
+app.MapPost("/veiculo/", (Veiculo veiculo) =>
+{
+  var data = veiculo.Insert(veiculo: veiculo, dbConnectionString: dbConnectionString);
+  return data;
+})
+.WithName("POST /veiculo/");
+
+#endregion
 
 app.Run();
 

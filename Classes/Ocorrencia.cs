@@ -18,20 +18,6 @@ public class Ocorrencia
   public int? id_terceirizado { get; set; }
   public string status { get; set; }
 
-  public Ocorrencia()
-  {
-    id_ocorrencia = 0;
-    data = DateFormatter.FormatDate();
-    local = "any_place";
-    UF = "any_uf";
-    municipio = "any_city";
-    descricao = "any_description";
-    tipo = "any_type";
-    documento = "any_document_binary";
-    id_veiculo = 0;
-    id_cliente = 0;
-    status = "any_status";
-  }
   public Ocorrencia(string date, string place, string UF, string city, string description, string type, string? document, int idveiculo, int idcliente, int? idterceirizado, string status)
   {
 
@@ -48,13 +34,16 @@ public class Ocorrencia
     this.status = status;
   }
 
+  public Ocorrencia()
+  {
+  }
+
   /** <summary> Esta função retorna todas as ocorrências no banco de dados. </summary>**/
 
   public IEnumerable<Ocorrencia> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Ocorrencia>("SELECT id_ocorrencia, data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado from Ocorrencias");
-    //TODO: Arrumar bug onde documento não consegue ser parseado!
 
     Console.WriteLine("[INFO] A request for all 'ocorrencias' was made. The response is not a mock. :)");
 
@@ -66,7 +55,6 @@ public class Ocorrencia
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Ocorrencia>($"SELECT id_ocorrencia, data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado from Ocorrencias WHERE id_ocorrencia={id}");
-    //TODO: Arrumar bug onde documento não consegue ser parseado!
 
     Console.WriteLine("[INFO] A request for a single 'ocorrencia' was made. The response is not a mock. :)");
     if (data.Count() == 0) throw new BadHttpRequestException("Ocorrencia não encontrada.", statusCode: 404);

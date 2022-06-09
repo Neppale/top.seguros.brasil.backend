@@ -14,21 +14,6 @@ public class Apolice
   public int id_veiculo { get; set; }
   public string status { get; set; }
 
-  public Apolice()
-  {
-    id_apolice = 1;
-    data_inicio = DateFormatter.FormatDate();
-    data_fim = DateFormatter.FormatDate();
-    premio = 0.00;
-    indenizacao = 0.00;
-    id_cobertura = 0;
-    id_usuario = 0;
-    id_cliente = 0;
-    id_veiculo = 0;
-    status = "any_status";
-
-  }
-
   public Apolice(string startDate, string endDate, double premium, double indemnity, int idcobertura, int idusuario, int idcliente, int idveiculo, string status)
   {
 
@@ -43,8 +28,12 @@ public class Apolice
     this.status = status;
   }
 
-  /** <summary> Esta função retorna as apólices no banco de dados. </summary>**/
-  public IEnumerable<Apolice> Get(string dbConnectionString)
+    public Apolice()
+    {
+    }
+
+    /** <summary> Esta função retorna as apólices no banco de dados. </summary>**/
+    public IEnumerable<Apolice> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 

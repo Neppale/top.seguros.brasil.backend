@@ -14,15 +14,6 @@ public class Veiculo
 
   public Veiculo()
   {
-    id_veiculo = 0;
-    marca = "any_brand";
-    modelo = "any_model";
-    ano = 0;
-    uso = "any_usage";
-    placa = "any_plate";
-    renavam = "any_renavam";
-    sinistrado = false;
-    id_cliente = 0;
   }
 
   public Veiculo(string brand, string model, int year, string usage, string plate, string renavam, bool sinistrado, int idcliente)
@@ -57,5 +48,30 @@ public class Veiculo
     if (data.Count() == 0) throw new BadHttpRequestException("Veiculo não encontrado.", statusCode: 404);
 
     return data;
+  }
+
+  /** <summary> Esta função insere um Veiculo no banco de dados. </summary>**/
+  public IResult Insert(Veiculo veiculo, string dbConnectionString)
+  {
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+    Console.WriteLine("[INFO] A request to post to 'Veiculos' was made :)");
+
+    try
+    {
+      // Verificando se alguma das propriedades do Veiculo é nulo.
+      bool NullProperty = veiculo.GetType().GetProperties()
+                              .All(p => p.GetValue(veiculo) != null);
+      if (!NullProperty) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+      var data = connectionString.Query<Veiculo>($"INSERT INTO Veiculos (marca, modelo, ano, uso, placa, renavam, sinistrado, id_cliente) VALUES ('{veiculo.marca}', '{veiculo.modelo}', '{veiculo.ano}', '{veiculo.uso}', '{veiculo.placa}', '{veiculo.renavam}', '{veiculo.sinistrado}', '{veiculo.id_cliente}')");
+
+      return Results.StatusCode(201);
+    }
+    catch (BadHttpRequestException)
+    {
+      //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
+      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+    }
+
   }
 }

@@ -15,22 +15,6 @@ public class Cliente : ModeloClasses<Cliente>
   public string? telefone2 { get; set; }
   public bool status { get; set; }
 
-  public Cliente()
-  {
-    id_cliente = 1;
-    email = "any_email";
-    nome_completo = "any_fullName";
-    senha = "any_password";
-    cpf = "any_cpf";
-    cnh = "any_cnh";
-    cep = "any_cep";
-    data_nascimento = "any_birthdate";
-    telefone1 = "any_phone1";
-    telefone2 = "any_phone2";
-    status = true;
-
-  }
-
   public Cliente(string fullName, string email, string password, string cpf, string cnh, string cep, string birthdate, string phone1, string? phone2, bool status)
   {
     this.nome_completo = fullName;
@@ -45,8 +29,12 @@ public class Cliente : ModeloClasses<Cliente>
     this.status = status;
   }
 
-  /** <summary> Esta função retorna todos os clientes no banco de dados. </summary>**/
-  public IEnumerable<Cliente> Get(string dbConnectionString)
+    public Cliente()
+    {
+    }
+
+    /** <summary> Esta função retorna todos os clientes no banco de dados. </summary>**/
+    public IEnumerable<Cliente> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 

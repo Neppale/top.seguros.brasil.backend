@@ -9,21 +9,16 @@ public class Cobertura
   public double valor { get; set; }
   public bool status { get; set; }
 
-  public Cobertura()
-  {
-    id_cobertura = 0;
-    nome = "any_name";
-    descricao = "any_description";
-    valor = 0.00;
-    status = true;
-  }
-
   public Cobertura(string name, string description, double price, bool status)
   {
     this.nome = name;
     this.descricao = description;
     this.valor = price;
     this.status = status;
+  }
+
+  public Cobertura()
+  {
   }
 
   /** <summary> Esta função retorna todas as coberturas no banco de dados. </summary>**/
@@ -50,5 +45,31 @@ public class Cobertura
     if (data.Count() == 0) throw new BadHttpRequestException("Cobertura não encontrada.", statusCode: 404);
 
     return data;
+  }
+
+  /** <summary> Esta função insere uma cobertura no banco de dados. </summary>**/
+  public IResult Insert(Cobertura cobertura, string dbConnectionString)
+  {
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+    Console.WriteLine("[INFO] A request to post to 'Coberturas' was made :)");
+
+    try
+    {
+      // Verificando se alguma das propriedades do Cobertura é nulo.
+      bool NullProperty = cobertura.GetType().GetProperties()
+                              .All(p => p.GetValue(cobertura) != null);
+      if (!NullProperty) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+      //BUG: Não reconhece valores com duas casas decimais que não sejam 0, por algum motivo
+      var data = connectionString.Query<Cobertura>($"INSERT INTO Coberturas (nome, descricao, valor, status) VALUES ('{cobertura.nome}', '{cobertura.descricao}', '{cobertura.valor}', '{cobertura.status}')");
+
+      return Results.StatusCode(201);
+    }
+    catch (BadHttpRequestException)
+    {
+      //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
+      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+    }
+
   }
 }

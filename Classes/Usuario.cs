@@ -12,13 +12,6 @@ public class Usuario
 
   public Usuario()
   {
-    id_usuario = 0;
-    nome_completo = "any_fullName";
-    email = "any_email";
-    tipo = "any_tipo";
-    senha = "any_password";
-    status = true;
-
   }
 
   public Usuario(string fullName, string email, string type, string password, bool status)
@@ -50,5 +43,29 @@ public class Usuario
     if (data.Count() == 0) throw new BadHttpRequestException("Usuario não encontrado.", statusCode: 404);
 
     return data;
+  }
+  /** <summary> Esta função insere um Usuario no banco de dados. </summary>**/
+  public IResult Insert(Usuario usuario, string dbConnectionString)
+  {
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+    Console.WriteLine("[INFO] A request to post to 'Usuarios' was made :)");
+
+    try
+    {
+      // Verificando se alguma das propriedades do Usuario é nulo.
+      bool NullProperty = usuario.GetType().GetProperties()
+                              .All(p => p.GetValue(usuario) != null);
+      if (!NullProperty) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+      var data = connectionString.Query<Usuario>($"INSERT INTO Usuarios (nome_completo, email, senha, tipo, status) VALUES ('{usuario.nome_completo}', '{usuario.email}', '{usuario.senha}', '{usuario.tipo}', '{usuario.status}')");
+
+      return Results.StatusCode(201);
+    }
+    catch (BadHttpRequestException)
+    {
+      //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
+      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+    }
+
   }
 }
