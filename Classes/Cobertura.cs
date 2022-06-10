@@ -6,14 +6,14 @@ public class Cobertura
   public int id_cobertura { get; set; }
   public string nome { get; set; }
   public string descricao { get; set; }
-  public double valor { get; set; }
+  public string valor { get; set; }
   public bool status { get; set; }
 
   public Cobertura(string name, string description, double price, bool status)
   {
     this.nome = name;
     this.descricao = description;
-    this.valor = price;
+    this.valor = price.ToString();
     this.status = status;
   }
 
@@ -60,7 +60,6 @@ public class Cobertura
                               .All(p => p.GetValue(cobertura) != null);
       if (!NullProperty) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
-      //BUG: Não reconhece valores com duas casas decimais que não sejam 0, por algum motivo
       var data = connectionString.Query<Cobertura>($"INSERT INTO Coberturas (nome, descricao, valor, status) VALUES ('{cobertura.nome}', '{cobertura.descricao}', '{cobertura.valor}', '{cobertura.status}')");
 
       return Results.StatusCode(201);
