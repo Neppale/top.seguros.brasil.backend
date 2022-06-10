@@ -28,12 +28,12 @@ public class Apolice
     this.status = status;
   }
 
-    public Apolice()
-    {
-    }
+  public Apolice()
+  {
+  }
 
-    /** <summary> Esta função retorna as apólices no banco de dados. </summary>**/
-    public IEnumerable<Apolice> Get(string dbConnectionString)
+  /** <summary> Esta função retorna as apólices no banco de dados. </summary>**/
+  public IEnumerable<Apolice> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
@@ -63,9 +63,8 @@ public class Apolice
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     Console.WriteLine("[INFO] A request to post to 'apolices' was made :)");
 
-    bool NullProperty = apolice.GetType().GetProperties()
-                              .All(p => p.GetValue(apolice) != null);
-    if (!NullProperty) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    bool isValid = NullPropertyValidator.Validate(apolice);
+    if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
     if (apolice.indenizacao == 0) return Results.BadRequest("Valor de indenização não pode ser 0.");
     if (apolice.premio == 0) return Results.BadRequest("Valor de prêmio não pode ser 0.");

@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using tsb.mininal.policy.engine.Utils;
 public class Usuario
 {
   public int id_usuario { get; set; }
@@ -53,9 +54,8 @@ public class Usuario
     try
     {
       // Verificando se alguma das propriedades do Usuario é nulo.
-      bool NullProperty = usuario.GetType().GetProperties()
-                              .All(p => p.GetValue(usuario) != null);
-      if (!NullProperty) return Results.BadRequest("Há um campo inválido na sua requisição.");
+      bool isValid = NullPropertyValidator.Validate(usuario);
+      if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
       var data = connectionString.Query<Usuario>($"INSERT INTO Usuarios (nome_completo, email, senha, tipo, status) VALUES ('{usuario.nome_completo}', '{usuario.email}', '{usuario.senha}', '{usuario.tipo}', '{usuario.status}')");
 

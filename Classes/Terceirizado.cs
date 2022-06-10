@@ -56,13 +56,12 @@ public class Terceirizado
     try
     {
       // Verificando se alguma das propriedades do Terceirizado é nulo.
-      bool NullProperty = terceirizado.GetType().GetProperties()
-                              .All(p => p.GetValue(terceirizado) != null);
-      if (!NullProperty) return Results.BadRequest("Há um campo inválido na sua requisição.");
+      bool isValid = NullPropertyValidator.Validate(terceirizado);
+      if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
       // Validando CNPJ
-      bool isValid = CnpjValidator.Validate(terceirizado.cnpj);
-      if (!isValid) return Results.BadRequest("O CNPJ informado é inválido.");
+      bool cnpjIsValid = CnpjValidator.Validate(terceirizado.cnpj);
+      if (!cnpjIsValid) return Results.BadRequest("O CNPJ informado é inválido.");
 
       var data = connectionString.Query<Terceirizado>($"INSERT INTO Terceirizados (nome, funcao, cnpj, telefone, valor, status) VALUES ('{terceirizado.nome}', '{terceirizado.funcao}', '{terceirizado.cnpj}','{terceirizado.telefone}', '{terceirizado.valor}', '{terceirizado.status}')");
 

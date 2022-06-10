@@ -43,9 +43,5 @@ namespace tsb.mininal.policy.engine.Utils
 
       return cpf.EndsWith(digito);
     }
-    public static string Format(string cpf)
-    {
-      return "1970-01-01";
-    }
   }
 }
