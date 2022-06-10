@@ -200,9 +200,10 @@ app.MapPost("/cliente/", (Cliente cliente) =>
 })
 .WithName("POST /cliente/");
 
-app.MapPut("/cliente/", (Cliente cliente) =>
+app.MapPut("/cliente/{id:int}", (int id, Cliente cliente) =>
 {
-  return Results.StatusCode(501);
+  var data = cliente.Update(id, cliente, dbConnectionString);
+  return data;
 })
 .WithName("PUT /cliente/");
 

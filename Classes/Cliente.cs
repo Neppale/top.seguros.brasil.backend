@@ -29,12 +29,12 @@ public class Cliente : ModeloClasses<Cliente>
     this.status = status;
   }
 
-    public Cliente()
-    {
-    }
+  public Cliente()
+  {
+  }
 
-    /** <summary> Esta função retorna todos os clientes no banco de dados. </summary>**/
-    public IEnumerable<Cliente> Get(string dbConnectionString)
+  /** <summary> Esta função retorna todos os clientes no banco de dados. </summary>**/
+  public IEnumerable<Cliente> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
@@ -79,6 +79,33 @@ public class Cliente : ModeloClasses<Cliente>
       var data = connectionString.Query<Cliente>($"INSERT INTO Clientes (email, senha, nome_completo, cpf, cnh, cep, data_nascimento, telefone1, telefone2, status) VALUES ('{cliente.email}', '{cliente.senha}', '{cliente.nome_completo}', '{cliente.cpf}', '{cliente.cnh}', '{cliente.cep}', '{cliente.data_nascimento}', '{cliente.telefone1}', '{cliente.telefone2}', '{cliente.status}')");
 
       return Results.StatusCode(201);
+    }
+    catch (BadHttpRequestException)
+    {
+      //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
+      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+    }
+
+  }
+
+  /** <summary> Esta função altera um cliente no banco de dados. </summary>**/
+  public IResult Update(int id, Cliente cliente, string dbConnectionString)
+  {
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+    Console.WriteLine("[INFO] A request to post to 'clientes' was made :)");
+
+    // Verificando se alguma das propriedades do cliente é nulo.
+    bool NullProperty = cliente.GetType().GetProperties()
+                            .All(p => p.GetValue(cliente) != null);
+    if (!NullProperty) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+
+    try
+    {
+
+      var data = connectionString.Query<Cliente>($"UPDATE Clientes SET email = '{cliente.email}', senha = '{cliente.senha}', nome_completo = '{cliente.nome_completo}', cnh = '{cliente.cnh}', cep = '{cliente.cep}', data_nascimento = '{cliente.data_nascimento}', telefone1 = '{cliente.telefone1}', telefone2 = '{cliente.telefone2}', status = '{cliente.status}' WHERE id_cliente = {id}");
+
+      return Results.Ok();
     }
     catch (BadHttpRequestException)
     {
