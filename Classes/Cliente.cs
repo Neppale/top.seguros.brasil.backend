@@ -71,6 +71,10 @@ public class Cliente : ModeloClasses<Cliente>
       bool cpfIsValid = CpfValidator.Validate(cliente.cpf);
       if (!cpfIsValid) return Results.BadRequest("O CPF informado é inválido.");
 
+      // Verificação de CEP
+      Task<bool> cepIsValid = CepValidator.Validate(cliente.cep);
+      if (!cepIsValid.Result) return Results.BadRequest("O CEP informado é inválido.");
+
       var data = connectionString.Query<Cliente>($"INSERT INTO Clientes (email, senha, nome_completo, cpf, cnh, cep, data_nascimento, telefone1, telefone2, status) VALUES ('{cliente.email}', '{cliente.senha}', '{cliente.nome_completo}', '{cliente.cpf}', '{cliente.cnh}', '{cliente.cep}', '{cliente.data_nascimento}', '{cliente.telefone1}', '{cliente.telefone2}', '{cliente.status}')");
 
       return Results.StatusCode(201);
@@ -92,6 +96,9 @@ public class Cliente : ModeloClasses<Cliente>
     bool isValid = NullPropertyValidator.Validate(cliente);
     if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
+    // Verificação de CEP
+    Task<bool> cepIsValid = CepValidator.Validate(cliente.cep);
+    if (!cepIsValid.Result) return Results.BadRequest("O CEP informado é inválido.");
 
     try
     {

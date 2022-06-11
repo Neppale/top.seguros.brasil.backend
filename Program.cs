@@ -32,9 +32,7 @@ app.UseSwaggerUI();
 // }
 
 app.UseHttpsRedirection(); // Automaticamente redireciona requests feitos em HTTP para HTTPS
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+
 SqlConnection connectionString = new SqlConnection(dbConnectionString);
 connectionString.Open();
 
