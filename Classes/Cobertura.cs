@@ -30,8 +30,6 @@ public class Cobertura
 
     var data = connectionString.Query<Cobertura>("SELECT * from Coberturas");
 
-    Console.WriteLine("[INFO] A request for all 'cobertura' was made. The response is not a mock. :)");
-
     return data;
   }
 
@@ -40,8 +38,6 @@ public class Cobertura
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Cobertura>($"SELECT * from Coberturas WHERE id_cobertura={id}");
-
-    Console.WriteLine("[INFO] A request for a single 'cobertura' was made. The response is not a mock. :)");
 
     if (data.Count() == 0) throw new BadHttpRequestException("Cobertura não encontrada.", statusCode: 404);
 
@@ -52,11 +48,10 @@ public class Cobertura
   public IResult Insert(Cobertura cobertura, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    Console.WriteLine("[INFO] A request to post to 'Coberturas' was made :)");
 
     try
     {
-      // Verificando se alguma das propriedades do Cobertura é nulo.
+      // Verificando se alguma das propriedades do Cobertura é nula.
       bool isValid = NullPropertyValidator.Validate(cobertura);
       if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
@@ -67,6 +62,27 @@ public class Cobertura
     catch (BadHttpRequestException)
     {
       //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
+      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+    }
+
+  }
+  /** <summary> Esta função altera uma cobertura no banco de dados. </summary>**/
+  public IResult Update(int id, Cobertura cobertura, string dbConnectionString)
+  {
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+
+    // Verificando se alguma das propriedades do cobertura é nula.
+    bool isValid = NullPropertyValidator.Validate(cobertura);
+    if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+    try
+    {
+
+      connectionString.Query<Cobertura>($"UPDATE Coberturas SET nome = '{cobertura.nome}', descricao = '{cobertura.descricao}', valor = '{cobertura.valor}', status = '{cobertura.status}' WHERE id_cobertura = {id}");
+      return Results.Ok();
+    }
+    catch (BadHttpRequestException)
+    {
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
 

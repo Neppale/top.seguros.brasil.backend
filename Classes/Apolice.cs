@@ -39,8 +39,6 @@ public class Apolice
 
     var data = connectionString.Query<Apolice>("SELECT * from Apolices");
 
-    Console.WriteLine("[INFO] A request for all 'apolices' was made. The response is not a mock. :)");
-
     return data;
   }
 
@@ -50,9 +48,7 @@ public class Apolice
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Apolice>($"SELECT * from Apolices WHERE id_apolice={id}");
 
-    Console.WriteLine("[INFO] A request for a single 'apolice' was made. The response is not a mock. :)");
-
-    if (data.Count() == 0) throw new BadHttpRequestException("Ap�lice n�o encontrada.", statusCode: 404);
+    // if (data.Count() == 0) throw new BadHttpRequestException("Ap�lice n�o encontrada.", statusCode: 404);
 
     return data;
   }
@@ -61,7 +57,6 @@ public class Apolice
   public IResult Insert(Apolice apolice, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    Console.WriteLine("[INFO] A request to post to 'apolices' was made :)");
 
     bool isValid = NullPropertyValidator.Validate(apolice);
     if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
@@ -73,9 +68,30 @@ public class Apolice
     {
 
 
-      var data = connectionString.Query<Cliente>($"INSERT INTO Apolices (data_inicio, data_fim, premio, indenizacao, id_cobertura, id_usuario, id_cliente, id_veiculo, status) VALUES ('{apolice.data_inicio}', '{apolice.data_fim}', '{apolice.premio}', '{apolice.indenizacao}', '{apolice.id_cobertura}', '{apolice.id_usuario}', '{apolice.id_cliente}', '{apolice.id_veiculo}', '{apolice.status}')");
+      connectionString.Query<Apolice>($"INSERT INTO Apolices (data_inicio, data_fim, premio, indenizacao, id_cobertura, id_usuario, id_cliente, id_veiculo, status) VALUES ('{apolice.data_inicio}', '{apolice.data_fim}', '{apolice.premio}', '{apolice.indenizacao}', '{apolice.id_cobertura}', '{apolice.id_usuario}', '{apolice.id_cliente}', '{apolice.id_veiculo}', '{apolice.status}')");
 
       return Results.StatusCode(201);
+    }
+    catch (BadHttpRequestException)
+    {
+      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+    }
+
+  }
+
+  public IResult Update(int id, Apolice apolice, string dbConnectionString)
+  {
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+
+    // Verificando se alguma das propriedades do apolice é nula.
+    bool isValid = NullPropertyValidator.Validate(apolice);
+    if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+    try
+    {
+
+      connectionString.Query<Apolice>($"UPDATE Apolices SET status = '{apolice.status}' WHERE id_apolice = {id}");
+      return Results.Ok();
     }
     catch (BadHttpRequestException)
     {

@@ -45,8 +45,6 @@ public class Ocorrencia
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Ocorrencia>("SELECT id_ocorrencia, data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado from Ocorrencias");
 
-    Console.WriteLine("[INFO] A request for all 'ocorrencias' was made. The response is not a mock. :)");
-
     return data;
   }
 
@@ -56,7 +54,6 @@ public class Ocorrencia
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Ocorrencia>($"SELECT id_ocorrencia, data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado from Ocorrencias WHERE id_ocorrencia={id}");
 
-    Console.WriteLine("[INFO] A request for a single 'ocorrencia' was made. The response is not a mock. :)");
     if (data.Count() == 0) throw new BadHttpRequestException("Ocorrencia não encontrada.", statusCode: 404);
 
     return data;

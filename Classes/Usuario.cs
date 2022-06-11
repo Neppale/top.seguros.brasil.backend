@@ -30,8 +30,6 @@ public class Usuario
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Usuario>("SELECT * from Usuarios");
 
-    Console.WriteLine("[INFO] A request for all 'Usuarios' was made. The response is not a mock. :)");
-
     return data;
   }
   /** <summary> Esta função retorna um usuário específico no banco de dados. </summary>**/
@@ -40,7 +38,6 @@ public class Usuario
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Usuario>($"SELECT * from Usuarios WHERE id_Usuario={id}");
 
-    Console.WriteLine("[INFO] A request for a single 'Usuario' was made. The response is not a mock. :)");
     if (data.Count() == 0) throw new BadHttpRequestException("Usuario não encontrado.", statusCode: 404);
 
     return data;
@@ -49,21 +46,43 @@ public class Usuario
   public IResult Insert(Usuario usuario, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    Console.WriteLine("[INFO] A request to post to 'Usuarios' was made :)");
 
     try
     {
-      // Verificando se alguma das propriedades do Usuario é nulo.
+      // Verificando se alguma das propriedades do Usuario é nula.
       bool isValid = NullPropertyValidator.Validate(usuario);
       if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
-      var data = connectionString.Query<Usuario>($"INSERT INTO Usuarios (nome_completo, email, senha, tipo, status) VALUES ('{usuario.nome_completo}', '{usuario.email}', '{usuario.senha}', '{usuario.tipo}', '{usuario.status}')");
+      connectionString.Query($"INSERT INTO Usuarios (nome_completo, email, senha, tipo, status) VALUES ('{usuario.nome_completo}', '{usuario.email}', '{usuario.senha}', '{usuario.tipo}', '{usuario.status}')");
 
-      return Results.StatusCode(201);
+      return Results.StatusCode(200);
     }
     catch (BadHttpRequestException)
     {
       //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
+      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+    }
+
+  }
+
+  /** <summary> Esta função altera um Usuario no banco de dados. </summary>**/
+  public IResult Update(int id, Usuario usuario, string dbConnectionString)
+  {
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+
+    // Verificando se alguma das propriedades do Usuario é nula.
+    bool isValid = NullPropertyValidator.Validate(usuario);
+    if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+
+    try
+    {
+
+      connectionString.Query($"UPDATE Usuarios SET nome_completo = '{usuario.nome_completo}', email = '{usuario.email}', senha = '{usuario.senha}', tipo = '{usuario.tipo}', status = '{usuario.status}' WHERE id_usuario = {id}");
+      return Results.Ok();
+    }
+    catch (BadHttpRequestException)
+    {
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
 

@@ -35,8 +35,6 @@ public class Veiculo
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Veiculo>("SELECT * from Veiculos");
 
-    Console.WriteLine("[INFO] A request for all 'Veiculos' was made. The response is not a mock. :)");
-
     return data;
   }
   /** <summary> Esta função retorna um veículo específico no banco de dados. </summary>**/
@@ -45,7 +43,6 @@ public class Veiculo
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Veiculo>($"SELECT * from Veiculos WHERE id_Veiculo={id}");
 
-    Console.WriteLine("[INFO] A request for a single 'Veiculo' was made. The response is not a mock. :)");
     if (data.Count() == 0) throw new BadHttpRequestException("Veiculo não encontrado.", statusCode: 404);
 
     return data;
@@ -55,11 +52,10 @@ public class Veiculo
   public IResult Insert(Veiculo veiculo, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    Console.WriteLine("[INFO] A request to post to 'Veiculos' was made :)");
 
     try
     {
-      // Verificando se alguma das propriedades do Veiculo é nulo.
+      // Verificando se alguma das propriedades do Veiculo é nula.
       bool isValid = NullPropertyValidator.Validate(veiculo);
       if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
@@ -70,6 +66,28 @@ public class Veiculo
     catch (BadHttpRequestException)
     {
       //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
+      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+    }
+
+  }
+
+  /** <summary> Esta função altera um Veículo no banco de dados. </summary>**/
+  public IResult Update(int id, Veiculo veiculo, string dbConnectionString)
+  {
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+
+    // Verificando se alguma das propriedades do veiculo é nula.
+    bool isValid = NullPropertyValidator.Validate(veiculo);
+    if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+
+    try
+    {
+      connectionString.Query($"UPDATE Veiculos SET marca = '{veiculo.marca}', modelo = '{veiculo.modelo}', ano = '{veiculo.ano}', uso = '{veiculo.uso}', placa = '{veiculo.placa}', renavam = '{veiculo.renavam}', sinistrado = '{veiculo.sinistrado}' WHERE id_veiculo = {id}");
+      return Results.Ok();
+    }
+    catch (BadHttpRequestException)
+    {
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
 

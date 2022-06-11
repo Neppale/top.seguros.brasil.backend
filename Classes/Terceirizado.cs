@@ -32,8 +32,6 @@ public class Terceirizado
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Terceirizado>("SELECT * from Terceirizados");
 
-    Console.WriteLine("[INFO] A request for all 'terceirizados' was made. The response is not a mock. :)");
-
     return data;
   }
   /** <summary> Esta função retorna um terceirizado específico no banco de dados. </summary>**/
@@ -41,8 +39,6 @@ public class Terceirizado
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Terceirizado>($"SELECT * from Terceirizados WHERE id_terceirizado={id}");
-
-    Console.WriteLine("[INFO] A request for a single 'terceirizado' was made. The response is not a mock. :)");
     if (data.Count() == 0) throw new BadHttpRequestException("Terceirizado não encontrado.", statusCode: 404);
 
     return data;
@@ -51,11 +47,10 @@ public class Terceirizado
   public IResult Insert(Terceirizado terceirizado, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    Console.WriteLine("[INFO] A request to post to 'Terceirizados' was made :)");
 
     try
     {
-      // Verificando se alguma das propriedades do Terceirizado é nulo.
+      // Verificando se alguma das propriedades do Terceirizado é nula.
       bool isValid = NullPropertyValidator.Validate(terceirizado);
       if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
@@ -70,6 +65,30 @@ public class Terceirizado
     catch (BadHttpRequestException)
     {
       //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
+      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+    }
+
+  }
+  /** <summary> Esta função altera um terceirizado no banco de dados. </summary>**/
+  public IResult Update(int id, Terceirizado terceirizado, string dbConnectionString)
+  {
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+
+    // Verificando se alguma das propriedades do terceirizado é nula.
+    bool isValid = NullPropertyValidator.Validate(terceirizado);
+    if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+    bool cnpjIsValid = CnpjValidator.Validate(terceirizado.cnpj);
+    if (!cnpjIsValid) return Results.BadRequest("O CNPJ informado é inválido.");
+
+    try
+    {
+
+      connectionString.Query<Terceirizado>($"UPDATE Terceirizados SET nome = '{terceirizado.nome}', funcao = '{terceirizado.funcao}', cnpj = '{terceirizado.cnpj}', valor = '{terceirizado.valor}', status = '{terceirizado.status}' WHERE id_terceirizado = {id}");
+      return Results.Ok();
+    }
+    catch (BadHttpRequestException)
+    {
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
 

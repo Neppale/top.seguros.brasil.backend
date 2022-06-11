@@ -55,30 +55,26 @@ app.MapGet("/healthcheck/", () =>
 app.MapGet("/cliente/", () =>
 {
   Cliente cliente = new();
-  var data = cliente.Get(dbConnectionString: dbConnectionString);
-  return data;
+  return cliente.Get(dbConnectionString: dbConnectionString);
 })
 .WithName("/cliente/");
 
 app.MapGet("/cliente/{id:int}", (int id) =>
 {
   Cliente cliente = new();
-  var data = cliente.Get(id: id, dbConnectionString: dbConnectionString);
-  return data;
+  return cliente.Get(id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("/cliente/{id:int}");
 
 app.MapPost("/cliente/", (Cliente cliente) =>
 {
-  var data = cliente.Insert(cliente: cliente, dbConnectionString: dbConnectionString);
-  return data;
+  return cliente.Insert(cliente: cliente, dbConnectionString: dbConnectionString);
 })
 .WithName("POST /cliente/");
 
 app.MapPut("/cliente/{id:int}", (int id, Cliente cliente) =>
 {
-  var data = cliente.Update(id, cliente, dbConnectionString);
-  return data;
+  return cliente.Update(id, cliente, dbConnectionString);
 })
 .WithName("PUT /cliente/");
 
@@ -87,29 +83,27 @@ app.MapPut("/cliente/{id:int}", (int id, Cliente cliente) =>
 app.MapGet("/apolice/", () =>
 {
   Apolice apolice = new();
-  var data = apolice.Get(dbConnectionString: dbConnectionString);
-  return data;
+  return apolice.Get(dbConnectionString: dbConnectionString);
+
 })
 .WithName("/apolice/");
 
 app.MapGet("/apolice/{id:int}", (int id) =>
 {
   Apolice apolice = new();
-  var data = apolice.Get(id: id, dbConnectionString: dbConnectionString);
-  return data;
+  return apolice.Get(id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("/apolice/{id:int}");
 
 app.MapPost("/apolice/", (Apolice apolice) =>
 {
-  var data = apolice.Insert(apolice: apolice, dbConnectionString: dbConnectionString);
-  return data;
+  return apolice.Insert(apolice: apolice, dbConnectionString: dbConnectionString);
 })
 .WithName("POST /apolice/");
 
-app.MapPut("/apolice/", (Apolice apolice) =>
+app.MapPut("/apolice/{id:int}", (int id, Apolice apolice) =>
 {
-  return Results.StatusCode(501);
+  return apolice.Update(id: id, apolice: apolice, dbConnectionString: dbConnectionString);
 })
 .WithName("PUT /apolice/");
 
@@ -118,29 +112,28 @@ app.MapPut("/apolice/", (Apolice apolice) =>
 app.MapGet("/cobertura/", () =>
 {
   Cobertura cobertura = new();
-  var data = cobertura.Get(dbConnectionString: dbConnectionString);
-  return data;
+  return cobertura.Get(dbConnectionString: dbConnectionString);
+
 })
 .WithName("/cobertura/");
 
 app.MapGet("/cobertura/{id:int}", (int id) =>
 {
   Cobertura cobertura = new();
-  var data = cobertura.Get(id: id, dbConnectionString: dbConnectionString);
-  return data;
+  return cobertura.Get(id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("/cobertura/{id:int}");
 
 app.MapPost("/cobertura/", (Cobertura cobertura) =>
 {
-  var data = cobertura.Insert(cobertura: cobertura, dbConnectionString: dbConnectionString);
-  return data;
+  return cobertura.Insert(cobertura: cobertura, dbConnectionString: dbConnectionString);
+
 })
 .WithName("POST /cobertura/");
 
-app.MapPut("/cobertura/", (Cobertura cobertura) =>
+app.MapPut("/cobertura/{id:int}", (int id, Cobertura cobertura) =>
 {
-  return Results.StatusCode(501);
+  return cobertura.Update(id: id, cobertura: cobertura, dbConnectionString: dbConnectionString);
 })
 .WithName("PUT /cobertura/");
 
@@ -149,16 +142,16 @@ app.MapPut("/cobertura/", (Cobertura cobertura) =>
 app.MapGet("/ocorrencia/", () =>
 {
   Ocorrencia ocorrencia = new();
-  var data = ocorrencia.Get(dbConnectionString: dbConnectionString);
-  return data;
+  return ocorrencia.Get(dbConnectionString: dbConnectionString);
+
 })
 .WithName("/ocorrencia/");
 
 app.MapGet("/ocorrencia/{id:int}", (int id) =>
 {
   Ocorrencia ocorrencia = new();
-  var data = ocorrencia.Get(id: id, dbConnectionString: dbConnectionString);
-  return data;
+  return ocorrencia.Get(id: id, dbConnectionString: dbConnectionString);
+
 })
 .WithName("/ocorrencia/{id:int}");
 
@@ -167,29 +160,28 @@ app.MapGet("/ocorrencia/{id:int}", (int id) =>
 app.MapGet("/terceirizado/", () =>
 {
   Terceirizado terceirizado = new();
-  var data = terceirizado.Get(dbConnectionString: dbConnectionString);
-  return data;
+  return terceirizado.Get(dbConnectionString: dbConnectionString);
+
 })
 .WithName("/terceirizado/");
 
 app.MapGet("/terceirizado/{id:int}", (int id) =>
 {
   Terceirizado terceirizado = new();
-  var data = terceirizado.Get(id: id, dbConnectionString: dbConnectionString);
-  return data;
+  return terceirizado.Get(id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("/terceirizado/{id:int}");
 
 app.MapPost("/terceirizado/", (Terceirizado terceirizado) =>
 {
-  var data = terceirizado.Insert(terceirizado: terceirizado, dbConnectionString: dbConnectionString);
-  return data;
+  return terceirizado.Insert(terceirizado: terceirizado, dbConnectionString: dbConnectionString);
+
 })
 .WithName("POST /terceirizado/");
 
-app.MapPut("/terceirizado/", (Terceirizado terceirizado) =>
+app.MapPut("/terceirizado/{id:int}", (int id, Terceirizado terceirizado) =>
 {
-  return Results.StatusCode(501);
+  return terceirizado.Update(id: id, terceirizado: terceirizado, dbConnectionString: dbConnectionString);
 })
 .WithName("PUT /terceirizado/");
 
@@ -198,29 +190,28 @@ app.MapPut("/terceirizado/", (Terceirizado terceirizado) =>
 app.MapGet("/usuario/", () =>
 {
   Usuario usuario = new();
-  var data = usuario.Get(dbConnectionString: dbConnectionString);
-  return data;
+  return usuario.Get(dbConnectionString: dbConnectionString);
 })
 .WithName("/usuario/");
 
 app.MapGet("/usuario/{id:int}", (int id) =>
 {
   Usuario usuario = new();
-  var data = usuario.Get(id: id, dbConnectionString: dbConnectionString);
-  return data;
+  return usuario.Get(id: id, dbConnectionString: dbConnectionString);
+
 })
 .WithName("/usuario/{id:int}");
 
 app.MapPost("/usuario/", (Usuario usuario) =>
 {
-  var data = usuario.Insert(usuario: usuario, dbConnectionString: dbConnectionString);
-  return data;
+  return usuario.Insert(usuario: usuario, dbConnectionString: dbConnectionString);
+
 })
 .WithName("POST /usuario/");
 
-app.MapPut("/usuario/", (Usuario usuario) =>
+app.MapPut("/usuario/{id:int}", (int id, Usuario usuario) =>
 {
-  return Results.StatusCode(501);
+  return usuario.Update(id: id, usuario: usuario, dbConnectionString: dbConnectionString);
 })
 .WithName("PUT /usuario/");
 
@@ -229,29 +220,28 @@ app.MapPut("/usuario/", (Usuario usuario) =>
 app.MapGet("/veiculo/", () =>
 {
   Veiculo veiculo = new();
-  var data = veiculo.Get(dbConnectionString: dbConnectionString);
-  return data;
+  return veiculo.Get(dbConnectionString: dbConnectionString);
+
 })
 .WithName("/veiculo/");
 
 app.MapGet("/veiculo/{id:int}", (int id) =>
 {
   Veiculo veiculo = new();
-  var data = veiculo.Get(id: id, dbConnectionString: dbConnectionString);
-  return data;
+  return veiculo.Get(id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("/veiculo/{id:int}");
 
 app.MapPost("/veiculo/", (Veiculo veiculo) =>
 {
-  var data = veiculo.Insert(veiculo: veiculo, dbConnectionString: dbConnectionString);
-  return data;
+  return veiculo.Insert(veiculo: veiculo, dbConnectionString: dbConnectionString);
+
 })
 .WithName("POST /veiculo/");
 
-app.MapPut("/veiculo/", (Veiculo veiculo) =>
+app.MapPut("/veiculo/{id:int}", (int id, Veiculo veiculo) =>
 {
-  return Results.StatusCode(501);
+  return veiculo.Update(id: id, veiculo: veiculo, dbConnectionString: dbConnectionString);
 })
 .WithName("PUT /veiculo/");
 

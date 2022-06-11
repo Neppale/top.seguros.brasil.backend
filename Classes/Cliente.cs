@@ -40,8 +40,6 @@ public class Cliente : ModeloClasses<Cliente>
 
     var data = connectionString.Query<Cliente>("SELECT * from Clientes");
 
-    Console.WriteLine("[INFO] A request for all 'clientes' was made. The response is not a mock. :)");
-
     return data;
   }
 
@@ -50,8 +48,6 @@ public class Cliente : ModeloClasses<Cliente>
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Cliente>($"SELECT * from Clientes WHERE id_cliente={id}");
-
-    Console.WriteLine("[INFO] A request for a single 'cliente' was made. The response is not a mock. :)");
 
     if (data.Count() == 0) throw new BadHttpRequestException("Cliente não encontrado.", statusCode: 404);
 
@@ -63,11 +59,11 @@ public class Cliente : ModeloClasses<Cliente>
   public IResult Insert(Cliente cliente, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    Console.WriteLine("[INFO] A request to post to 'clientes' was made :)");
 
     try
     {
       // Verificando se alguma das propriedades do cliente é nula.
+      //TODO: Telefone2 pode ser nulo. Precisa ser ignorado por essa verificação.
       bool isValid = NullPropertyValidator.Validate(cliente);
       if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
@@ -91,18 +87,16 @@ public class Cliente : ModeloClasses<Cliente>
   public IResult Update(int id, Cliente cliente, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    Console.WriteLine("[INFO] A request to post to 'clientes' was made :)");
 
-    // Verificando se alguma das propriedades do cliente é nulo.
-    bool NullProperty = cliente.GetType().GetProperties()
-                            .All(p => p.GetValue(cliente) != null);
-    if (!NullProperty) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    // Verificando se alguma das propriedades do cliente é nula.
+    bool isValid = NullPropertyValidator.Validate(cliente);
+    if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
 
     try
     {
 
-      var data = connectionString.Query<Cliente>($"UPDATE Clientes SET email = '{cliente.email}', senha = '{cliente.senha}', nome_completo = '{cliente.nome_completo}', cnh = '{cliente.cnh}', cep = '{cliente.cep}', data_nascimento = '{cliente.data_nascimento}', telefone1 = '{cliente.telefone1}', telefone2 = '{cliente.telefone2}', status = '{cliente.status}' WHERE id_cliente = {id}");
+      var data = connectionString.Query($"UPDATE Clientes SET email = '{cliente.email}', senha = '{cliente.senha}', nome_completo = '{cliente.nome_completo}', cnh = '{cliente.cnh}', cep = '{cliente.cep}', data_nascimento = '{cliente.data_nascimento}', telefone1 = '{cliente.telefone1}', telefone2 = '{cliente.telefone2}', status = '{cliente.status}' WHERE id_cliente = {id}");
 
       return Results.Ok();
     }
