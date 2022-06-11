@@ -59,6 +59,9 @@ public class Veiculo
       bool isValid = NullPropertyValidator.Validate(veiculo);
       if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
+      bool RenavamIsValid = RenavamValidator.Validate(veiculo.renavam);
+      if (!RenavamIsValid) return Results.BadRequest("O RENAVAM informado é inválido.");
+
       var data = connectionString.Query<Veiculo>($"INSERT INTO Veiculos (marca, modelo, ano, uso, placa, renavam, sinistrado, id_cliente) VALUES ('{veiculo.marca}', '{veiculo.modelo}', '{veiculo.ano}', '{veiculo.uso}', '{veiculo.placa}', '{veiculo.renavam}', '{veiculo.sinistrado}', '{veiculo.id_cliente}')");
 
       return Results.StatusCode(201);
@@ -80,6 +83,8 @@ public class Veiculo
     bool isValid = NullPropertyValidator.Validate(veiculo);
     if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
+    bool RenavamIsValid = RenavamValidator.Validate(veiculo.renavam);
+    if (!RenavamIsValid) return Results.BadRequest("O RENAVAM informado é inválido.");
 
     try
     {
