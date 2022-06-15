@@ -30,7 +30,7 @@ public class Terceirizado
   public IEnumerable<Terceirizado> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.Query<Terceirizado>("SELECT * from Terceirizados");
+    var data = connectionString.Query<Terceirizado>("SELECT * from Terceirizados WHERE status='true'");
 
     return data;
   }

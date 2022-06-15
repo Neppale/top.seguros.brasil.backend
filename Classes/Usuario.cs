@@ -28,7 +28,7 @@ public class Usuario
   public IEnumerable<Usuario> Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.Query<Usuario>("SELECT * from Usuarios");
+    var data = connectionString.Query<Usuario>("SELECT * from Usuarios WHERE status='true'");
 
     return data;
   }

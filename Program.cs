@@ -25,11 +25,9 @@ var app = builder.Build();
 string dbConnectionString = builder.Configuration["dbConnectionStringDev"];
 
 // Configura a pipeline de requests HTTP.
-// if (app.Environment.IsDevelopment())
-// {
 app.UseSwagger();
 app.UseSwaggerUI();
-// }
+
 
 app.UseHttpsRedirection(); // Automaticamente redireciona requests feitos em HTTP para HTTPS
 
@@ -45,7 +43,7 @@ app.MapGet("/healthcheck/", () =>
 {
   return HealthCheck.Check(dbConnectionString: dbConnectionString);
 })
-.WithName("/healthcheck/");
+.WithName("Checar saúde do banco de dados");
 
 
 // CLIENTES 
@@ -55,26 +53,26 @@ app.MapGet("/cliente/", () =>
   Cliente cliente = new();
   return cliente.Get(dbConnectionString: dbConnectionString);
 })
-.WithName("/cliente/");
+.WithName("Selecionar todos os clientes");
 
 app.MapGet("/cliente/{id:int}", (int id) =>
 {
   Cliente cliente = new();
   return cliente.Get(id: id, dbConnectionString: dbConnectionString);
 })
-.WithName("/cliente/{id:int}");
+.WithName("Selecionar cliente específico");
 
 app.MapPost("/cliente/", (Cliente cliente) =>
 {
   return cliente.Insert(cliente: cliente, dbConnectionString: dbConnectionString);
 })
-.WithName("POST /cliente/");
+.WithName("Inserir cliente");
 
 app.MapPut("/cliente/{id:int}", (int id, Cliente cliente) =>
 {
   return cliente.Update(id, cliente, dbConnectionString);
 })
-.WithName("PUT /cliente/");
+.WithName("Alterar cliente específico");
 
 // APOLICES 
 
@@ -84,26 +82,26 @@ app.MapGet("/apolice/", () =>
   return apolice.Get(dbConnectionString: dbConnectionString);
 
 })
-.WithName("/apolice/");
+.WithName("Selecionar todas as apólices");
 
 app.MapGet("/apolice/{id:int}", (int id) =>
 {
   Apolice apolice = new();
   return apolice.Get(id: id, dbConnectionString: dbConnectionString);
 })
-.WithName("/apolice/{id:int}");
+.WithName("Selecionar apólice específica");
 
 app.MapPost("/apolice/", (Apolice apolice) =>
 {
   return apolice.Insert(apolice: apolice, dbConnectionString: dbConnectionString);
 })
-.WithName("POST /apolice/");
+.WithName("Inserir apólice");
 
 app.MapPut("/apolice/{id:int}", (int id, Apolice apolice) =>
 {
   return apolice.Update(id: id, apolice: apolice, dbConnectionString: dbConnectionString);
 })
-.WithName("PUT /apolice/");
+.WithName("Alterar apólice específica");
 
 // COBERTURAS
 
@@ -113,27 +111,27 @@ app.MapGet("/cobertura/", () =>
   return cobertura.Get(dbConnectionString: dbConnectionString);
 
 })
-.WithName("/cobertura/");
+.WithName("Selecionar todas as coberturas");
 
 app.MapGet("/cobertura/{id:int}", (int id) =>
 {
   Cobertura cobertura = new();
   return cobertura.Get(id: id, dbConnectionString: dbConnectionString);
 })
-.WithName("/cobertura/{id:int}");
+.WithName("Selecionar cobertura específica");
 
 app.MapPost("/cobertura/", (Cobertura cobertura) =>
 {
   return cobertura.Insert(cobertura: cobertura, dbConnectionString: dbConnectionString);
 
 })
-.WithName("POST /cobertura/");
+.WithName("Inserir cobertura");
 
 app.MapPut("/cobertura/{id:int}", (int id, Cobertura cobertura) =>
 {
   return cobertura.Update(id: id, cobertura: cobertura, dbConnectionString: dbConnectionString);
 })
-.WithName("PUT /cobertura/");
+.WithName("Alterar cobertura específica");
 
 // OCORRENCIAS
 
@@ -143,7 +141,7 @@ app.MapGet("/ocorrencia/", () =>
   return ocorrencia.Get(dbConnectionString: dbConnectionString);
 
 })
-.WithName("/ocorrencia/");
+.WithName("Selecionar todas as ocorrências");
 
 app.MapGet("/ocorrencia/{id:int}", (int id) =>
 {
@@ -151,7 +149,7 @@ app.MapGet("/ocorrencia/{id:int}", (int id) =>
   return ocorrencia.Get(id: id, dbConnectionString: dbConnectionString);
 
 })
-.WithName("/ocorrencia/{id:int}");
+.WithName("Selecionar ocorrência específica");
 
 // TERCEIRIZADOS
 
@@ -161,27 +159,27 @@ app.MapGet("/terceirizado/", () =>
   return terceirizado.Get(dbConnectionString: dbConnectionString);
 
 })
-.WithName("/terceirizado/");
+.WithName("Selecionar todos os terceirizados");
 
 app.MapGet("/terceirizado/{id:int}", (int id) =>
 {
   Terceirizado terceirizado = new();
   return terceirizado.Get(id: id, dbConnectionString: dbConnectionString);
 })
-.WithName("/terceirizado/{id:int}");
+.WithName("Selecionar terceirizado específico");
 
 app.MapPost("/terceirizado/", (Terceirizado terceirizado) =>
 {
   return terceirizado.Insert(terceirizado: terceirizado, dbConnectionString: dbConnectionString);
 
 })
-.WithName("POST /terceirizado/");
+.WithName("Inserir terceirizado");
 
 app.MapPut("/terceirizado/{id:int}", (int id, Terceirizado terceirizado) =>
 {
   return terceirizado.Update(id: id, terceirizado: terceirizado, dbConnectionString: dbConnectionString);
 })
-.WithName("PUT /terceirizado/");
+.WithName("Alterar terceirizado específico");
 
 // USUARIOS
 
@@ -190,7 +188,7 @@ app.MapGet("/usuario/", () =>
   Usuario usuario = new();
   return usuario.Get(dbConnectionString: dbConnectionString);
 })
-.WithName("/usuario/");
+.WithName("Selecionar todos os usuários");
 
 app.MapGet("/usuario/{id:int}", (int id) =>
 {
@@ -198,20 +196,20 @@ app.MapGet("/usuario/{id:int}", (int id) =>
   return usuario.Get(id: id, dbConnectionString: dbConnectionString);
 
 })
-.WithName("/usuario/{id:int}");
+.WithName("Selecionar usuário específico");
 
 app.MapPost("/usuario/", (Usuario usuario) =>
 {
   return usuario.Insert(usuario: usuario, dbConnectionString: dbConnectionString);
 
 })
-.WithName("POST /usuario/");
+.WithName("Inserir usuário");
 
 app.MapPut("/usuario/{id:int}", (int id, Usuario usuario) =>
 {
   return usuario.Update(id: id, usuario: usuario, dbConnectionString: dbConnectionString);
 })
-.WithName("PUT /usuario/");
+.WithName("Alterar usuário específico");
 
 // VEICULOS
 
@@ -221,27 +219,27 @@ app.MapGet("/veiculo/", () =>
   return veiculo.Get(dbConnectionString: dbConnectionString);
 
 })
-.WithName("/veiculo/");
+.WithName("Selecionar todos os veículos");
 
 app.MapGet("/veiculo/{id:int}", (int id) =>
 {
   Veiculo veiculo = new();
   return veiculo.Get(id: id, dbConnectionString: dbConnectionString);
 })
-.WithName("/veiculo/{id:int}");
+.WithName("Selecionar veículo específico");
 
 app.MapPost("/veiculo/", (Veiculo veiculo) =>
 {
   return veiculo.Insert(veiculo: veiculo, dbConnectionString: dbConnectionString);
 
 })
-.WithName("POST /veiculo/");
+.WithName("Inserir veículo");
 
 app.MapPut("/veiculo/{id:int}", (int id, Veiculo veiculo) =>
 {
   return veiculo.Update(id: id, veiculo: veiculo, dbConnectionString: dbConnectionString);
 })
-.WithName("PUT /veiculo/");
+.WithName("Alterar veículo específico");
 
 #endregion
 

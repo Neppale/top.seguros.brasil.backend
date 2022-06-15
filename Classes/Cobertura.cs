@@ -28,7 +28,7 @@ public class Cobertura
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    var data = connectionString.Query<Cobertura>("SELECT * from Coberturas");
+    var data = connectionString.Query<Cobertura>("SELECT * from Coberturas WHERE status='true'");
 
     return data;
   }

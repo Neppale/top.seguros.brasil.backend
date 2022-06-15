@@ -38,7 +38,7 @@ public class Cliente : ModeloClasses<Cliente>
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    var data = connectionString.Query<Cliente>("SELECT * from Clientes");
+    var data = connectionString.Query<Cliente>("SELECT * from Clientes WHERE status='true'");
 
     return data;
   }
