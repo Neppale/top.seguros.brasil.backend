@@ -38,7 +38,7 @@ public class Terceirizado
   public IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.QueryFirstOrDefault<Terceirizado>($"SELECT * from Terceirizados WHERE id_terceirizado={id}");
+    var data = connectionString.QueryFirstOrDefault<Terceirizado>("SELECT * from Terceirizados WHERE id_terceirizado=@Id", new { Id = id });
     if (data == null) return Results.NotFound("Terceirizado não encontrado.");
 
     return Results.Ok(data);
@@ -58,7 +58,7 @@ public class Terceirizado
       bool cnpjIsValid = CnpjValidator.Validate(terceirizado.cnpj);
       if (!cnpjIsValid) return Results.BadRequest("O CNPJ informado é inválido.");
 
-      var data = connectionString.Query<Terceirizado>($"INSERT INTO Terceirizados (nome, funcao, cnpj, telefone, valor, status) VALUES ('{terceirizado.nome}', '{terceirizado.funcao}', '{terceirizado.cnpj}','{terceirizado.telefone}', '{terceirizado.valor}', '{terceirizado.status}')");
+      var data = connectionString.Query<Terceirizado>("INSERT INTO Terceirizados (nome, funcao, cnpj, telefone, valor, status) VALUES (@Nome, @Funcao, @Cnpj, @Telefone, @Valor, @Status)", new { Nome = terceirizado.nome, Funcao = terceirizado.funcao, Cnpj = terceirizado.cnpj, Telefone = terceirizado.telefone, Valor = terceirizado.valor, Status = terceirizado.status });
 
       return Results.StatusCode(201);
     }
@@ -82,7 +82,7 @@ public class Terceirizado
 
     try
     {
-      connectionString.Query<Terceirizado>($"UPDATE Terceirizados SET nome = '{terceirizado.nome}', funcao = '{terceirizado.funcao}', cnpj = '{terceirizado.cnpj}', valor = '{terceirizado.valor}', status = '{terceirizado.status}' WHERE id_terceirizado = {id}");
+      connectionString.Query<Terceirizado>("UPDATE Terceirizados SET nome = @Nome, funcao = @Funcao, cnpj = @Cnpj, telefone = @Telefone, valor = @Valor, status = @Status WHERE id_terceirizado = @Id", new { Nome = terceirizado.nome, Funcao = terceirizado.funcao, Cnpj = terceirizado.cnpj, Telefone = terceirizado.telefone, Valor = terceirizado.valor, Status = terceirizado.status, Id = id });
       return Results.Ok();
     }
     catch (SystemException)
