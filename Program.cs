@@ -74,6 +74,12 @@ app.MapPut("/cliente/{id:int}", (int id, Cliente cliente) =>
 })
 .WithName("Alterar cliente específico");
 
+app.MapPost("/cliente/login", (Cliente cliente) =>
+{
+  return cliente.Login(cliente.email, cliente.senha, dbConnectionString);
+})
+.WithName("Fazer login do cliente");
+
 // APOLICES 
 
 app.MapGet("/apolice/", () =>
@@ -210,6 +216,12 @@ app.MapPut("/usuario/{id:int}", (int id, Usuario usuario) =>
   return usuario.Update(id: id, usuario: usuario, dbConnectionString: dbConnectionString);
 })
 .WithName("Alterar usuário específico");
+
+app.MapPost("/usuario/login", (Usuario usuario) =>
+{
+  return usuario.Login(usuario.email, usuario.senha, dbConnectionString);
+})
+.WithName("Fazer login do usuário");
 
 // VEICULOS
 

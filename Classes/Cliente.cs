@@ -75,6 +75,9 @@ public class Cliente : ModeloClasses<Cliente>
       Task<bool> cepIsValid = CepValidator.Validate(cliente.cep);
       if (!cepIsValid.Result) return Results.BadRequest("O CEP informado é inválido.");
 
+      // Criptografando a senha do cliente.
+      cliente.senha = PasswordHasher.HashPassword(cliente.senha);
+
       var data = connectionString.Query<Cliente>($"INSERT INTO Clientes (email, senha, nome_completo, cpf, cnh, cep, data_nascimento, telefone1, telefone2, status) VALUES ('{cliente.email}', '{cliente.senha}', '{cliente.nome_completo}', '{cliente.cpf}', '{cliente.cnh}', '{cliente.cep}', '{cliente.data_nascimento}', '{cliente.telefone1}', '{cliente.telefone2}', '{cliente.status}')");
 
       return Results.StatusCode(201);
@@ -100,6 +103,9 @@ public class Cliente : ModeloClasses<Cliente>
     Task<bool> cepIsValid = CepValidator.Validate(cliente.cep);
     if (!cepIsValid.Result) return Results.BadRequest("O CEP informado é inválido.");
 
+    // Criptografando a senha do cliente.
+    cliente.senha = PasswordHasher.HashPassword(cliente.senha);
+
     try
     {
 
@@ -115,4 +121,25 @@ public class Cliente : ModeloClasses<Cliente>
 
   }
 
+  /** <summary> Esta função faz o login do cliente. </summary>**/
+  public IResult Login(string email, string password, string dbConnectionString)
+  {
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+    try
+    {
+
+      string hashPassword = connectionString.QueryFirst<string>($"SELECT senha FROM Clientes WHERE email = '{email}' ");
+
+      // Verificando senha do cliente.
+      bool isValid = PasswordHasher.Verify(hashPassword, password);
+      if (!isValid) return Results.Unauthorized();
+
+      return Results.Ok();
+    }
+    catch (BadHttpRequestException)
+    {
+      //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
+      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+    }
+  }
 }

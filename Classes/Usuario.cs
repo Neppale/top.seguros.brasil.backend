@@ -53,6 +53,9 @@ public class Usuario
       bool isValid = NullPropertyValidator.Validate(usuario);
       if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
+      // Criptografando a senha do usuário.
+      usuario.senha = PasswordHasher.HashPassword(usuario.senha);
+
       connectionString.Query($"INSERT INTO Usuarios (nome_completo, email, senha, tipo, status) VALUES ('{usuario.nome_completo}', '{usuario.email}', '{usuario.senha}', '{usuario.tipo}', '{usuario.status}')");
 
       return Results.StatusCode(200);
@@ -74,6 +77,8 @@ public class Usuario
     bool isValid = NullPropertyValidator.Validate(usuario);
     if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
+    // Criptografando a senha do usuário.
+    usuario.senha = PasswordHasher.HashPassword(usuario.senha);
 
     try
     {
@@ -86,5 +91,26 @@ public class Usuario
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
 
+  }
+
+  public IResult Login(string email, string password, string dbConnectionString)
+  {
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+    try
+    {
+
+      string hashPassword = connectionString.QueryFirst<string>($"SELECT senha FROM Usuarios WHERE email = '{email}' ");
+
+      // Verificando senha do usuario.
+      bool isValid = PasswordHasher.Verify(hashPassword, password);
+      if (!isValid) return Results.Unauthorized();
+
+      return Results.Ok();
+    }
+    catch (BadHttpRequestException)
+    {
+      //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
+      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+    }
   }
 }
