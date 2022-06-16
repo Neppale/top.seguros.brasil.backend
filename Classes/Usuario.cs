@@ -8,7 +8,7 @@ public class Usuario
   public string email { get; set; }
   public string tipo { get; set; }
 
-  public string senha;
+  public string senha { get; set; }
   public bool status { get; set; }
 
   public Usuario()
@@ -58,7 +58,7 @@ public class Usuario
 
       connectionString.Query($"INSERT INTO Usuarios (nome_completo, email, senha, tipo, status) VALUES ('{usuario.nome_completo}', '{usuario.email}', '{usuario.senha}', '{usuario.tipo}', '{usuario.status}')");
 
-      return Results.StatusCode(200);
+      return Results.StatusCode(201);
     }
     catch (SystemException)
     {
