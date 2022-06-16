@@ -41,7 +41,7 @@ public class Veiculo
   public IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.QueryFirstOrDefault<Veiculo>($"SELECT * from Veiculos WHERE id_Veiculo={id}");
+    var data = connectionString.QueryFirstOrDefault<Veiculo>("SELECT * from Veiculos WHERE id_Veiculo = @Id", new { Id = id });
 
     if (data == null) return Results.NotFound("Veículo não encontrado.");
 
@@ -62,7 +62,7 @@ public class Veiculo
       bool RenavamIsValid = RenavamValidator.Validate(veiculo.renavam);
       if (!RenavamIsValid) return Results.BadRequest("O RENAVAM informado é inválido.");
 
-      var data = connectionString.Query<Veiculo>($"INSERT INTO Veiculos (marca, modelo, ano, uso, placa, renavam, sinistrado, id_cliente) VALUES ('{veiculo.marca}', '{veiculo.modelo}', '{veiculo.ano}', '{veiculo.uso}', '{veiculo.placa}', '{veiculo.renavam}', '{veiculo.sinistrado}', '{veiculo.id_cliente}')");
+      var data = connectionString.Query<Veiculo>("INSERT INTO Veiculos (marca, modelo, ano, uso, placa, renavam, sinistrado, id_cliente) VALUES (@Marca, @Modelo, @Ano, @Uso, @Placa, @Renavam, @Sinistrado, @IdCliente)", new { Marca = veiculo.marca, Modelo = veiculo.modelo, Ano = veiculo.ano, Uso = veiculo.uso, Placa = veiculo.placa, Renavam = veiculo.renavam, Sinistrado = veiculo.sinistrado, IdCliente = veiculo.id_cliente });
 
       return Results.StatusCode(201);
     }
@@ -87,7 +87,8 @@ public class Veiculo
 
     try
     {
-      connectionString.Query($"UPDATE Veiculos SET marca = '{veiculo.marca}', modelo = '{veiculo.modelo}', ano = '{veiculo.ano}', uso = '{veiculo.uso}', placa = '{veiculo.placa}', renavam = '{veiculo.renavam}', sinistrado = '{veiculo.sinistrado}' WHERE id_veiculo = {id}");
+      connectionString.Query("UPDATE Veiculos SET marca = @Marca, modelo = @Modelo, ano = @Ano, uso = @Uso, placa = @Placa, renavam = @Renavam, sinistrado = @Sinistrado, id_cliente = @IdCliente WHERE id_Veiculo = @Id", new { Marca = veiculo.marca, Modelo = veiculo.modelo, Ano = veiculo.ano, Uso = veiculo.uso, Placa = veiculo.placa, Renavam = veiculo.renavam, Sinistrado = veiculo.sinistrado, IdCliente = veiculo.id_cliente, Id = id });
+
       return Results.Ok();
     }
     catch (SystemException)
