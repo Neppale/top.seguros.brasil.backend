@@ -28,7 +28,7 @@ public class Usuario
   public IResult Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.Query<Usuario>("SELECT * from Usuarios WHERE status='true'");
+    var data = connectionString.Query<Usuario>("SELECT * from Usuarios WHERE status = 'true'");
 
     return Results.Ok(data);
   }
@@ -36,7 +36,7 @@ public class Usuario
   public IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.QueryFirstOrDefault<Usuario>($"SELECT * from Usuarios WHERE id_Usuario={id}");
+    var data = connectionString.QueryFirstOrDefault<Usuario>("SELECT * from Usuarios WHERE id_Usuario = @Id", new { Id = id });
 
     if (data == null) return Results.NotFound("Usuário não encontrado.");
 
@@ -56,7 +56,7 @@ public class Usuario
       // Criptografando a senha do usuário.
       usuario.senha = PasswordHasher.HashPassword(usuario.senha);
 
-      connectionString.Query($"INSERT INTO Usuarios (nome_completo, email, senha, tipo, status) VALUES ('{usuario.nome_completo}', '{usuario.email}', '{usuario.senha}', '{usuario.tipo}', '{usuario.status}')");
+      connectionString.Query("INSERT INTO Usuarios (nome_completo, email, senha, tipo, status) VALUES (@Nome, @Email, @Senha, @Tipo, @Status)", new { Nome = usuario.nome_completo, Email = usuario.email, Senha = usuario.senha, Tipo = usuario.tipo, Status = usuario.status });
 
       return Results.StatusCode(201);
     }
@@ -81,7 +81,8 @@ public class Usuario
 
     try
     {
-      connectionString.Query($"UPDATE Usuarios SET nome_completo = '{usuario.nome_completo}', email = '{usuario.email}', senha = '{usuario.senha}', tipo = '{usuario.tipo}', status = '{usuario.status}' WHERE id_usuario = {id}");
+      connectionString.Query("UPDATE Usuarios SET nome_completo = @Nome, email = @Email, senha = @Senha, tipo = @Tipo, status = @Status WHERE id_Usuario = @Id", new { Nome = usuario.nome_completo, Email = usuario.email, Senha = usuario.senha, Tipo = usuario.tipo, Status = usuario.status, Id = id });
+
       return Results.Ok();
     }
     catch (SystemException)
@@ -96,7 +97,7 @@ public class Usuario
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     try
     {
-      string hashPassword = connectionString.QueryFirstOrDefault<string>($"SELECT senha FROM Usuarios WHERE email = '{email}' ");
+      string hashPassword = connectionString.QueryFirstOrDefault<string>("SELECT senha FROM Usuarios WHERE email = @Email", new { Email = email });
 
       if (hashPassword == null) return Results.BadRequest("E-mail ou senha inválidos.");
 
