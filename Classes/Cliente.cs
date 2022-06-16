@@ -38,7 +38,7 @@ public class Cliente
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    var data = connectionString.Query<Cliente>("SELECT * from Clientes WHERE status='true'");
+    var data = connectionString.Query<Cliente>("SELECT * from Clientes WHERE status= 'true'");
 
     return Results.Ok(data);
   }
@@ -47,7 +47,7 @@ public class Cliente
   public IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.QueryFirstOrDefault<Cliente>($"SELECT * from Clientes WHERE id_cliente={id}");
+    var data = connectionString.QueryFirstOrDefault<Cliente>("SELECT * from Clientes WHERE id_cliente = @Id", new { Id = id });
 
     if (data == null) return Results.NotFound("Cliente não encontrado.");
 
@@ -78,7 +78,8 @@ public class Cliente
       // Criptografando a senha do cliente.
       cliente.senha = PasswordHasher.HashPassword(cliente.senha);
 
-      var data = connectionString.Query<Cliente>($"INSERT INTO Clientes (email, senha, nome_completo, cpf, cnh, cep, data_nascimento, telefone1, telefone2, status) VALUES ('{cliente.email}', '{cliente.senha}', '{cliente.nome_completo}', '{cliente.cpf}', '{cliente.cnh}', '{cliente.cep}', '{cliente.data_nascimento}', '{cliente.telefone1}', '{cliente.telefone2}', '{cliente.status}')");
+      var data = connectionString.Query<Cliente>("INSERT INTO Clientes (email, senha, nome_completo, cpf, cnh, cep, data_nascimento, telefone1, telefone2, status) VALUES (@Email, @Senha, @Nome, @Cpf, @Cnh, @Cep, @DataNascimento, @Telefone1, @Telefone2, @Status)",
+        new { Email = cliente.email, Senha = cliente.senha, Nome = cliente.nome_completo, Cpf = cliente.cpf, Cnh = cliente.cnh, Cep = cliente.cep, DataNascimento = cliente.data_nascimento, Telefone1 = cliente.telefone1, Telefone2 = cliente.telefone2, Status = cliente.status });
 
       return Results.StatusCode(201);
     }
@@ -107,7 +108,8 @@ public class Cliente
 
     try
     {
-      var data = connectionString.Query($"UPDATE Clientes SET email = '{cliente.email}', senha = '{cliente.senha}', nome_completo = '{cliente.nome_completo}', cnh = '{cliente.cnh}', cep = '{cliente.cep}', data_nascimento = '{cliente.data_nascimento}', telefone1 = '{cliente.telefone1}', telefone2 = '{cliente.telefone2}', status = '{cliente.status}' WHERE id_cliente = {id}");
+      var data = connectionString.Query("UPDATE Clientes SET email = @Email, senha = @Senha, nome_completo = @Nome, cnh = @Cnh, cep = @Cep, data_nascimento = @DataNascimento, telefone1 = @Telefone1, telefone2 = @Telefone2, status = @Status WHERE id_cliente = @Id",
+        new { Email = cliente.email, Senha = cliente.senha, Nome = cliente.nome_completo, Cnh = cliente.cnh, Cep = cliente.cep, DataNascimento = cliente.data_nascimento, Telefone1 = cliente.telefone1, Telefone2 = cliente.telefone2, Status = cliente.status, Id = id });
 
       return Results.Ok();
     }
@@ -124,7 +126,7 @@ public class Cliente
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     try
     {
-      string hashPassword = connectionString.QueryFirstOrDefault<string>($"SELECT senha FROM Clientes WHERE email = '{email}' ");
+      string hashPassword = connectionString.QueryFirstOrDefault<string>("SELECT senha FROM Clientes WHERE email = @Email", new { Email = email });
 
       if (hashPassword == null) return Results.BadRequest("E-mail ou senha inválidos.");
 
