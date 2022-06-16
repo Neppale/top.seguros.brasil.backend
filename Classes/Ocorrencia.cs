@@ -89,8 +89,8 @@ public class Ocorrencia
     {
       // Verificando se alguma das propriedades da ocorrencia é nula ou vazia.
       //TODO: Terceirizado pode ser vazio. Não deve passar por essa validação.
-      bool isValid = NullPropertyValidator.Validate(ocorrencia);
-      if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+      bool hasValidProperties = NullPropertyValidator.Validate(ocorrencia);
+      if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
       var data = connectionString.Query<Veiculo>($"INSERT INTO Ocorrencias (data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado) VALUES ('{ocorrencia.data}', '{ocorrencia.local}', '{ocorrencia.UF}', '{ocorrencia.municipio}', '{ocorrencia.descricao}', '{ocorrencia.tipo}','{ocorrencia.status}', '{ocorrencia.id_veiculo}', '{ocorrencia.id_cliente}', '{ocorrencia.id_terceirizado}')");
 
@@ -124,12 +124,12 @@ public class Ocorrencia
     try
     {
       var data = connectionString.Query<Veiculo>($"UPDATE Ocorrencias SET documento=CONVERT(varbinary(max),'{file}') WHERE id_ocorrencia={id}");
+      return Results.StatusCode(201);
     }
     catch (SystemException)
     {
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
-    return Results.StatusCode(201);
   }
 
 }

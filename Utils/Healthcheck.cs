@@ -10,7 +10,7 @@ namespace tsb.mininal.policy.engine.Utils
     {
       SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-      // Clean code? I don't know her.
+      // TODO: Clean code? I don't know her.
       if (!connectionString.QuerySingleOrDefault<bool>($"SELECT * from Clientes WHERE id_cliente = 1")) return Results.StatusCode(503);
 
       if (!connectionString.QuerySingleOrDefault<bool>($"SELECT * from Coberturas  WHERE id_cobertura = 1")) return Results.StatusCode(503);

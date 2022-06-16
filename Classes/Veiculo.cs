@@ -56,8 +56,8 @@ public class Veiculo
     try
     {
       // Verificando se alguma das propriedades do Veiculo é nula ou vazia.
-      bool isValid = NullPropertyValidator.Validate(veiculo);
-      if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+      bool hasValidProperties = NullPropertyValidator.Validate(veiculo);
+      if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
       bool RenavamIsValid = RenavamValidator.Validate(veiculo.renavam);
       if (!RenavamIsValid) return Results.BadRequest("O RENAVAM informado é inválido.");
@@ -79,8 +79,8 @@ public class Veiculo
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se alguma das propriedades do veiculo é nula ou vazia.
-    bool isValid = NullPropertyValidator.Validate(veiculo);
-    if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    bool hasValidProperties = NullPropertyValidator.Validate(veiculo);
+    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
     bool RenavamIsValid = RenavamValidator.Validate(veiculo.renavam);
     if (!RenavamIsValid) return Results.BadRequest("O RENAVAM informado é inválido.");

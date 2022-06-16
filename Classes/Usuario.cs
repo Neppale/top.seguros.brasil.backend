@@ -50,8 +50,8 @@ public class Usuario
     try
     {
       // Verificando se alguma das propriedades do Usuario é nula ou vazia.
-      bool isValid = NullPropertyValidator.Validate(usuario);
-      if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+      bool hasValidProperties = NullPropertyValidator.Validate(usuario);
+      if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
       // Criptografando a senha do usuário.
       usuario.senha = PasswordHasher.HashPassword(usuario.senha);
@@ -73,15 +73,14 @@ public class Usuario
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se alguma das propriedades do Usuario é nula ou vazia.
-    bool isValid = NullPropertyValidator.Validate(usuario);
-    if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    bool hasValidProperties = NullPropertyValidator.Validate(usuario);
+    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
     // Criptografando a senha do usuário.
     usuario.senha = PasswordHasher.HashPassword(usuario.senha);
 
     try
     {
-
       connectionString.Query($"UPDATE Usuarios SET nome_completo = '{usuario.nome_completo}', email = '{usuario.email}', senha = '{usuario.senha}', tipo = '{usuario.tipo}', status = '{usuario.status}' WHERE id_usuario = {id}");
       return Results.Ok();
     }
@@ -97,7 +96,6 @@ public class Usuario
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     try
     {
-
       string hashPassword = connectionString.QueryFirstOrDefault<string>($"SELECT senha FROM Usuarios WHERE email = '{email}' ");
 
       if (hashPassword == null) return Results.BadRequest("E-mail ou senha inválidos.");

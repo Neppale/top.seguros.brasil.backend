@@ -64,8 +64,8 @@ public class Cliente
     {
       // Verificando se alguma das propriedades do cliente é nula ou vazia.
       //TODO: Telefone2 pode ser nulo. Precisa ser ignorado por essa verificação.
-      bool isValid = NullPropertyValidator.Validate(cliente);
-      if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+      bool hasValidProperties = NullPropertyValidator.Validate(cliente);
+      if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
       // Verificação de CPF
       bool cpfIsValid = CpfValidator.Validate(cliente.cpf);
@@ -95,8 +95,8 @@ public class Cliente
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se alguma das propriedades do cliente é nula ou vazia.
-    bool isValid = NullPropertyValidator.Validate(cliente);
-    if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    bool hasValidProperties = NullPropertyValidator.Validate(cliente);
+    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
     // Verificação de CEP
     Task<bool> cepIsValid = CepValidator.Validate(cliente.cep);
@@ -107,7 +107,6 @@ public class Cliente
 
     try
     {
-
       var data = connectionString.Query($"UPDATE Clientes SET email = '{cliente.email}', senha = '{cliente.senha}', nome_completo = '{cliente.nome_completo}', cnh = '{cliente.cnh}', cep = '{cliente.cep}', data_nascimento = '{cliente.data_nascimento}', telefone1 = '{cliente.telefone1}', telefone2 = '{cliente.telefone2}', status = '{cliente.status}' WHERE id_cliente = {id}");
 
       return Results.Ok();
@@ -125,7 +124,6 @@ public class Cliente
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     try
     {
-
       string hashPassword = connectionString.QueryFirstOrDefault<string>($"SELECT senha FROM Clientes WHERE email = '{email}' ");
 
       if (hashPassword == null) return Results.BadRequest("E-mail ou senha inválidos.");

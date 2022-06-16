@@ -59,16 +59,14 @@ public class Apolice
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se alguma das propriedades do Veiculo é nula ou vazia.
-    bool isValid = NullPropertyValidator.Validate(apolice);
-    if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    bool hasValidProperties = NullPropertyValidator.Validate(apolice);
+    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
     if (apolice.indenizacao == 0) return Results.BadRequest("Valor de indenização não pode ser 0.");
     if (apolice.premio == 0) return Results.BadRequest("Valor de prêmio não pode ser 0.");
 
     try
     {
-
-
       connectionString.Query<Apolice>($"INSERT INTO Apolices (data_inicio, data_fim, premio, indenizacao, id_cobertura, id_usuario, id_cliente, id_veiculo, status) VALUES ('{apolice.data_inicio}', '{apolice.data_fim}', '{apolice.premio}', '{apolice.indenizacao}', '{apolice.id_cobertura}', '{apolice.id_usuario}', '{apolice.id_cliente}', '{apolice.id_veiculo}', '{apolice.status}')");
 
       return Results.StatusCode(201);
@@ -85,12 +83,11 @@ public class Apolice
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se alguma das propriedades do apolice é nula.
-    bool isValid = NullPropertyValidator.Validate(apolice);
-    if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    bool hasValidProperties = NullPropertyValidator.Validate(apolice);
+    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
     try
     {
-
       connectionString.Query<Apolice>($"UPDATE Apolices SET status = '{apolice.status}' WHERE id_apolice = {id}");
       return Results.Ok();
     }
@@ -98,6 +95,5 @@ public class Apolice
     {
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
-
   }
 }

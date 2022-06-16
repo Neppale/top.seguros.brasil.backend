@@ -1,7 +1,6 @@
 using tsb.mininal.policy.engine.Utils;
 using Microsoft.OpenApi.Models;
 using Microsoft.Data.SqlClient;
-using Dapper;
 
 #region [CONFIGURATION]
 var builder = WebApplication.CreateBuilder(args);

@@ -52,8 +52,8 @@ public class Cobertura
     try
     {
       // Verificando se alguma das propriedades do Cobertura é nula ou vazia.
-      bool isValid = NullPropertyValidator.Validate(cobertura);
-      if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+      bool hasValidProperties = NullPropertyValidator.Validate(cobertura);
+      if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
       var data = connectionString.Query<Cobertura>($"INSERT INTO Coberturas (nome, descricao, valor, status) VALUES ('{cobertura.nome}', '{cobertura.descricao}', '{cobertura.valor}', '{cobertura.status}')");
 
@@ -71,12 +71,11 @@ public class Cobertura
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se alguma das propriedades do cobertura é nula ou vazia.
-    bool isValid = NullPropertyValidator.Validate(cobertura);
-    if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    bool hasValidProperties = NullPropertyValidator.Validate(cobertura);
+    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
     try
     {
-
       connectionString.Query<Cobertura>($"UPDATE Coberturas SET nome = '{cobertura.nome}', descricao = '{cobertura.descricao}', valor = '{cobertura.valor}', status = '{cobertura.status}' WHERE id_cobertura = {id}");
       return Results.Ok();
     }

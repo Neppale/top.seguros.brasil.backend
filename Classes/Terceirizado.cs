@@ -51,8 +51,8 @@ public class Terceirizado
     try
     {
       // Verificando se alguma das propriedades do Terceirizado é nula ou vazia.
-      bool isValid = NullPropertyValidator.Validate(terceirizado);
-      if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+      bool hasValidProperties = NullPropertyValidator.Validate(terceirizado);
+      if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
       // Validando CNPJ
       bool cnpjIsValid = CnpjValidator.Validate(terceirizado.cnpj);
@@ -74,15 +74,14 @@ public class Terceirizado
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se alguma das propriedades do terceirizado é nula ou vazia.
-    bool isValid = NullPropertyValidator.Validate(terceirizado);
-    if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    bool hasValidProperties = NullPropertyValidator.Validate(terceirizado);
+    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
     bool cnpjIsValid = CnpjValidator.Validate(terceirizado.cnpj);
     if (!cnpjIsValid) return Results.BadRequest("O CNPJ informado é inválido.");
 
     try
     {
-
       connectionString.Query<Terceirizado>($"UPDATE Terceirizados SET nome = '{terceirizado.nome}', funcao = '{terceirizado.funcao}', cnpj = '{terceirizado.cnpj}', valor = '{terceirizado.valor}', status = '{terceirizado.status}' WHERE id_terceirizado = {id}");
       return Results.Ok();
     }
