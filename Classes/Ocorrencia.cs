@@ -53,7 +53,7 @@ public class Ocorrencia
   public IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.QueryFirstOrDefault<Ocorrencia>($"SELECT id_ocorrencia, data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado from Ocorrencias WHERE id_ocorrencia={id}");
+    var data = connectionString.QueryFirstOrDefault<Ocorrencia>("SELECT id_ocorrencia, data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado from Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
 
     if (data == null) return Results.NotFound("Ocorrência não encontrada.");
 
@@ -66,7 +66,7 @@ public class Ocorrencia
     //TODO: Retornar documento das ocorrências.
     try
     {
-      var data = connectionString.QueryFirstOrDefault<string>($"SELECT CAST(documento AS varchar(max)) from Ocorrencias WHERE id_ocorrencia={id}");
+      var data = connectionString.QueryFirstOrDefault<string>("SELECT CAST(documento AS varchar(max)) from Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
 
       if (data == null) return Results.NotFound("Ocorrência não encontrada, ou ocorrência não possui documento.");
 
@@ -88,11 +88,11 @@ public class Ocorrencia
     try
     {
       // Verificando se alguma das propriedades da ocorrencia é nula ou vazia.
-      //TODO: Terceirizado pode ser vazio. Não deve passar por essa validação.
+      //TODO: Terceirizado e documento pode ser vazio. Não deve passar por essa validação.
       bool hasValidProperties = NullPropertyValidator.Validate(ocorrencia);
       if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
-      var data = connectionString.Query<Veiculo>($"INSERT INTO Ocorrencias (data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado) VALUES ('{ocorrencia.data}', '{ocorrencia.local}', '{ocorrencia.UF}', '{ocorrencia.municipio}', '{ocorrencia.descricao}', '{ocorrencia.tipo}','{ocorrencia.status}', '{ocorrencia.id_veiculo}', '{ocorrencia.id_cliente}', '{ocorrencia.id_terceirizado}')");
+      var data = connectionString.Query<Veiculo>("INSERT INTO Ocorrencias (data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado) VALUES (@Data, @Local, @UF, @Municipio, @Descricao, @Tipo, @Status, @IdVeiculo, @IdCliente, @IdTerceirizado)", new { Data = ocorrencia.data, Local = ocorrencia.local, UF = ocorrencia.UF, Municipio = ocorrencia.municipio, Descricao = ocorrencia.descricao, Tipo = ocorrencia.tipo, Status = ocorrencia.status, IdVeiculo = ocorrencia.id_veiculo, IdCliente = ocorrencia.id_cliente, IdTerceirizado = ocorrencia.id_terceirizado });
 
       return Results.StatusCode(201);
     }
@@ -123,7 +123,7 @@ public class Ocorrencia
     var file = await reader.ReadToEndAsync();
     try
     {
-      var data = connectionString.Query<Veiculo>($"UPDATE Ocorrencias SET documento=CONVERT(varbinary(max),'{file}') WHERE id_ocorrencia={id}");
+      var data = connectionString.Query<Veiculo>("UPDATE Ocorrencias SET documento=CONVERT(varbinary(max), @File) WHERE id_ocorrencia = @Id", new { File = file, Id = id });
       return Results.StatusCode(201);
     }
     catch (SystemException)
