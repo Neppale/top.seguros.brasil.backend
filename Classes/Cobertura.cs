@@ -28,7 +28,7 @@ public class Cobertura
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    var data = connectionString.Query<Cobertura>("SELECT * from Coberturas WHERE status='true'");
+    var data = connectionString.Query<Cobertura>("SELECT * from Coberturas WHERE status = 'true'");
 
     return Results.Ok(data);
   }
@@ -37,7 +37,7 @@ public class Cobertura
   public IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.QueryFirstOrDefault<Cobertura>($"SELECT * from Coberturas WHERE id_cobertura={id}");
+    var data = connectionString.QueryFirstOrDefault<Cobertura>("SELECT * from Coberturas WHERE id_cobertura = @Id", new { Id = id });
 
     if (data == null) return Results.NotFound("Cobertura não encontrada.");
 
@@ -55,7 +55,7 @@ public class Cobertura
       bool hasValidProperties = NullPropertyValidator.Validate(cobertura);
       if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
-      var data = connectionString.Query<Cobertura>($"INSERT INTO Coberturas (nome, descricao, valor, status) VALUES ('{cobertura.nome}', '{cobertura.descricao}', '{cobertura.valor}', '{cobertura.status}')");
+      var data = connectionString.Query<Cobertura>("INSERT INTO Coberturas (nome, descricao, valor, status) VALUES (@Nome, @Descricao, @Valor, @Status)", new { Nome = cobertura.nome, Descricao = cobertura.descricao, Valor = cobertura.valor, Status = cobertura.status });
 
       return Results.StatusCode(201);
     }
@@ -76,7 +76,7 @@ public class Cobertura
 
     try
     {
-      connectionString.Query<Cobertura>($"UPDATE Coberturas SET nome = '{cobertura.nome}', descricao = '{cobertura.descricao}', valor = '{cobertura.valor}', status = '{cobertura.status}' WHERE id_cobertura = {id}");
+      connectionString.Query<Cobertura>("UPDATE Coberturas SET nome = @Nome, descricao = @Descricao, valor = @Valor, status = @Status WHERE id_cobertura = @Id", new { Nome = cobertura.nome, Descricao = cobertura.descricao, Valor = cobertura.valor, Status = cobertura.status, Id = id });
       return Results.Ok();
     }
     catch (SystemException)
