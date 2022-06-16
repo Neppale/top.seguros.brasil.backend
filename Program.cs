@@ -157,6 +157,32 @@ app.MapGet("/ocorrencia/{id:int}", (int id) =>
 })
 .WithName("Selecionar ocorrência específica");
 
+app.MapGet("/ocorrencia/documento/{id:int}", (int id) =>
+{
+  Ocorrencia ocorrencia = new();
+  return ocorrencia.GetDocument(id: id, dbConnectionString: dbConnectionString);
+
+})
+.WithName("Selecionar documento de ocorrência específica");
+
+app.MapPost("/ocorrencia/documento/{id:int}", (int id, HttpRequest sentFile) =>
+{
+  Ocorrencia ocorrencia = new();
+  return ocorrencia.InsertDocument(id: id, sentFile: sentFile, dbConnectionString: dbConnectionString);
+
+})
+.WithName("Inserir documento em ocorrência");
+
+app.MapPost("/ocorrencia/", (Ocorrencia ocorrencia) =>
+{
+  return ocorrencia.Insert(ocorrencia: ocorrencia, dbConnectionString: dbConnectionString);
+
+})
+.WithName("Inserir ocorrência");
+
+
+
+
 // TERCEIRIZADOS
 
 app.MapGet("/terceirizado/", () =>

@@ -51,7 +51,7 @@ public class Cobertura
 
     try
     {
-      // Verificando se alguma das propriedades do Cobertura é nula.
+      // Verificando se alguma das propriedades do Cobertura é nula ou vazia.
       bool isValid = NullPropertyValidator.Validate(cobertura);
       if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
@@ -70,7 +70,7 @@ public class Cobertura
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    // Verificando se alguma das propriedades do cobertura é nula.
+    // Verificando se alguma das propriedades do cobertura é nula ou vazia.
     bool isValid = NullPropertyValidator.Validate(cobertura);
     if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 

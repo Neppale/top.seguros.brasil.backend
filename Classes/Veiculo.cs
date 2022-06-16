@@ -43,7 +43,7 @@ public class Veiculo
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.QueryFirstOrDefault<Veiculo>($"SELECT * from Veiculos WHERE id_Veiculo={id}");
 
-    if (data == null) return Results.BadRequest("Veículo não encontrado.");
+    if (data == null) return Results.NotFound("Veículo não encontrado.");
 
     return Results.Ok(data);
   }
@@ -55,7 +55,7 @@ public class Veiculo
 
     try
     {
-      // Verificando se alguma das propriedades do Veiculo é nula.
+      // Verificando se alguma das propriedades do Veiculo é nula ou vazia.
       bool isValid = NullPropertyValidator.Validate(veiculo);
       if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
@@ -78,7 +78,7 @@ public class Veiculo
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    // Verificando se alguma das propriedades do veiculo é nula.
+    // Verificando se alguma das propriedades do veiculo é nula ou vazia.
     bool isValid = NullPropertyValidator.Validate(veiculo);
     if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 

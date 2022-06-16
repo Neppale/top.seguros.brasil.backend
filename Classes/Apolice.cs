@@ -58,6 +58,7 @@ public class Apolice
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
+    // Verificando se alguma das propriedades do Veiculo é nula ou vazia.
     bool isValid = NullPropertyValidator.Validate(apolice);
     if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 

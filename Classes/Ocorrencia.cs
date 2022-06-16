@@ -40,22 +40,96 @@ public class Ocorrencia
 
   /** <summary> Esta função retorna todas as ocorrências no banco de dados. </summary>**/
 
-  public IEnumerable<Ocorrencia> Get(string dbConnectionString)
+  public IResult Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
+    //TODO: Retornar documento das ocorrências.
     var data = connectionString.Query<Ocorrencia>("SELECT id_ocorrencia, data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado from Ocorrencias");
 
-    return data;
+    return Results.Ok(data);
   }
 
-  /** <summary> Esta função retorna uma ocorrecia específica no banco de dados. </summary>**/
-  public IEnumerable<Ocorrencia> Get(int id, string dbConnectionString)
+  /** <summary> Esta função retorna uma ocorrência específica no banco de dados. </summary>**/
+  public IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.Query<Ocorrencia>($"SELECT id_ocorrencia, data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado from Ocorrencias WHERE id_ocorrencia={id}");
+    var data = connectionString.QueryFirstOrDefault<Ocorrencia>($"SELECT id_ocorrencia, data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado from Ocorrencias WHERE id_ocorrencia={id}");
 
-    if (data.Count() == 0) throw new BadHttpRequestException("Ocorrencia não encontrada.", statusCode: 404);
+    if (data == null) return Results.NotFound("Ocorrência não encontrada.");
 
-    return data;
+    return Results.Ok(data);
   }
+  /** <summary> Esta função retorna o documento de ocorrência específica no banco de dados. </summary>**/
+  public IResult GetDocument(int id, string dbConnectionString)
+  {
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+    //TODO: Retornar documento das ocorrências.
+    try
+    {
+      var data = connectionString.QueryFirstOrDefault<string>($"SELECT CAST(documento AS varchar(max)) from Ocorrencias WHERE id_ocorrencia={id}");
+
+      if (data == null) return Results.NotFound("Ocorrência não encontrada, ou ocorrência não possui documento.");
+
+      return Results.Ok(data);
+
+    }
+    catch (SystemException)
+    {
+
+      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+    }
+  }
+
+  /** <summary> Esta função insere uma ocorrência no banco de dados. </summary>**/
+  public IResult Insert(Ocorrencia ocorrencia, string dbConnectionString)
+  {
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+
+    try
+    {
+      // Verificando se alguma das propriedades da ocorrencia é nula ou vazia.
+      //TODO: Terceirizado pode ser vazio. Não deve passar por essa validação.
+      bool isValid = NullPropertyValidator.Validate(ocorrencia);
+      if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+      var data = connectionString.Query<Veiculo>($"INSERT INTO Ocorrencias (data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado) VALUES ('{ocorrencia.data}', '{ocorrencia.local}', '{ocorrencia.UF}', '{ocorrencia.municipio}', '{ocorrencia.descricao}', '{ocorrencia.tipo}','{ocorrencia.status}', '{ocorrencia.id_veiculo}', '{ocorrencia.id_cliente}', '{ocorrencia.id_terceirizado}')");
+
+      return Results.StatusCode(201);
+    }
+    catch (SystemException)
+    {
+      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+    }
+
+  }
+  /** <summary> Esta função insere o documento de uma ocorrência no banco de dados. </summary>**/
+  public async Task<IResult> InsertDocument(int id, HttpRequest sentFile, string dbConnectionString)
+  {
+    //TODO: Fazer documento aceito ser arquivo em foramto png, jpg, jpeg, pdf. Por enquanto só aceita arquivo txt.
+    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+
+    if (!sentFile.HasFormContentType)
+      return Results.BadRequest("Formato de requisição inválido.");
+
+    var form = await sentFile.ReadFormAsync();
+    var formFile = form.Files["file"];
+
+    if (formFile is null || formFile.Length == 0)
+      return Results.BadRequest("Arquivo enviado não pode ser vazio.");
+
+    await using var stream = formFile.OpenReadStream();
+
+    var reader = new StreamReader(stream);
+    var file = await reader.ReadToEndAsync();
+    try
+    {
+      var data = connectionString.Query<Veiculo>($"UPDATE Ocorrencias SET documento=CONVERT(varbinary(max),'{file}') WHERE id_ocorrencia={id}");
+    }
+    catch (SystemException)
+    {
+      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+    }
+    return Results.StatusCode(201);
+  }
+
 }

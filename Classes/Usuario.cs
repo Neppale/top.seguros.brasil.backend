@@ -38,7 +38,7 @@ public class Usuario
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.QueryFirstOrDefault<Usuario>($"SELECT * from Usuarios WHERE id_Usuario={id}");
 
-    if (data == null) return Results.BadRequest("Usuário não encontrado.");
+    if (data == null) return Results.NotFound("Usuário não encontrado.");
 
     return Results.Ok(data);
   }
@@ -49,7 +49,7 @@ public class Usuario
 
     try
     {
-      // Verificando se alguma das propriedades do Usuario é nula.
+      // Verificando se alguma das propriedades do Usuario é nula ou vazia.
       bool isValid = NullPropertyValidator.Validate(usuario);
       if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
@@ -72,7 +72,7 @@ public class Usuario
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    // Verificando se alguma das propriedades do Usuario é nula.
+    // Verificando se alguma das propriedades do Usuario é nula ou vazia.
     bool isValid = NullPropertyValidator.Validate(usuario);
     if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 

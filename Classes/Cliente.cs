@@ -49,7 +49,7 @@ public class Cliente
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.QueryFirstOrDefault<Cliente>($"SELECT * from Clientes WHERE id_cliente={id}");
 
-    if (data == null) return Results.BadRequest("Cliente não encontrado.");
+    if (data == null) return Results.NotFound("Cliente não encontrado.");
 
     return Results.Ok(data);
   }
@@ -62,7 +62,7 @@ public class Cliente
 
     try
     {
-      // Verificando se alguma das propriedades do cliente é nula.
+      // Verificando se alguma das propriedades do cliente é nula ou vazia.
       //TODO: Telefone2 pode ser nulo. Precisa ser ignorado por essa verificação.
       bool isValid = NullPropertyValidator.Validate(cliente);
       if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
@@ -94,7 +94,7 @@ public class Cliente
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    // Verificando se alguma das propriedades do cliente é nula.
+    // Verificando se alguma das propriedades do cliente é nula ou vazia.
     bool isValid = NullPropertyValidator.Validate(cliente);
     if (!isValid) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
