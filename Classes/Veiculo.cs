@@ -30,22 +30,22 @@ public class Veiculo
   }
 
   /** <summary> Esta função retorna todos os veículos no banco de dados. </summary>**/
-  public IEnumerable<Veiculo> Get(string dbConnectionString)
+  public IResult Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Veiculo>("SELECT * from Veiculos");
 
-    return data;
+    return Results.Ok(data);
   }
   /** <summary> Esta função retorna um veículo específico no banco de dados. </summary>**/
-  public IEnumerable<Veiculo> Get(int id, string dbConnectionString)
+  public IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.Query<Veiculo>($"SELECT * from Veiculos WHERE id_Veiculo={id}");
+    var data = connectionString.QueryFirstOrDefault<Veiculo>($"SELECT * from Veiculos WHERE id_Veiculo={id}");
 
-    if (data.Count() == 0) throw new BadHttpRequestException("Veiculo não encontrado.", statusCode: 404);
+    if (data == null) return Results.BadRequest("Veículo não encontrado.");
 
-    return data;
+    return Results.Ok(data);
   }
 
   /** <summary> Esta função insere um Veiculo no banco de dados. </summary>**/
@@ -66,9 +66,8 @@ public class Veiculo
 
       return Results.StatusCode(201);
     }
-    catch (BadHttpRequestException)
+    catch (SystemException)
     {
-      //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
 
@@ -91,7 +90,7 @@ public class Veiculo
       connectionString.Query($"UPDATE Veiculos SET marca = '{veiculo.marca}', modelo = '{veiculo.modelo}', ano = '{veiculo.ano}', uso = '{veiculo.uso}', placa = '{veiculo.placa}', renavam = '{veiculo.renavam}', sinistrado = '{veiculo.sinistrado}' WHERE id_veiculo = {id}");
       return Results.Ok();
     }
-    catch (BadHttpRequestException)
+    catch (SystemException)
     {
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }

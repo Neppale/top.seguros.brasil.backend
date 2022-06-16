@@ -25,22 +25,22 @@ public class Usuario
   }
 
   /** <summary> Esta função retorna todos os usuários no banco de dados. </summary>**/
-  public IEnumerable<Usuario> Get(string dbConnectionString)
+  public IResult Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.Query<Usuario>("SELECT * from Usuarios WHERE status='true'");
 
-    return data;
+    return Results.Ok(data);
   }
   /** <summary> Esta função retorna um usuário específico no banco de dados. </summary>**/
-  public IEnumerable<Usuario> Get(int id, string dbConnectionString)
+  public IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.Query<Usuario>($"SELECT * from Usuarios WHERE id_Usuario={id}");
+    var data = connectionString.QueryFirstOrDefault<Usuario>($"SELECT * from Usuarios WHERE id_Usuario={id}");
 
-    if (data.Count() == 0) throw new BadHttpRequestException("Usuario não encontrado.", statusCode: 404);
+    if (data == null) return Results.BadRequest("Usuário não encontrado.");
 
-    return data;
+    return Results.Ok(data);
   }
   /** <summary> Esta função insere um Usuario no banco de dados. </summary>**/
   public IResult Insert(Usuario usuario, string dbConnectionString)
@@ -60,9 +60,8 @@ public class Usuario
 
       return Results.StatusCode(200);
     }
-    catch (BadHttpRequestException)
+    catch (SystemException)
     {
-      //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
 
@@ -86,7 +85,7 @@ public class Usuario
       connectionString.Query($"UPDATE Usuarios SET nome_completo = '{usuario.nome_completo}', email = '{usuario.email}', senha = '{usuario.senha}', tipo = '{usuario.tipo}', status = '{usuario.status}' WHERE id_usuario = {id}");
       return Results.Ok();
     }
-    catch (BadHttpRequestException)
+    catch (SystemException)
     {
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
@@ -99,17 +98,18 @@ public class Usuario
     try
     {
 
-      string hashPassword = connectionString.QueryFirst<string>($"SELECT senha FROM Usuarios WHERE email = '{email}' ");
+      string hashPassword = connectionString.QueryFirstOrDefault<string>($"SELECT senha FROM Usuarios WHERE email = '{email}' ");
 
-      // Verificando senha do usuario.
+      if (hashPassword == null) return Results.BadRequest("E-mail ou senha inválidos.");
+
+      // Verificando senha do cliente.
       bool isValid = PasswordHasher.Verify(hashPassword, password);
-      if (!isValid) return Results.Unauthorized();
+      if (!isValid) return Results.BadRequest("E-mail ou senha inválidos.");
 
       return Results.Ok();
     }
-    catch (BadHttpRequestException)
+    catch (SystemException)
     {
-      //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
   }

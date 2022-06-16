@@ -33,24 +33,24 @@ public class Apolice
   }
 
   /** <summary> Esta função retorna as apólices no banco de dados. </summary>**/
-  public IEnumerable<Apolice> Get(string dbConnectionString)
+  public IResult Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    var data = connectionString.Query<Apolice>("SELECT * from Apolices");
+    var data = connectionString.QueryFirstOrDefault<Apolice>("SELECT * from Apolices");
 
-    return data;
+    return Results.Ok(data);
   }
 
   /** <summary> Esta função retorna uma apólice específica no banco de dados. </summary>**/
-  public IEnumerable<Apolice> Get(int id, string dbConnectionString)
+  public IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.Query<Apolice>($"SELECT * from Apolices WHERE id_apolice={id}");
+    var data = connectionString.QueryFirstOrDefault<Apolice>($"SELECT * from Apolices WHERE id_apolice={id}");
 
-    // if (data.Count() == 0) throw new BadHttpRequestException("Ap�lice n�o encontrada.", statusCode: 404);
+    if (data == null) return Results.NotFound("Apólice não encontrada.");
 
-    return data;
+    return Results.Ok(data);
   }
 
   /** <summary> Esta função insere uma apólice no banco de dados. </summary>**/
@@ -72,7 +72,7 @@ public class Apolice
 
       return Results.StatusCode(201);
     }
-    catch (BadHttpRequestException)
+    catch (SystemException)
     {
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
@@ -93,7 +93,7 @@ public class Apolice
       connectionString.Query<Apolice>($"UPDATE Apolices SET status = '{apolice.status}' WHERE id_apolice = {id}");
       return Results.Ok();
     }
-    catch (BadHttpRequestException)
+    catch (SystemException)
     {
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }

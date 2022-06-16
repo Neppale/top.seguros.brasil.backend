@@ -24,24 +24,24 @@ public class Cobertura
 
   /** <summary> Esta função retorna todas as coberturas no banco de dados. </summary>**/
 
-  public IEnumerable<Cobertura> Get(string dbConnectionString)
+  public IResult Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     var data = connectionString.Query<Cobertura>("SELECT * from Coberturas WHERE status='true'");
 
-    return data;
+    return Results.Ok(data);
   }
 
   /** <summary> Esta função retorna uma cobertura específica no banco de dados. </summary>**/
-  public IEnumerable<Cobertura> Get(int id, string dbConnectionString)
+  public IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.Query<Cobertura>($"SELECT * from Coberturas WHERE id_cobertura={id}");
+    var data = connectionString.QueryFirstOrDefault<Cobertura>($"SELECT * from Coberturas WHERE id_cobertura={id}");
 
-    if (data.Count() == 0) throw new BadHttpRequestException("Cobertura não encontrada.", statusCode: 404);
+    if (data == null) return Results.NotFound("Cobertura não encontrada.");
 
-    return data;
+    return Results.Ok(data);
   }
 
   /** <summary> Esta função insere uma cobertura no banco de dados. </summary>**/
@@ -59,9 +59,8 @@ public class Cobertura
 
       return Results.StatusCode(201);
     }
-    catch (BadHttpRequestException)
+    catch (SystemException)
     {
-      //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
 
@@ -81,7 +80,7 @@ public class Cobertura
       connectionString.Query<Cobertura>($"UPDATE Coberturas SET nome = '{cobertura.nome}', descricao = '{cobertura.descricao}', valor = '{cobertura.valor}', status = '{cobertura.status}' WHERE id_cobertura = {id}");
       return Results.Ok();
     }
-    catch (BadHttpRequestException)
+    catch (SystemException)
     {
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }

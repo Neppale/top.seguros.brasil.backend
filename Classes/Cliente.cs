@@ -1,7 +1,7 @@
 ﻿using tsb.mininal.policy.engine.Utils;
 using Dapper;
 using Microsoft.Data.SqlClient;
-public class Cliente : ModeloClasses<Cliente>
+public class Cliente
 {
   public int id_cliente { get; set; }
   public string nome_completo { get; set; }
@@ -34,24 +34,24 @@ public class Cliente : ModeloClasses<Cliente>
   }
 
   /** <summary> Esta função retorna todos os clientes no banco de dados. </summary>**/
-  public IEnumerable<Cliente> Get(string dbConnectionString)
+  public IResult Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     var data = connectionString.Query<Cliente>("SELECT * from Clientes WHERE status='true'");
 
-    return data;
+    return Results.Ok(data);
   }
 
   /** <summary> Esta função retorna um cliente em específico no banco de daods. </summary>**/
-  public IEnumerable<Cliente> Get(int id, string dbConnectionString)
+  public IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.Query<Cliente>($"SELECT * from Clientes WHERE id_cliente={id}");
+    var data = connectionString.QueryFirstOrDefault<Cliente>($"SELECT * from Clientes WHERE id_cliente={id}");
 
-    if (data.Count() == 0) throw new BadHttpRequestException("Cliente não encontrado.", statusCode: 404);
+    if (data == null) return Results.BadRequest("Cliente não encontrado.");
 
-    return data;
+    return Results.Ok(data);
   }
 
 
@@ -82,9 +82,8 @@ public class Cliente : ModeloClasses<Cliente>
 
       return Results.StatusCode(201);
     }
-    catch (BadHttpRequestException)
+    catch (SystemException)
     {
-      //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
 
@@ -113,9 +112,8 @@ public class Cliente : ModeloClasses<Cliente>
 
       return Results.Ok();
     }
-    catch (BadHttpRequestException)
+    catch (SystemException)
     {
-      //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
 
@@ -128,17 +126,18 @@ public class Cliente : ModeloClasses<Cliente>
     try
     {
 
-      string hashPassword = connectionString.QueryFirst<string>($"SELECT senha FROM Clientes WHERE email = '{email}' ");
+      string hashPassword = connectionString.QueryFirstOrDefault<string>($"SELECT senha FROM Clientes WHERE email = '{email}' ");
+
+      if (hashPassword == null) return Results.BadRequest("E-mail ou senha inválidos.");
 
       // Verificando senha do cliente.
       bool isValid = PasswordHasher.Verify(hashPassword, password);
-      if (!isValid) return Results.Unauthorized();
+      if (!isValid) return Results.BadRequest("E-mail ou senha inválidos.");
 
       return Results.Ok();
     }
-    catch (BadHttpRequestException)
+    catch (SystemException)
     {
-      //TODO: Exception Handler para mostrar o erro/statusCode correto com base na mensagem enviada pelo SQL server.
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
   }
