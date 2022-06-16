@@ -46,7 +46,7 @@ public class Apolice
   public IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.QueryFirstOrDefault<Apolice>($"SELECT * from Apolices WHERE id_apolice={id}");
+    var data = connectionString.QueryFirstOrDefault<Apolice>("SELECT * from Apolices WHERE id_apolice = @Id", new { Id = id });
 
     if (data == null) return Results.NotFound("Apólice não encontrada.");
 
@@ -67,7 +67,7 @@ public class Apolice
 
     try
     {
-      connectionString.Query<Apolice>($"INSERT INTO Apolices (data_inicio, data_fim, premio, indenizacao, id_cobertura, id_usuario, id_cliente, id_veiculo, status) VALUES ('{apolice.data_inicio}', '{apolice.data_fim}', '{apolice.premio}', '{apolice.indenizacao}', '{apolice.id_cobertura}', '{apolice.id_usuario}', '{apolice.id_cliente}', '{apolice.id_veiculo}', '{apolice.status}')");
+      connectionString.Query<Apolice>("INSERT INTO Apolices (data_inicio, data_fim, premio, indenizacao, id_cobertura, id_usuario, id_cliente, id_veiculo, status) VALUES (@DataInicio, @DataFim, @Premio, @Indenizacao, @IdCobertura, @IdUsuario, @IdCliente, @IdVeiculo, @Status)", new { DataInicio = apolice.data_inicio, DataFim = apolice.data_fim, Premio = apolice.premio, Indenizacao = apolice.indenizacao, IdCobertura = apolice.id_cobertura, IdUsuario = apolice.id_usuario, IdCliente = apolice.id_cliente, IdVeiculo = apolice.id_veiculo, Status = apolice.status });
 
       return Results.StatusCode(201);
     }
@@ -77,7 +77,7 @@ public class Apolice
     }
 
   }
-
+  /** <summary> Esta função altera o status de uma apólice no banco de dados. </summary>**/
   public IResult Update(int id, Apolice apolice, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
@@ -88,7 +88,7 @@ public class Apolice
 
     try
     {
-      connectionString.Query<Apolice>($"UPDATE Apolices SET status = '{apolice.status}' WHERE id_apolice = {id}");
+      connectionString.Query<Apolice>("UPDATE Apolices SET status = @Status' WHERE id_apolice = @Id", new { Id = id, Status = apolice.status });
       return Results.Ok();
     }
     catch (SystemException)

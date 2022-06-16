@@ -106,7 +106,7 @@ app.MapPut("/apolice/{id:int}", (int id, Apolice apolice) =>
 {
   return apolice.Update(id: id, apolice: apolice, dbConnectionString: dbConnectionString);
 })
-.WithName("Alterar apólice específica");
+.WithName("Alterar status de apólice específica");
 
 // COBERTURAS
 
