@@ -112,29 +112,26 @@ app.MapPut("/apolice/{id:int}", (int id, Apolice apolice) =>
 
 app.MapGet("/cobertura/", () =>
 {
-  Cobertura cobertura = new();
-  return cobertura.Get(dbConnectionString: dbConnectionString);
-
+  return CoberturaController.Handle(method: "GETALL", dbConnectionString: dbConnectionString);
 })
 .WithName("Selecionar todas as coberturas");
 
 app.MapGet("/cobertura/{id:int}", (int id) =>
 {
-  Cobertura cobertura = new();
-  return cobertura.Get(id: id, dbConnectionString: dbConnectionString);
+  return CoberturaController.Handle(method: "GETONE", id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("Selecionar cobertura específica");
 
 app.MapPost("/cobertura/", (Cobertura cobertura) =>
 {
-  return cobertura.Insert(cobertura: cobertura, dbConnectionString: dbConnectionString);
+  return CoberturaController.Handle(method: "POST", receivedData: cobertura, dbConnectionString: dbConnectionString);
 
 })
 .WithName("Inserir cobertura");
 
 app.MapPut("/cobertura/{id:int}", (int id, Cobertura cobertura) =>
 {
-  return cobertura.Update(id: id, cobertura: cobertura, dbConnectionString: dbConnectionString);
+  return CoberturaController.Handle(method: "PUT", receivedData: cobertura, id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("Alterar cobertura específica");
 
