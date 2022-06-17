@@ -204,35 +204,31 @@ app.MapPut("/terceirizado/{id:int}", (int id, Terceirizado terceirizado) =>
 
 app.MapGet("/usuario/", () =>
 {
-  Usuario usuario = new();
-  return usuario.Get(dbConnectionString: dbConnectionString);
+  return UsuarioController.Handle(method: "GETALL", dbConnectionString: dbConnectionString);
 })
 .WithName("Selecionar todos os usuários");
 
 app.MapGet("/usuario/{id:int}", (int id) =>
 {
-  Usuario usuario = new();
-  return usuario.Get(id: id, dbConnectionString: dbConnectionString);
-
+  return UsuarioController.Handle(method: "GETONE", id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("Selecionar usuário específico");
 
 app.MapPost("/usuario/", (Usuario usuario) =>
 {
-  return usuario.Insert(usuario: usuario, dbConnectionString: dbConnectionString);
-
+  return UsuarioController.Handle(method: "POST", receivedData: usuario, dbConnectionString: dbConnectionString);
 })
 .WithName("Inserir usuário");
 
 app.MapPut("/usuario/{id:int}", (int id, Usuario usuario) =>
 {
-  return usuario.Update(id: id, usuario: usuario, dbConnectionString: dbConnectionString);
+  return UsuarioController.Handle(method: "PUT", receivedData: usuario, id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("Alterar usuário específico");
 
 app.MapPost("/usuario/login", (Usuario usuario) =>
 {
-  return usuario.Login(usuario.email, usuario.senha, dbConnectionString);
+  return UsuarioController.Handle(method: "LOGIN", receivedData: usuario, dbConnectionString: dbConnectionString);
 })
 .WithName("Fazer login do usuário");
 
