@@ -1,8 +1,4 @@
-﻿using tsb.mininal.policy.engine.Utils;
-using DocumentValidator;
-using Dapper;
-using Microsoft.Data.SqlClient;
-public class Cliente
+﻿public class Cliente
 {
   public int id_cliente { get; set; }
   public string nome_completo { get; set; }

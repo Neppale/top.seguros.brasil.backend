@@ -1,8 +1,4 @@
-﻿using Dapper;
-using DocumentValidator;
-using Microsoft.Data.SqlClient;
-using tsb.mininal.policy.engine.Utils;
-public class Terceirizado
+﻿public class Terceirizado
 {
   public int id_terceirizado { get; set; }
   public string nome { get; set; }

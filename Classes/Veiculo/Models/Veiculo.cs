@@ -1,7 +1,4 @@
-﻿using Dapper;
-using Microsoft.Data.SqlClient;
-using tsb.mininal.policy.engine.Utils;
-public class Veiculo
+﻿public class Veiculo
 {
   public int id_veiculo { get; set; }
   public string marca { get; set; }
