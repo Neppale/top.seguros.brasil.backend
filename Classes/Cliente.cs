@@ -1,4 +1,5 @@
 ﻿using tsb.mininal.policy.engine.Utils;
+using DocumentValidator;
 using Dapper;
 using Microsoft.Data.SqlClient;
 public class Cliente
@@ -68,8 +69,12 @@ public class Cliente
       if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
       // Verificação de CPF
-      bool cpfIsValid = CpfValidator.Validate(cliente.cpf);
+      bool cpfIsValid = CpfValidation.Validate(cliente.cpf);
       if (!cpfIsValid) return Results.BadRequest("O CPF informado é inválido.");
+
+      // Verificação de CNH
+      bool cnhIsValid = CnhValidation.Validate(cliente.cnh);
+      if (!cnhIsValid) return Results.BadRequest("O CPF informado é inválido.");
 
       // Verificação de CEP
       Task<bool> cepIsValid = CepValidator.Validate(cliente.cep);
@@ -98,6 +103,10 @@ public class Cliente
     // Verificando se alguma das propriedades do cliente é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(cliente);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+    // Verificação de CNH
+    bool cnhIsValid = CnhValidation.Validate(cliente.cnh);
+    if (!cnhIsValid) return Results.BadRequest("O CPF informado é inválido.");
 
     // Verificação de CEP
     Task<bool> cepIsValid = CepValidator.Validate(cliente.cep);

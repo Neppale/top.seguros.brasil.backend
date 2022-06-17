@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DocumentValidator;
 using Microsoft.Data.SqlClient;
 using tsb.mininal.policy.engine.Utils;
 public class Terceirizado
@@ -55,7 +56,7 @@ public class Terceirizado
       if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
       // Validando CNPJ
-      bool cnpjIsValid = CnpjValidator.Validate(terceirizado.cnpj);
+      bool cnpjIsValid = CnpjValidation.Validate(terceirizado.cnpj);
       if (!cnpjIsValid) return Results.BadRequest("O CNPJ informado é inválido.");
 
       var data = connectionString.Query<Terceirizado>("INSERT INTO Terceirizados (nome, funcao, cnpj, telefone, valor, status) VALUES (@Nome, @Funcao, @Cnpj, @Telefone, @Valor, @Status)", new { Nome = terceirizado.nome, Funcao = terceirizado.funcao, Cnpj = terceirizado.cnpj, Telefone = terceirizado.telefone, Valor = terceirizado.valor, Status = terceirizado.status });
@@ -77,7 +78,8 @@ public class Terceirizado
     bool hasValidProperties = NullPropertyValidator.Validate(terceirizado);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
-    bool cnpjIsValid = CnpjValidator.Validate(terceirizado.cnpj);
+    // Validando CNPJ
+    bool cnpjIsValid = CnpjValidation.Validate(terceirizado.cnpj);
     if (!cnpjIsValid) return Results.BadRequest("O CNPJ informado é inválido.");
 
     try
