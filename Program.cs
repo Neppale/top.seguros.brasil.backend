@@ -81,28 +81,26 @@ app.MapPost("/cliente/login", (Cliente cliente) =>
 
 app.MapGet("/apolice/", () =>
 {
-  Apolice apolice = new();
-  return apolice.Get(dbConnectionString: dbConnectionString);
+  return ApoliceController.Handle(method: "GETALL", dbConnectionString: dbConnectionString);
 
 })
 .WithName("Selecionar todas as apólices");
 
 app.MapGet("/apolice/{id:int}", (int id) =>
 {
-  Apolice apolice = new();
-  return apolice.Get(id: id, dbConnectionString: dbConnectionString);
+  return ApoliceController.Handle(method: "GETONE", id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("Selecionar apólice específica");
 
 app.MapPost("/apolice/", (Apolice apolice) =>
 {
-  return apolice.Insert(apolice: apolice, dbConnectionString: dbConnectionString);
+  return ApoliceController.Handle(method: "POST", dbConnectionString: dbConnectionString, receivedData: apolice);
 })
 .WithName("Inserir apólice");
 
 app.MapPut("/apolice/{id:int}", (int id, Apolice apolice) =>
 {
-  return apolice.Update(id: id, apolice: apolice, dbConnectionString: dbConnectionString);
+  return ApoliceController.Handle(method: "PUT", id: id, dbConnectionString: dbConnectionString, receivedData: apolice);
 })
 .WithName("Alterar status de apólice específica");
 
@@ -173,9 +171,6 @@ app.MapPost("/ocorrencia/", (Ocorrencia ocorrencia) =>
 
 })
 .WithName("Inserir ocorrência");
-
-
-
 
 // TERCEIRIZADOS
 
