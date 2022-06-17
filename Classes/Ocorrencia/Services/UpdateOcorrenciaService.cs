@@ -18,6 +18,10 @@ abstract class UpdateOcorrenciaService
     bool veiculoIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo FROM Veiculos WHERE id_veiculo = @Id", new { Id = ocorrencia.id_veiculo });
     if (!veiculoIsExistent) return Results.NotFound("Veículo não encontrado.");
 
+    // Verificando se terceirizado existe no banco de dados.
+    bool terceirizadoIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_terceirizado FROM Terceirizados WHERE id_terceirizado = @Id", new { Id = ocorrencia.id_terceirizado });
+    if (!terceirizadoIsExistent) return Results.NotFound("Terceirizado não encontrado.");
+
     try
     {
       connectionString.QueryFirstOrDefault("UPDATE Ocorrencias SET data = @Data, local = @Local, UF = @UF, municipio = @Municipio, descricao = @Descricao, tipo = @Tipo, status = @Status, id_veiculo = @Id_veiculo, id_cliente = @Id_cliente, id_terceirizado = @Id_terceirizado WHERE id_ocorrencia = @Id", new { Id = id, Data = ocorrencia.data, Local = ocorrencia.local, UF = ocorrencia.UF, Municipio = ocorrencia.municipio, Descricao = ocorrencia.descricao, Tipo = ocorrencia.tipo, Status = ocorrencia.status, Id_veiculo = ocorrencia.id_veiculo, Id_cliente = ocorrencia.id_cliente, Id_terceirizado = ocorrencia.id_terceirizado });

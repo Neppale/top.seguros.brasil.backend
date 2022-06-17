@@ -165,9 +165,9 @@ app.MapPost("/ocorrencia/", (Ocorrencia ocorrencia) =>
 
 app.MapPut("/ocorrencia/{id:int}", (int id, Ocorrencia ocorrencia) =>
 {
-  return OcorrenciaController.Handle(method: "PUT", receivedData: ocorrencia, dbConnectionString: dbConnectionString);
+  return OcorrenciaController.Handle(method: "PUT", id: id, receivedData: ocorrencia, dbConnectionString: dbConnectionString);
 })
-.WithName("Inserir ocorrência");
+.WithName("Alterar ocorrência específica");
 
 // TERCEIRIZADOS
 
