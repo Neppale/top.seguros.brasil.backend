@@ -17,8 +17,8 @@ public abstract class ClienteController
     {
       case "GETONE":
         return GetOneClienteService.Get(id: id, dbConnectionString: dbConnectionString);
-      // case "DELETE":
-      //     return DeleteClienteService(id: id, dbConnectionString: dbConnectionString);
+      case "DELETE":
+        return DeleteClienteService.Delete(id: id, dbConnectionString: dbConnectionString);
       default:
         return Results.StatusCode(405);
     }

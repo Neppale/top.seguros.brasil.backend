@@ -71,6 +71,12 @@ app.MapPut("/cliente/{id:int}", (int id, Cliente cliente) =>
 })
 .WithName("Alterar cliente específico");
 
+app.MapDelete("/cliente/{id:int}", (int id) =>
+{
+  return ClienteController.Handle(method: "DELETE", id: id, dbConnectionString: dbConnectionString);
+})
+.WithName("Desativar cliente específico");
+
 app.MapPost("/cliente/login", (Cliente cliente) =>
 {
   return ClienteController.Handle(method: "LOGIN", dbConnectionString: dbConnectionString, receivedData: cliente);
