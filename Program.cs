@@ -183,29 +183,27 @@ app.MapPost("/ocorrencia/", (Ocorrencia ocorrencia) =>
 
 app.MapGet("/terceirizado/", () =>
 {
-  Terceirizado terceirizado = new();
-  return terceirizado.Get(dbConnectionString: dbConnectionString);
+  return TerceirizadoController.Handle(method: "GETALL", dbConnectionString: dbConnectionString);
 
 })
 .WithName("Selecionar todos os terceirizados");
 
 app.MapGet("/terceirizado/{id:int}", (int id) =>
 {
-  Terceirizado terceirizado = new();
-  return terceirizado.Get(id: id, dbConnectionString: dbConnectionString);
+  return TerceirizadoController.Handle(method: "GETONE", id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("Selecionar terceirizado específico");
 
 app.MapPost("/terceirizado/", (Terceirizado terceirizado) =>
 {
-  return terceirizado.Insert(terceirizado: terceirizado, dbConnectionString: dbConnectionString);
+  return TerceirizadoController.Handle(method: "POST", receivedData: terceirizado, dbConnectionString: dbConnectionString);
 
 })
 .WithName("Inserir terceirizado");
 
 app.MapPut("/terceirizado/{id:int}", (int id, Terceirizado terceirizado) =>
 {
-  return terceirizado.Update(id: id, terceirizado: terceirizado, dbConnectionString: dbConnectionString);
+  return TerceirizadoController.Handle(method: "PUT", receivedData: terceirizado, id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("Alterar terceirizado específico");
 
