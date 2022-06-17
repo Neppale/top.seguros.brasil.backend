@@ -17,8 +17,8 @@ public abstract class UsuarioController
     {
       case "GETONE":
         return GetOneUsuarioService.Get(id: id, dbConnectionString: dbConnectionString);
-      // case "DELETE":
-      //     return DeleteUsuarioService(id: id, dbConnectionString: dbConnectionString);
+      case "DELETE":
+        return DeleteUsuarioService.Delete(id: id, dbConnectionString: dbConnectionString);
       default:
         return Results.StatusCode(405);
     }

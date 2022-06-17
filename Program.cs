@@ -223,6 +223,12 @@ app.MapPut("/usuario/{id:int}", (int id, Usuario usuario) =>
 })
 .WithName("Alterar usuário específico");
 
+app.MapDelete("/usuario/{id:int}", (int id) =>
+{
+  return UsuarioController.Handle(method: "DELETE", id: id, dbConnectionString: dbConnectionString);
+})
+.WithName("Desativar usuário específico");
+
 app.MapPost("/usuario/login", (Usuario usuario) =>
 {
   return UsuarioController.Handle(method: "LOGIN", receivedData: usuario, dbConnectionString: dbConnectionString);
