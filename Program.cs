@@ -247,29 +247,27 @@ app.MapPost("/usuario/login", (Usuario usuario) =>
 
 app.MapGet("/veiculo/", () =>
 {
-  Veiculo veiculo = new();
-  return veiculo.Get(dbConnectionString: dbConnectionString);
+  return VeiculoController.Handle(method: "GETALL", dbConnectionString: dbConnectionString);
 
 })
 .WithName("Selecionar todos os veículos");
 
 app.MapGet("/veiculo/{id:int}", (int id) =>
 {
-  Veiculo veiculo = new();
-  return veiculo.Get(id: id, dbConnectionString: dbConnectionString);
+  return VeiculoController.Handle(method: "GETONE", id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("Selecionar veículo específico");
 
 app.MapPost("/veiculo/", (Veiculo veiculo) =>
 {
-  return veiculo.Insert(veiculo: veiculo, dbConnectionString: dbConnectionString);
+  return VeiculoController.Handle(method: "POST", receivedData: veiculo, dbConnectionString: dbConnectionString);
 
 })
 .WithName("Inserir veículo");
 
 app.MapPut("/veiculo/{id:int}", (int id, Veiculo veiculo) =>
 {
-  return veiculo.Update(id: id, veiculo: veiculo, dbConnectionString: dbConnectionString);
+  return VeiculoController.Handle(method: "PUT", receivedData: veiculo, id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("Alterar veículo específico");
 
