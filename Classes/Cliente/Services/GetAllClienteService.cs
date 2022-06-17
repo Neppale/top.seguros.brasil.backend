@@ -7,7 +7,7 @@ abstract class GetAllClienteService
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    var data = connectionString.QueryFirstOrDefault<Cliente>("SELECT * FROM Clientes");
+    var data = connectionString.QueryFirstOrDefault("SELECT id_cliente, nome_completo, email, cpf, cnh, cep, data_nascimento, telefone1, telefone2, status FROM Clientes");
 
     return Results.Ok(data);
   }

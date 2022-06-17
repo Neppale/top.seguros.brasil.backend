@@ -7,7 +7,7 @@ abstract class GetOneClienteService
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    var data = connectionString.QueryFirstOrDefault<Cliente>("SELECT * FROM Clientes WHERE id_cliente = @Id", new { Id = id });
+    var data = connectionString.QueryFirstOrDefault("SELECT id_cliente, nome_completo, email, cpf, cnh, cep, data_nascimento, telefone1, telefone2, status FROM Clientes WHERE id_cliente = @Id", new { Id = id });
     if (data == null) return Results.NotFound("Cliente não encontrado.");
 
     return Results.Ok(data);
