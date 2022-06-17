@@ -135,40 +135,37 @@ app.MapPut("/cobertura/{id:int}", (int id, Cobertura cobertura) =>
 
 app.MapGet("/ocorrencia/", () =>
 {
-  Ocorrencia ocorrencia = new();
-  return ocorrencia.Get(dbConnectionString: dbConnectionString);
-
+  return OcorrenciaController.Handle(method: "GETALL", dbConnectionString: dbConnectionString);
 })
 .WithName("Selecionar todas as ocorrências");
 
 app.MapGet("/ocorrencia/{id:int}", (int id) =>
 {
-  Ocorrencia ocorrencia = new();
-  return ocorrencia.Get(id: id, dbConnectionString: dbConnectionString);
-
+  return OcorrenciaController.Handle(method: "GETONE", id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("Selecionar ocorrência específica");
 
 app.MapGet("/ocorrencia/documento/{id:int}", (int id) =>
 {
-  Ocorrencia ocorrencia = new();
-  return ocorrencia.GetDocument(id: id, dbConnectionString: dbConnectionString);
-
+  return OcorrenciaController.Handle(method: "GETDOCUMENT", id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("Selecionar documento de ocorrência específica");
 
 app.MapPost("/ocorrencia/documento/{id:int}", (int id, HttpRequest sentFile) =>
 {
-  Ocorrencia ocorrencia = new();
-  return ocorrencia.InsertDocument(id: id, sentFile: sentFile, dbConnectionString: dbConnectionString);
-
+  return OcorrenciaController.Handle(method: "POSTDOCUMENT", id: id, dbConnectionString: dbConnectionString, request: sentFile);
 })
 .WithName("Inserir documento em ocorrência");
 
 app.MapPost("/ocorrencia/", (Ocorrencia ocorrencia) =>
 {
-  return ocorrencia.Insert(ocorrencia: ocorrencia, dbConnectionString: dbConnectionString);
+  return OcorrenciaController.Handle(method: "POST", receivedData: ocorrencia, dbConnectionString: dbConnectionString);
+})
+.WithName("Inserir ocorrência");
 
+app.MapPut("/ocorrencia/{id:int}", (int id, Ocorrencia ocorrencia) =>
+{
+  return OcorrenciaController.Handle(method: "PUT", receivedData: ocorrencia, dbConnectionString: dbConnectionString);
 })
 .WithName("Inserir ocorrência");
 
