@@ -49,33 +49,31 @@ app.MapGet("/healthcheck/", () =>
 
 app.MapGet("/cliente/", () =>
 {
-  Cliente cliente = new();
-  return cliente.Get(dbConnectionString: dbConnectionString);
+  return ClienteController.Handle(method: "GETALL", dbConnectionString: dbConnectionString);
 })
 .WithName("Selecionar todos os clientes");
 
 app.MapGet("/cliente/{id:int}", (int id) =>
 {
-  Cliente cliente = new();
-  return cliente.Get(id: id, dbConnectionString: dbConnectionString);
+  return ClienteController.Handle(method: "GETONE", id: id, dbConnectionString: dbConnectionString);
 })
 .WithName("Selecionar cliente específico");
 
 app.MapPost("/cliente/", (Cliente cliente) =>
 {
-  return cliente.Insert(cliente: cliente, dbConnectionString: dbConnectionString);
+  return ClienteController.Handle(method: "POST", dbConnectionString: dbConnectionString, receivedData: cliente);
 })
 .WithName("Inserir cliente");
 
 app.MapPut("/cliente/{id:int}", (int id, Cliente cliente) =>
 {
-  return cliente.Update(id, cliente, dbConnectionString);
+  return ClienteController.Handle(method: "PUT", id: id, dbConnectionString: dbConnectionString, receivedData: cliente);
 })
 .WithName("Alterar cliente específico");
 
 app.MapPost("/cliente/login", (Cliente cliente) =>
 {
-  return cliente.Login(cliente.email, cliente.senha, dbConnectionString);
+  return ClienteController.Handle(method: "LOGIN", dbConnectionString: dbConnectionString, receivedData: cliente);
 })
 .WithName("Fazer login do cliente");
 
