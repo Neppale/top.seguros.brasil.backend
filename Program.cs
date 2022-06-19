@@ -269,6 +269,12 @@ app.MapPut("/veiculo/{id:int}", (int id, Veiculo veiculo) =>
 })
 .WithName("Alterar veículo específico");
 
+app.MapDelete("/veiculo/{id:int}", (int id) =>
+{
+  return VeiculoController.Handle(method: "DELETE", id: id, dbConnectionString: dbConnectionString);
+})
+.WithName("Deletar veículo específico");
+
 #endregion
 
 app.Run();

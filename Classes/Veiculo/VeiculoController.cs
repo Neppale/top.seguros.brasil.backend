@@ -17,8 +17,8 @@ public abstract class VeiculoController
     {
       case "GETONE":
         return GetOneVeiculoService.Get(id: id, dbConnectionString: dbConnectionString);
-      // case "DELETE":
-      //     return DeleteVeiculoService(id: id, dbConnectionString: dbConnectionString);
+      case "DELETE":
+        return DeleteVeiculoService.Delete(id: id, dbConnectionString: dbConnectionString);
       default:
         return Results.StatusCode(405);
     }
