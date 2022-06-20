@@ -2,7 +2,7 @@
 using System.Net;
 namespace tsb.mininal.policy.engine.Utils;
 
-public abstract class CepValidator
+public static class CepValidator
 {
 
   private static readonly HttpClient client = new HttpClient();

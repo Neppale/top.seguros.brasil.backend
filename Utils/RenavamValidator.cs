@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 namespace tsb.mininal.policy.engine.Utils
 {
-  public abstract class RenavamValidator
+  public static class RenavamValidator
   {
     public static bool Validate(string RENAVAM)
     {

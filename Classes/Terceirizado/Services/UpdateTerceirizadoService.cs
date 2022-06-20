@@ -2,7 +2,7 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 using tsb.mininal.policy.engine.Utils;
 using DocumentValidator;
-public abstract class UpdateTerceirizadoService
+public static class UpdateTerceirizadoService
 {
   /** <summary> Esta função altera um terceirizado no banco de dados. </summary>**/
   public static IResult Update(int id, Terceirizado terceirizado, string dbConnectionString)

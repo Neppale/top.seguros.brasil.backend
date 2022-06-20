@@ -2,7 +2,7 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 using tsb.mininal.policy.engine.Utils;
 
-abstract class UpdateUsuarioService
+static class UpdateUsuarioService
 {
   /** <summary> Esta função altera um Usuario no banco de dados. </summary>**/
   public static IResult Update(int id, Usuario usuario, string dbConnectionString)

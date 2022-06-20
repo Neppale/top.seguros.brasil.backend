@@ -1,6 +1,6 @@
 namespace tsb.mininal.policy.engine.Utils;
 
-public abstract class NullPropertyValidator
+public static class NullPropertyValidator
 {
   public static bool Validate<Classe>(Classe data)
   {

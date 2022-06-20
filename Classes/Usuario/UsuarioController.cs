@@ -1,4 +1,4 @@
-public abstract class UsuarioController
+public static class UsuarioController
 {
   public static void ActivateEndpoints(WebApplication app, string dbConnectionString)
   {

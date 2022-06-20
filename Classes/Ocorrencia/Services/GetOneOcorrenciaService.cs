@@ -1,7 +1,7 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
 
-abstract class GetOneOcorrenciaService
+static class GetOneOcorrenciaService
 {
   /** <summary> Esta função retorna uma ocorrência específica no banco de dados. </summary>**/
   public static IResult Get(int id, string dbConnectionString)

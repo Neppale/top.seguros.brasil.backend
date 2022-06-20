@@ -1,6 +1,6 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
-abstract class GetDocumentOcorrenciaService
+static class GetDocumentOcorrenciaService
 {
   /** <summary> Esta função retorna o documento de ocorrência específica no banco de dados. </summary>**/
   public static IResult Get(int id, string dbConnectionString)

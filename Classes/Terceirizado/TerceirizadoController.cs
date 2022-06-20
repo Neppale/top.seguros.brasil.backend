@@ -1,4 +1,4 @@
-public abstract class TerceirizadoController
+public static class TerceirizadoController
 {
   public static void ActivateEndpoints(WebApplication app, string dbConnectionString)
   {

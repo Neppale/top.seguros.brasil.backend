@@ -2,7 +2,7 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 using tsb.mininal.policy.engine.Utils;
 
-public abstract class InsertCoberturaService
+public static class InsertCoberturaService
 {
   /** <summary> Esta função insere uma cobertura no banco de dados. </summary>**/
   public static IResult Insert(Cobertura cobertura, string dbConnectionString)

@@ -1,7 +1,7 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
 using tsb.mininal.policy.engine.Utils;
-abstract class InsertOcorrenciaService
+static class InsertOcorrenciaService
 {
   /** <summary> Esta função insere uma ocorrência no banco de dados. </summary>**/
   public static IResult Insert(Ocorrencia ocorrencia, string dbConnectionString)

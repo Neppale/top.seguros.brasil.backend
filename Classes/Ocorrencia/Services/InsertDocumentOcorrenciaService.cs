@@ -1,7 +1,7 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
 
-abstract class InsertDocumentOcorrenciaService
+static class InsertDocumentOcorrenciaService
 {
 
 

@@ -3,7 +3,7 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 
 /** <summary> Esta função faz o login do cliente. </summary>**/
-abstract class LoginClienteService
+static class LoginClienteService
 {
   public static IResult Login(string email, string password, string dbConnectionString)
   {

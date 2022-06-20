@@ -1,6 +1,6 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
-abstract class GetAllOcorrenciaService
+static class GetAllOcorrenciaService
 {
   /** <summary> Esta função retorna todas as ocorrências no banco de dados. </summary>**/
   public static IResult Get(string dbConnectionString)

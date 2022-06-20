@@ -2,7 +2,7 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 using tsb.mininal.policy.engine.Utils;
 using DocumentValidator;
-abstract class UpdateClienteService
+static class UpdateClienteService
 {
   /** <summary> Esta função altera um cliente no banco de dados. </summary>**/
   public static IResult Update(int id, Cliente cliente, string dbConnectionString)

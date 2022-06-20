@@ -1,7 +1,7 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
 using tsb.mininal.policy.engine.Utils;
-abstract class UpdateStatusApoliceService
+static class UpdateStatusApoliceService
 {
   /** <summary> Esta função altera o status de uma apólice no banco de dados. </summary>**/
   public static IResult UpdateStatus(int id, Apolice apolice, string dbConnectionString)

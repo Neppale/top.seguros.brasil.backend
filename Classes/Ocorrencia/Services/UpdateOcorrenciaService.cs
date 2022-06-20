@@ -1,6 +1,6 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
-abstract class UpdateOcorrenciaService
+static class UpdateOcorrenciaService
 {
   public static IResult Update(int id, Ocorrencia ocorrencia, string dbConnectionString)
   {

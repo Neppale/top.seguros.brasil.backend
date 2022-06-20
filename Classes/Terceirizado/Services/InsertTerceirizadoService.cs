@@ -2,7 +2,7 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 using tsb.mininal.policy.engine.Utils;
 using DocumentValidator;
-public abstract class InsertTerceirizadoService
+public static class InsertTerceirizadoService
 {
   /** <summary> Esta função insere uma Terceirizado no banco de dados. </summary>**/
   public static IResult Insert(Terceirizado terceirizado, string dbConnectionString)

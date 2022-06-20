@@ -2,7 +2,7 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 using tsb.mininal.policy.engine.Utils;
 
-public abstract class UpdateCoberturaService
+public static class UpdateCoberturaService
 {
   /** <summary> Esta função altera uma cobertura no banco de dados. </summary>**/
   public static IResult Update(int id, Cobertura cobertura, string dbConnectionString)
