@@ -25,6 +25,11 @@ public static class CoberturaController
       return UpdateCoberturaService.Update(id: id, cobertura: cobertura, dbConnectionString: dbConnectionString);
     })
     .WithName("Alterar cobertura específica");
-  }
 
+    app.MapDelete("/cobertura/{id:int}", (int id) =>
+    {
+      return DeleteCoberturaService.Delete(id: id, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Desativar cobertura específica");
+  }
 }
