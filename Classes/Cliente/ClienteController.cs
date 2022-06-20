@@ -1,48 +1,41 @@
-public abstract class ClienteController
+public static class ClienteController
 {
-  // GET: Cliente
-  public static IResult Handle(string method, string dbConnectionString)
+  public static void ActivateEndpoints(WebApplication app, string dbConnectionString)
   {
-    switch (method)
+    app.MapGet("/cliente/", () =>
     {
-      case "GETALL":
-        return GetAllClienteService.Get(dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
-  }
-  public static IResult Handle(string method, int id, string dbConnectionString)
-  {
-    switch (method)
+      return GetAllClienteService.Get(dbConnectionString: dbConnectionString);
+    })
+    .WithName("Selecionar todos os clientes");
+
+    app.MapGet("/cliente/{id:int}", (int id) =>
     {
-      case "GETONE":
-        return GetOneClienteService.Get(id: id, dbConnectionString: dbConnectionString);
-      case "DELETE":
-        return DeleteClienteService.Delete(id: id, dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
-  }
-  public static IResult Handle(string method, string dbConnectionString, Cliente receivedData)
-  {
-    switch (method)
+      return GetOneClienteService.Get(id: id, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Selecionar cliente específico");
+
+    app.MapPost("/cliente/", (Cliente cliente) =>
     {
-      case "POST":
-        return InsertClienteService.Insert(cliente: receivedData, dbConnectionString: dbConnectionString);
-      case "LOGIN":
-        return LoginClienteService.Login(email: receivedData.email, password: receivedData.senha, dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
-  }
-  public static IResult Handle(string method, int id, string dbConnectionString, Cliente receivedData)
-  {
-    switch (method)
+      return InsertClienteService.Insert(cliente: cliente, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Inserir cliente");
+
+    app.MapPut("/cliente/{id:int}", (int id, Cliente cliente) =>
     {
-      case "PUT":
-        return UpdateClienteService.Update(id: id, cliente: receivedData, dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
+      return UpdateClienteService.Update(id: id, cliente: cliente, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Alterar cliente específico");
+
+    app.MapDelete("/cliente/{id:int}", (int id) =>
+    {
+      return DeleteClienteService.Delete(id: id, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Desativar cliente específico");
+
+    app.MapPost("/cliente/login", (Cliente cliente) =>
+    {
+      return LoginClienteService.Login(email: cliente.email, password: cliente.senha, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Fazer login do cliente");
   }
 }

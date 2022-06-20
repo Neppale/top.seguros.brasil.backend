@@ -1,45 +1,29 @@
-public abstract class ApoliceController
+public static class ApoliceController
 {
-  public static IResult Handle(string method, string dbConnectionString)
+  public static void ActivateEndpoints(WebApplication app, string dbConnectionString)
   {
-    switch (method)
+    app.MapGet("/apolice/", () =>
     {
-      case "GETALL":
-        return GetAllApoliceService.Get(dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
-  }
-  public static IResult Handle(string method, int id, string dbConnectionString)
-  {
-    switch (method)
+      return GetAllApoliceService.Get(dbConnectionString: dbConnectionString);
+    })
+    .WithName("Selecionar todas as apólices");
+
+    app.MapGet("/apolice/{id:int}", (int id) =>
     {
-      case "GETONE":
-        return GetOneApoliceService.Get(id: id, dbConnectionString: dbConnectionString);
-      // case "DELETE":
-      //     return DeleteApoliceService(id: id, dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
-  }
-  public static IResult Handle(string method, string dbConnectionString, Apolice receivedData)
-  {
-    switch (method)
+      return GetOneApoliceService.Get(id: id, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Selecionar apólice específica");
+
+    app.MapPost("/apolice/", (Apolice apolice) =>
     {
-      case "POST":
-        return InsertApoliceService.Insert(apolice: receivedData, dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
-  }
-  public static IResult Handle(string method, int id, string dbConnectionString, Apolice receivedData)
-  {
-    switch (method)
+      return InsertApoliceService.Insert(apolice: apolice, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Inserir apólice");
+
+    app.MapPut("/apolice/{id:int}", (int id, Apolice apolice) =>
     {
-      case "PUT":
-        return UpdateStatusApoliceService.UpdateStatus(id: id, apolice: receivedData, dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
+      return UpdateStatusApoliceService.UpdateStatus(id: id, apolice: apolice, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Alterar status de apólice específica");
   }
 }

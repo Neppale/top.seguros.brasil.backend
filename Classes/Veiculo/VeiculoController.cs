@@ -1,46 +1,37 @@
 public abstract class VeiculoController
 {
-  // GET: Veiculo
-  public static IResult Handle(string method, string dbConnectionString)
+  public static void ActivateEndpoints(WebApplication app, string dbConnectionString)
   {
-    switch (method)
+    app.MapGet("/veiculo/", () =>
     {
-      case "GETALL":
-        return GetAllVeiculoService.Get(dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
-  }
-  public static IResult Handle(string method, int id, string dbConnectionString)
-  {
-    switch (method)
+      return GetAllVeiculoService.Get(dbConnectionString: dbConnectionString);
+
+    })
+    .WithName("Selecionar todos os veículos");
+
+    app.MapGet("/veiculo/{id:int}", (int id) =>
     {
-      case "GETONE":
-        return GetOneVeiculoService.Get(id: id, dbConnectionString: dbConnectionString);
-      case "DELETE":
-        return DeleteVeiculoService.Delete(id: id, dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
-  }
-  public static IResult Handle(string method, string dbConnectionString, Veiculo receivedData)
-  {
-    switch (method)
+      return GetOneVeiculoService.Get(id: id, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Selecionar veículo específico");
+
+    app.MapPost("/veiculo/", (Veiculo veiculo) =>
     {
-      case "POST":
-        return InsertVeiculoService.Insert(veiculo: receivedData, dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
-  }
-  public static IResult Handle(string method, int id, string dbConnectionString, Veiculo receivedData)
-  {
-    switch (method)
+      return InsertVeiculoService.Insert(veiculo: veiculo, dbConnectionString: dbConnectionString);
+
+    })
+    .WithName("Inserir veículo");
+
+    app.MapPut("/veiculo/{id:int}", (int id, Veiculo veiculo) =>
     {
-      case "PUT":
-        return UpdateVeiculoService.Update(id: id, veiculo: receivedData, dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
+      return UpdateVeiculoService.Update(id: id, veiculo: veiculo, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Alterar veículo específico");
+
+    app.MapDelete("/veiculo/{id:int}", (int id) =>
+    {
+      return DeleteVeiculoService.Delete(id: id, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Deletar veículo específico");
   }
 }

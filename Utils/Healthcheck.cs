@@ -3,7 +3,7 @@ using Microsoft.Data.SqlClient;
 
 namespace tsb.mininal.policy.engine.Utils
 {
-  public abstract class HealthCheck
+  public abstract class Healthcheck
   {
     /** <summary> Esta função faz uma checagem da conexão com o banco de dados. </summary>**/
     public static IResult Check(string dbConnectionString)

@@ -1,46 +1,30 @@
-public abstract class CoberturaController
+public static class CoberturaController
 {
-  // GET: Cobertura
-  public static IResult Handle(string method, string dbConnectionString)
+  public static void ActivateEndpoints(WebApplication app, string dbConnectionString)
   {
-    switch (method)
+    app.MapGet("/cobertura/", () =>
     {
-      case "GETALL":
-        return GetAllCoberturaService.Get(dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
-  }
-  public static IResult Handle(string method, int id, string dbConnectionString)
-  {
-    switch (method)
+      return GetAllCoberturaService.Get(dbConnectionString: dbConnectionString);
+    })
+    .WithName("Selecionar todas as coberturas");
+
+    app.MapGet("/cobertura/{id:int}", (int id) =>
     {
-      case "GETONE":
-        return GetOneCoberturaService.Get(id: id, dbConnectionString: dbConnectionString);
-      // case "DELETE":
-      //     return DeleteCoberturaService(id: id, dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
-  }
-  public static IResult Handle(string method, string dbConnectionString, Cobertura receivedData)
-  {
-    switch (method)
+      return GetOneCoberturaService.Get(id: id, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Selecionar cobertura específica");
+
+    app.MapPost("/cobertura/", (Cobertura cobertura) =>
     {
-      case "POST":
-        return InsertCoberturaService.Insert(cobertura: receivedData, dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
-  }
-  public static IResult Handle(string method, int id, string dbConnectionString, Cobertura receivedData)
-  {
-    switch (method)
+      return InsertCoberturaService.Insert(cobertura: cobertura, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Inserir cobertura");
+
+    app.MapPut("/cobertura/{id:int}", (int id, Cobertura cobertura) =>
     {
-      case "PUT":
-        return UpdateCoberturaService.Update(id: id, cobertura: receivedData, dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
+      return UpdateCoberturaService.Update(id: id, cobertura: cobertura, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Alterar cobertura específica");
   }
+
 }

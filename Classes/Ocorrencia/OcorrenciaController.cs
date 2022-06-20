@@ -1,57 +1,41 @@
-public abstract class OcorrenciaController
+public static class OcorrenciaController
 {
-  public static IResult Handle(string method, string dbConnectionString)
+  public static void ActivateEndpoints(WebApplication app, string dbConnectionString)
   {
-    switch (method)
+    app.MapGet("/ocorrencia/", () =>
     {
-      case "GETALL":
-        return GetAllOcorrenciaService.Get(dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
-  }
-  public static IResult Handle(string method, int id, string dbConnectionString)
-  {
-    switch (method)
+      return GetAllOcorrenciaService.Get(dbConnectionString: dbConnectionString);
+    })
+    .WithName("Selecionar todas as ocorrências");
+
+    app.MapGet("/ocorrencia/{id:int}", (int id) =>
     {
-      case "GETONE":
-        return GetOneOcorrenciaService.Get(id: id, dbConnectionString: dbConnectionString);
-      case "GETDOCUMENT":
-        return GetDocumentOcorrenciaService.Get(id: id, dbConnectionString: dbConnectionString);
-      // case "DELETE":
-      //     return DeleteOcorrenciaService(id: id, dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
-  }
-  public static IResult Handle(string method, string dbConnectionString, Ocorrencia receivedData)
-  {
-    switch (method)
+      return GetOneOcorrenciaService.Get(id: id, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Selecionar ocorrência específica");
+
+    app.MapGet("/ocorrencia/documento/{id:int}", (int id) =>
     {
-      case "POST":
-        return InsertOcorrenciaService.Insert(ocorrencia: receivedData, dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
-  }
-  public static Task<IResult> Handle(string method, string dbConnectionString, int id, HttpRequest request)
-  {
-    switch (method)
+      return GetDocumentOcorrenciaService.Get(id: id, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Selecionar documento de ocorrência específica");
+
+    app.MapPost("/ocorrencia/documento/{id:int}", (int id, HttpRequest sentFile) =>
     {
-      case "POST":
-        return InsertDocumentOcorrenciaService.Insert(request: request, id: id, dbConnectionString: dbConnectionString);
-      default:
-        return Task<IResult>.FromResult(Results.StatusCode(405));
-    }
-  }
-  public static IResult Handle(string method, int id, string dbConnectionString, Ocorrencia receivedData)
-  {
-    switch (method)
+      return InsertDocumentOcorrenciaService.Insert(id: id, request: sentFile, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Inserir documento em ocorrência");
+
+    app.MapPost("/ocorrencia/", (Ocorrencia ocorrencia) =>
     {
-      case "PUT":
-        return UpdateOcorrenciaService.Update(id: id, ocorrencia: receivedData, dbConnectionString: dbConnectionString);
-      default:
-        return Results.StatusCode(405);
-    }
+      return InsertOcorrenciaService.Insert(ocorrencia: ocorrencia, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Inserir ocorrência");
+
+    app.MapPut("/ocorrencia/{id:int}", (int id, Ocorrencia ocorrencia) =>
+    {
+      return UpdateOcorrenciaService.Update(id: id, ocorrencia: ocorrencia, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Alterar ocorrência específica");
   }
 }
