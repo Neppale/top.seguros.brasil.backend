@@ -1,6 +1,6 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
-abstract class GetOneVeiculoService
+public static class GetOneVeiculoService
 {
   /** <summary> Esta função retorna um veículo específico no banco de dados. </summary>**/
   public static IResult Get(int id, string dbConnectionString)

@@ -1,7 +1,7 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
-using tsb.mininal.policy.engine.Utils;
-abstract class DeleteVeiculoService
+
+public static class DeleteVeiculoService
 {
   /** <summary> Esta função deleta um Veículo no banco de dados. </summary>**/
   public static IResult Delete(int id, string dbConnectionString)

@@ -1,4 +1,4 @@
-public abstract class VeiculoController
+public static class VeiculoController
 {
   public static void ActivateEndpoints(WebApplication app, string dbConnectionString)
   {
@@ -33,5 +33,6 @@ public abstract class VeiculoController
       return DeleteVeiculoService.Delete(id: id, dbConnectionString: dbConnectionString);
     })
     .WithName("Deletar veículo específico");
+
   }
 }

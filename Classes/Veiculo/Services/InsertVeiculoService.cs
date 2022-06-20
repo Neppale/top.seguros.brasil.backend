@@ -1,7 +1,8 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
 using tsb.mininal.policy.engine.Utils;
-abstract class InsertVeiculoService
+
+public static class InsertVeiculoService
 {
   /** <summary> Esta função insere um Veiculo no banco de dados. </summary>**/
   public static IResult Insert(Veiculo veiculo, string dbConnectionString)
