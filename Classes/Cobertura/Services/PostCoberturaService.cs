@@ -15,7 +15,7 @@ public static class InsertCoberturaService
       bool hasValidProperties = NullPropertyValidator.Validate(cobertura);
       if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
-      var data = connectionString.Query<Cobertura>("INSERT INTO Coberturas (nome, descricao, valor, status) VALUES (@Nome, @Descricao, @Valor, @Status)", new { Nome = cobertura.nome, Descricao = cobertura.descricao, Valor = cobertura.valor, Status = cobertura.status });
+      connectionString.Query<Cobertura>("INSERT INTO Coberturas (nome, descricao, valor, status) VALUES (@Nome, @Descricao, @Valor, @Status)", new { Nome = cobertura.nome, Descricao = cobertura.descricao, Valor = cobertura.valor, Status = cobertura.status });
 
       return Results.StatusCode(201);
     }

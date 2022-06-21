@@ -11,8 +11,6 @@ static class InsertDocumentOcorrenciaService
     //TODO: Fazer documento aceito ser arquivo em foramto png, jpg, jpeg, pdf. Por enquanto só aceita arquivo txt.
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-
-
     if (!request.HasFormContentType)
       return Results.BadRequest("Formato de requisição inválido.");
 
@@ -32,7 +30,7 @@ static class InsertDocumentOcorrenciaService
     var file = await reader.ReadToEndAsync();
     try
     {
-      var data = connectionString.Query<Veiculo>("UPDATE Ocorrencias SET documento = CONVERT(varbinary(max), @File) WHERE id_ocorrencia = @Id", new { File = file, Id = id });
+      connectionString.Query<Veiculo>("UPDATE Ocorrencias SET documento = CONVERT(varbinary(max), @File) WHERE id_ocorrencia = @Id", new { File = file, Id = id });
       return Results.StatusCode(201);
     }
     catch (SystemException)

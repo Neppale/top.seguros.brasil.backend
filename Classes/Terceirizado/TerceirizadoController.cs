@@ -28,7 +28,7 @@ public static class TerceirizadoController
     })
     .WithName("Alterar terceirizado específico");
 
-    app.MapDelete("/terceirizado/{id:int}", (int id, Terceirizado terceirizado) =>
+    app.MapDelete("/terceirizado/{id:int}", (int id) =>
     {
       return DeleteTerceirizadoService.Delete(id: id, dbConnectionString: dbConnectionString);
     })
