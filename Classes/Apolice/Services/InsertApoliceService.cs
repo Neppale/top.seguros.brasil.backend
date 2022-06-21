@@ -8,6 +8,7 @@ static class InsertApoliceService
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
+
     // Verificando se alguma das propriedades do Veiculo é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(apolice);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
@@ -19,6 +20,10 @@ static class InsertApoliceService
     // Verificando se o veículo existe no banco de dados.
     bool veiculoIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo from Veiculos WHERE id_veiculo = @Id", new { Id = apolice.id_veiculo });
     if (!veiculoIsExistent) return Results.NotFound("Veículo não encontrado.");
+
+    // Verificando se o veículo realmente pertence ao cliente.
+    bool veiculoIsValid = ClienteVeiculoValidator.Validate(apolice.id_cliente, apolice.id_veiculo, dbConnectionString);
+    if (!veiculoIsValid) return Results.BadRequest("Veículo escolhido não pertence ao cliente.");
 
     // Verificando se a cobertura existe no banco de dados.
     bool coberturaIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_cobertura from Coberturas WHERE id_cobertura = @Id", new { Id = apolice.id_cobertura });

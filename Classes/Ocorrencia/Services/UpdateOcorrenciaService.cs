@@ -18,6 +18,10 @@ static class UpdateOcorrenciaService
     bool veiculoIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo FROM Veiculos WHERE id_veiculo = @Id", new { Id = ocorrencia.id_veiculo });
     if (!veiculoIsExistent) return Results.NotFound("Veículo não encontrado.");
 
+    // Verificando se veículo pertence ao cliente.
+    bool veiculoIsValid = ClienteVeiculoValidator.Validate(ocorrencia.id_cliente, ocorrencia.id_veiculo, dbConnectionString);
+    if (!veiculoIsValid) return Results.BadRequest("Veículo não pertence ao cliente.");
+
     // Verificando se terceirizado existe no banco de dados.
     bool terceirizadoIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_terceirizado FROM Terceirizados WHERE id_terceirizado = @Id", new { Id = ocorrencia.id_terceirizado });
     if (!terceirizadoIsExistent) return Results.NotFound("Terceirizado não encontrado.");
