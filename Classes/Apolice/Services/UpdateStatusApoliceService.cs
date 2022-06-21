@@ -1,16 +1,19 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
-using tsb.mininal.policy.engine.Utils;
 static class UpdateStatusApoliceService
 {
+  private static string[] apoliceStatuses = { "Ativa", "Inativa", "Em Análise", "Rejeitada" };
+
   /** <summary> Esta função altera o status de uma apólice no banco de dados. </summary>**/
-  public static IResult UpdateStatus(int id, Apolice apolice, string dbConnectionString)
+  public static IResult UpdateStatus(int id, ApoliceStatus status, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    // Verificando se alguma das propriedades do apolice é nula.
-    bool hasValidProperties = NullPropertyValidator.Validate(apolice);
-    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    // Verifica se o status passado é válido.
+    if (!apoliceStatuses.Contains(status.status))
+    {
+      return Results.BadRequest("Status inválido. Status permitidos: " + string.Join(", ", apoliceStatuses));
+    }
 
     // Verificando se apólice existe.
     bool isExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_apolice from Apolices WHERE id_apolice = @Id", new { Id = id });
@@ -19,7 +22,7 @@ static class UpdateStatusApoliceService
 
     try
     {
-      connectionString.Query<Apolice>("UPDATE Apolices SET status = @Status' WHERE id_apolice = @Id", new { Id = id, Status = apolice.status });
+      connectionString.Query<Apolice>("UPDATE Apolices SET status = @Status' WHERE id_apolice = @Id", new { Id = id, Status = status });
       return Results.Ok();
     }
     catch (SystemException)
