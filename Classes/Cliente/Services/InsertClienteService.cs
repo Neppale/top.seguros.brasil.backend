@@ -11,10 +11,16 @@ static class InsertClienteService
 
     try
     {
-      //TODO: Telefone2 pode ser nulo. Precisa ser ignorado por essa verificação.
+
+      // Fazendo o telefone2 pular a validação.
+      if (cliente.telefone2 == "" || cliente.telefone2 == null) cliente.telefone2 = "-";
+
       // Verificando se alguma das propriedades do cliente é nula ou vazia.
       bool hasValidProperties = NullPropertyValidator.Validate(cliente);
       if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+      // Voltando telefone2 para o valor original.
+      cliente.telefone2 = cliente.telefone2.Replace("-", "");
 
       // Verificação de CPF
       bool cpfIsValid = CpfValidation.Validate(cliente.cpf);
@@ -35,8 +41,8 @@ static class InsertClienteService
       // Criptografando a senha do cliente.
       cliente.senha = PasswordHasher.HashPassword(cliente.senha);
 
-      connectionString.Query<Cliente>("INSERT INTO Clientes (email, senha, nome_completo, cpf, cnh, cep, data_nascimento, telefone1, telefone2, status) VALUES (@Email, @Senha, @Nome, @Cpf, @Cnh, @Cep, @DataNascimento, @Telefone1, @Telefone2, @Status)",
-       new { Email = cliente.email, Senha = cliente.senha, Nome = cliente.nome_completo, Cpf = cliente.cpf, Cnh = cliente.cnh, Cep = cliente.cep, DataNascimento = cliente.data_nascimento, Telefone1 = cliente.telefone1, Telefone2 = cliente.telefone2, Status = cliente.status });
+      connectionString.Query<Cliente>("INSERT INTO Clientes (email, senha, nome_completo, cpf, cnh, cep, data_nascimento, telefone1, telefone2) VALUES (@Email, @Senha, @Nome, @Cpf, @Cnh, @Cep, @DataNascimento, @Telefone1, @Telefone2)",
+       new { Email = cliente.email, Senha = cliente.senha, Nome = cliente.nome_completo, Cpf = cliente.cpf, Cnh = cliente.cnh, Cep = cliente.cep, DataNascimento = cliente.data_nascimento, Telefone1 = cliente.telefone1, Telefone2 = cliente.telefone2 });
 
       return Results.StatusCode(201);
     }
