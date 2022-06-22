@@ -8,10 +8,13 @@ static class InsertApoliceService
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-
     // Verificando se alguma das propriedades do Veiculo é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(apolice);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+    // Verificando valores de indenização e prêmio.
+    if (apolice.indenizacao == 0) return Results.BadRequest("Valor de indenização não pode ser 0.");
+    if (apolice.premio == 0) return Results.BadRequest("Valor de prêmio não pode ser 0.");
 
     // Verificando se o cliente existe no banco de dados.
     bool clienteIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente from Clientes WHERE id_cliente = @Id", new { Id = apolice.id_cliente });
@@ -33,15 +36,13 @@ static class InsertApoliceService
     bool usuarioIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_usuario from Usuarios WHERE id_usuario = @Id", new { Id = apolice.id_usuario });
     if (!usuarioIsExistent) return Results.NotFound("Usuário não encontrado.");
 
-    // Verificando valores de indenização e prêmio.
-    if (apolice.indenizacao == 0) return Results.BadRequest("Valor de indenização não pode ser 0.");
-    if (apolice.premio == 0) return Results.BadRequest("Valor de prêmio não pode ser 0.");
-
     try
     {
-      connectionString.Query<Apolice>("INSERT INTO Apolices (data_inicio, data_fim, premio, indenizacao, id_cobertura, id_usuario, id_cliente, id_veiculo, status) VALUES (@DataInicio, @DataFim, @Premio, @Indenizacao, @IdCobertura, @IdUsuario, @IdCliente, @IdVeiculo, @Status)", new { DataInicio = apolice.data_inicio, DataFim = apolice.data_fim, Premio = apolice.premio, Indenizacao = apolice.indenizacao, IdCobertura = apolice.id_cobertura, IdUsuario = apolice.id_usuario, IdCliente = apolice.id_cliente, IdVeiculo = apolice.id_veiculo, Status = apolice.status });
+      connectionString.Query("INSERT INTO Apolices (data_inicio, data_fim, premio, indenizacao, id_cobertura, id_usuario, id_cliente, id_veiculo) VALUES (@DataInicio, @DataFim, @Premio, @Indenizacao, @IdCobertura, @IdUsuario, @IdCliente, @IdVeiculo)", new { DataInicio = apolice.data_inicio, DataFim = apolice.data_fim, Premio = apolice.premio, Indenizacao = apolice.indenizacao, IdCobertura = apolice.id_cobertura, IdUsuario = apolice.id_usuario, IdCliente = apolice.id_cliente, IdVeiculo = apolice.id_veiculo });
 
-      return Results.StatusCode(201);
+      // Retornando o id da apólice inserida.
+      int createdApoliceId = connectionString.QueryFirstOrDefault<int>("SELECT id_apolice FROM Apolices WHERE id_cliente = @IdCliente AND id_veiculo = @IdVeiculo AND data_inicio = @DataInicio AND data_fim = @DataFim", new { IdCliente = apolice.id_cliente, IdVeiculo = apolice.id_veiculo, DataInicio = apolice.data_inicio, DataFim = apolice.data_fim });
+      return Results.Created($"/apolice/{createdApoliceId}", new { id_apolice = createdApoliceId });
     }
     catch (SystemException)
     {

@@ -7,7 +7,7 @@ static class GetAllApoliceService
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    var data = connectionString.QueryFirstOrDefault<Apolice>("SELECT * from Apolices");
+    var data = connectionString.Query<Apolice>("SELECT * from Apolices WHERE status != 'Rejeitada'");
 
     return Results.Ok(data);
   }

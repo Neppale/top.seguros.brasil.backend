@@ -25,5 +25,11 @@ public static class ApoliceController
       return UpdateStatusApoliceService.UpdateStatus(id: id, status: status, dbConnectionString: dbConnectionString);
     })
     .WithName("Alterar status de apólice específica");
+
+    app.MapPost("/apolice/gerar/", (GenerateApolice apolice) =>
+    {
+      return GenerateApoliceService.Generate(id_veiculo: apolice.id_veiculo, id_cliente: apolice.id_cliente, id_cobertura: apolice.id_cobertura, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Gerar apólice");
   }
 }
