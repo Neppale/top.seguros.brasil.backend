@@ -1,4 +1,3 @@
-using tsb.mininal.policy.engine.Utils;
 using Microsoft.OpenApi.Models;
 using Microsoft.Data.SqlClient;
 
@@ -9,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllersWithViews();
+builder.Services.AddHealthChecks();
 builder.Services.AddSwaggerGen(options =>
 {
   options.SwaggerDoc("v1", new OpenApiInfo
@@ -37,11 +36,7 @@ connectionString.Open();
 
 
 // HEALTHCHECK
-app.MapGet("/healthcheck/", () =>
-{
-  return Healthcheck.Check(dbConnectionString: dbConnectionString);
-})
-.WithName("Checar saúde do banco de dados");
+app.MapHealthChecks("/healthcheck/");
 
 // CLIENTES 
 ClienteController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
