@@ -2,9 +2,17 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 static class UpdateOcorrenciaService
 {
+
+  private static string[] validStatuses = { "Andamento", "Processando", "Concluida", "Rejeitada" };
   public static IResult Update(int id, Ocorrencia ocorrencia, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
+
+    // Letra inicial maiúscula para o status.
+    ocorrencia.status = ocorrencia.status.Substring(0, 1).ToUpper() + ocorrencia.status.Substring(1);
+
+    // Verifica se o status passado é válido.
+    if (!validStatuses.Contains(ocorrencia.status)) return Results.BadRequest("Status inválido. Status permitidos: " + string.Join(", ", validStatuses));
 
     // Verificando se ocorrência existe no banco de dados.
     bool ocorrenciaIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_ocorrencia FROM Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
