@@ -3,39 +3,37 @@ using Microsoft.Data.SqlClient;
 
 static class InsertDocumentOcorrenciaService
 {
-
-
-  /** <summary> Esta função insere o documento de uma ocorrência no banco de dados. </summary>**/
   public static async Task<IResult> Insert(int id, HttpRequest request, string dbConnectionString)
   {
-    //TODO: Fazer documento aceito ser arquivo em foramto png, jpg, jpeg, pdf. Por enquanto só aceita arquivo txt.
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
+    // Verificando se formato de requisição é válido.
     if (!request.HasFormContentType)
       return Results.BadRequest("Formato de requisição inválido.");
 
-    var form = await request.ReadFormAsync();
-    var formFile = form.Files["file"];
+    // Verificando se arquivo é nulo.
+    var formRequest = await request.ReadFormAsync();
+    var formFile = formRequest.Files.GetFile("file");
+    if (formFile == null || formFile.Length == 0) return Results.BadRequest("Arquivo enviado não pode ser vazio.");
+    if (formFile.ContentType != "image/png") return Results.BadRequest("Formato de arquivo inválido. Formatos aceitos: PNG.");
 
-    if (formFile is null || formFile.Length == 0)
-      return Results.BadRequest("Arquivo enviado não pode ser vazio.");
+    // Lendo conteúdo do arquivo e convertendo para base64.
+    Stream fileReader = formFile.OpenReadStream();
+    string fileBase64 = DocumentConverter.Encode(fileReader);
 
     // Verificando se ocorrência existe.
-    bool ocorrenciaIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_ocorrencia, data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado from Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
+    bool ocorrenciaIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_ocorrencia FROM Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
     if (!ocorrenciaIsExistent) return Results.NotFound("Ocorrência não encontrada.");
 
-    await using var stream = formFile.OpenReadStream();
-
-    var reader = new StreamReader(stream);
-    var file = await reader.ReadToEndAsync();
     try
     {
-      connectionString.Query<Veiculo>("UPDATE Ocorrencias SET documento = CONVERT(varbinary(max), @File) WHERE id_ocorrencia = @Id", new { File = file, Id = id });
+      connectionString.Query("UPDATE Ocorrencias SET documento = @File WHERE id_ocorrencia = @Id", new { File = fileBase64, Id = id });
       return Results.StatusCode(201);
     }
     catch (SystemException)
     {
       return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
     }
+
   }
 }

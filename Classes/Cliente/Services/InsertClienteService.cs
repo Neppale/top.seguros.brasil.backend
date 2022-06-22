@@ -26,7 +26,7 @@ static class InsertClienteService
 
     // Verificação de CNH
     bool cnhIsValid = CnhValidation.Validate(cliente.cnh);
-    if (!cnhIsValid) return Results.BadRequest("O CPF informado é inválido.");
+    if (!cnhIsValid) return Results.BadRequest("O CNH informado é inválido.");
 
     // Verificação de CEP
     Task<bool> cepIsValid = CepValidator.Validate(cliente.cep);
@@ -41,8 +41,7 @@ static class InsertClienteService
 
     try
     {
-      connectionString.Query<Cliente>("INSERT INTO Clientes (email, senha, nome_completo, cpf, cnh, cep, data_nascimento, telefone1, telefone2) VALUES (@Email, @Senha, @Nome, @Cpf, @Cnh, @Cep, @DataNascimento, @Telefone1, @Telefone2)",
-       new { Email = cliente.email, Senha = cliente.senha, Nome = cliente.nome_completo, Cpf = cliente.cpf, Cnh = cliente.cnh, Cep = cliente.cep, DataNascimento = cliente.data_nascimento, Telefone1 = cliente.telefone1, Telefone2 = cliente.telefone2 });
+      connectionString.Query<Cliente>("INSERT INTO Clientes (email, senha, nome_completo, cpf, cnh, cep, data_nascimento, telefone1, telefone2) VALUES (@Email, @Senha, @Nome, @Cpf, @Cnh, @Cep, @DataNascimento, @Telefone1, @Telefone2)", new { Email = cliente.email, Senha = cliente.senha, Nome = cliente.nome_completo, Cpf = cliente.cpf, Cnh = cliente.cnh, Cep = cliente.cep, DataNascimento = cliente.data_nascimento, Telefone1 = cliente.telefone1, Telefone2 = cliente.telefone2 });
 
       return Results.StatusCode(201);
     }
