@@ -20,7 +20,7 @@ public static class ApoliceController
     })
     .WithName("Inserir apólice");
 
-    app.MapPut("/apolice/{id:int}", (int id, ApoliceStatus status) =>
+    app.MapPut("/apolice/{id:int}/{status:alpha}", (int id, string status) =>
     {
       return UpdateStatusApoliceService.UpdateStatus(id: id, status: status, dbConnectionString: dbConnectionString);
     })
