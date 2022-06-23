@@ -35,7 +35,10 @@ static class InsertOcorrenciaService
     {
       connectionString.Query<Veiculo>("INSERT INTO Ocorrencias (data, local, UF, municipio, descricao, tipo, id_veiculo, id_cliente, id_terceirizado) VALUES (@Data, @Local, @UF, @Municipio, @Descricao, @Tipo,  @IdVeiculo, @IdCliente, @IdTerceirizado)", new { Data = ocorrencia.data, Local = ocorrencia.local, UF = ocorrencia.UF, Municipio = ocorrencia.municipio, Descricao = ocorrencia.descricao, Tipo = ocorrencia.tipo, IdVeiculo = ocorrencia.id_veiculo, IdCliente = ocorrencia.id_cliente, IdTerceirizado = ocorrencia.id_terceirizado });
 
-      return Results.StatusCode(201);
+      // Pegando o id da ocorrência inserida para retornar na resposta.
+      int createdOcorrenciaId = connectionString.QueryFirstOrDefault<int>("SELECT id_ocorrencia FROM Ocorrencias WHERE data = @Data AND local = @Local AND UF = @UF AND municipio = @Municipio AND descricao = @Descricao AND tipo = @Tipo AND id_veiculo = @IdVeiculo AND id_cliente = @IdCliente AND id_terceirizado = @IdTerceirizado", new { Data = ocorrencia.data, Local = ocorrencia.local, UF = ocorrencia.UF, Municipio = ocorrencia.municipio, Descricao = ocorrencia.descricao, Tipo = ocorrencia.tipo, IdVeiculo = ocorrencia.id_veiculo, IdCliente = ocorrencia.id_cliente, IdTerceirizado = ocorrencia.id_terceirizado });
+
+      return Results.Created($"/ocorrencia/{createdOcorrenciaId}", new { id_ocorrencia = createdOcorrenciaId });
     }
     catch (SystemException)
     {

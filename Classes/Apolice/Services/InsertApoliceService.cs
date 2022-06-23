@@ -42,6 +42,7 @@ static class InsertApoliceService
 
       // Retornando o id da apólice inserida.
       int createdApoliceId = connectionString.QueryFirstOrDefault<int>("SELECT id_apolice FROM Apolices WHERE id_cliente = @IdCliente AND id_veiculo = @IdVeiculo AND data_inicio = @DataInicio AND data_fim = @DataFim", new { IdCliente = apolice.id_cliente, IdVeiculo = apolice.id_veiculo, DataInicio = apolice.data_inicio, DataFim = apolice.data_fim });
+
       return Results.Created($"/apolice/{createdApoliceId}", new { id_apolice = createdApoliceId });
     }
     catch (SystemException)

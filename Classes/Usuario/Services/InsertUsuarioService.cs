@@ -20,7 +20,10 @@ static class InsertUsuarioService
 
       connectionString.Query("INSERT INTO Usuarios (nome_completo, email, senha, tipo, status) VALUES (@Nome, @Email, @Senha, @Tipo, @Status)", new { Nome = usuario.nome_completo, Email = usuario.email, Senha = usuario.senha, Tipo = usuario.tipo, Status = usuario.status });
 
-      return Results.StatusCode(201);
+      // Pegando o ID do usuário que acabou de ser inserido.
+      int createdUsuarioId = connectionString.QueryFirstOrDefault<int>("SELECT id_usuario FROM Usuarios WHERE email = @Email", new { Email = usuario.email });
+
+      return Results.Created($"/usuario/{createdUsuarioId}", new { id_usuario = createdUsuarioId });
     }
     catch (SystemException)
     {

@@ -17,7 +17,10 @@ public static class InsertCoberturaService
 
       connectionString.Query<Cobertura>("INSERT INTO Coberturas (nome, descricao, valor, status) VALUES (@Nome, @Descricao, @Valor, @Status)", new { Nome = cobertura.nome, Descricao = cobertura.descricao, Valor = cobertura.valor, Status = cobertura.status });
 
-      return Results.StatusCode(201);
+      // Pegando o ID da cobertura que acabou de ser inserida.
+      int createdCoberturaId = connectionString.QueryFirstOrDefault<int>("SELECT id_cobertura FROM Coberturas WHERE nome = @Nome", new { Nome = cobertura.nome });
+
+      return Results.Created($"/cobertura/{createdCoberturaId}", new { id_cobertura = createdCoberturaId });
     }
     catch (SystemException)
     {

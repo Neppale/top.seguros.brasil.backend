@@ -22,7 +22,8 @@ static class InsertClienteService
 
     // Verificação de CPF
     bool cpfIsValid = CpfValidation.Validate(cliente.cpf);
-    if (!cpfIsValid) return Results.BadRequest("O CPF informado é inválido.");
+    cpfIsValid = StringFormatValidator.ValidateCPF(cliente.cpf);
+    if (!cpfIsValid) return Results.BadRequest("O CPF informado é inválido ou está mal formatado. Lembre-se que o CPF deve estar no formato: 000.000.000-00.");
 
     // Verificação de CNH
     bool cnhIsValid = CnhValidation.Validate(cliente.cnh);
