@@ -1,5 +1,6 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
+using tsb.mininal.policy.engine.Utils;
 static class UpdateOcorrenciaService
 {
 
@@ -7,6 +8,13 @@ static class UpdateOcorrenciaService
   public static IResult Update(int id, Ocorrencia ocorrencia, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
+
+    // Fazendo documento pular a verificação de nulos.
+    ocorrencia.documento = "-";
+
+    // Verificando se alguma das propriedades é nula ou vazia.
+    bool hasValidProperties = NullPropertyValidator.Validate(ocorrencia);
+    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
     // Letra inicial maiúscula para o status.
     ocorrencia.status = ocorrencia.status.Substring(0, 1).ToUpper() + ocorrencia.status.Substring(1);

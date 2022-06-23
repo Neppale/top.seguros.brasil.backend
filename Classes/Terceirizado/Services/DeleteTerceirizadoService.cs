@@ -15,7 +15,7 @@ public static class DeleteTerceirizadoService
     try
     {
       connectionString.Query("UPDATE Terceirizados SET status = 'false' WHERE id_terceirizado = @Id", new { Id = id });
-      return Results.Ok();
+      return Results.NoContent();
     }
     catch (SystemException)
     {

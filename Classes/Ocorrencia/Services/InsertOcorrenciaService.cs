@@ -12,12 +12,22 @@ static class InsertOcorrenciaService
     int? originalId_Terceirizado = ocorrencia.id_terceirizado;
     if (ocorrencia.id_terceirizado == null) ocorrencia.id_terceirizado = 0;
 
+    // Fazendo o documento pular a verificação de nulos.
+    string? originalDocumento = ocorrencia.documento;
+    if (ocorrencia.documento == null || ocorrencia.documento == "") ocorrencia.documento = "-";
+
+    // Por padrão, o status é "Andamento".
+    if (ocorrencia.status == null) ocorrencia.status = "Andamento";
+
     // Verificando se alguma das propriedades da ocorrência é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(ocorrencia);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
     // Voltando terceirizado para o valor original.
     ocorrencia.id_terceirizado = originalId_Terceirizado;
+
+    // Voltando documento para o valor original.
+    ocorrencia.documento = originalDocumento;
 
     // Verificando se cliente existe no banco de dados.
     bool clienteExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente FROM Clientes WHERE id_cliente = @Id", new { Id = ocorrencia.id_cliente });

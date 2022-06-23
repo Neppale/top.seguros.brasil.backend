@@ -16,6 +16,9 @@ static class InsertApoliceService
     if (apolice.indenizacao == 0) return Results.BadRequest("Valor de indenização não pode ser 0.");
     if (apolice.premio == 0) return Results.BadRequest("Valor de prêmio não pode ser 0.");
 
+    // Por padrão, o status da apólice é "Em Análise".
+    apolice.status = "Em Análise";
+
     // Verificando se o cliente existe no banco de dados.
     bool clienteExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente from Clientes WHERE id_cliente = @Id", new { Id = apolice.id_cliente });
     if (!clienteExists) return Results.NotFound("Cliente não encontrado.");

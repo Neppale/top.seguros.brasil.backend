@@ -10,12 +10,25 @@ static class UpdateClienteService
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se o cliente existe.
-    bool storedCliente = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente FROM Clientes WHERE id_cliente = @Id", new { Id = id });
-    if (!storedCliente) return Results.NotFound("Cliente não encontrado.");
+    bool clienteExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente FROM Clientes WHERE id_cliente = @Id", new { Id = id });
+    if (!clienteExists) return Results.NotFound("Cliente não encontrado.");
+
+    // Fazendo telefone2 pular a verificação.
+    string originalTelefone2 = cliente.telefone2;
+    cliente.telefone2 = "-";
 
     // Verificando se alguma das propriedades do cliente é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(cliente);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+    // Voltando telefone2 para o valor original.
+    cliente.telefone2 = originalTelefone2;
+
+    // Verificando formatação dos telefones.
+    bool telefone1IsValid = StringFormatValidator.ValidateTelefone(cliente.telefone1);
+    bool telefone2IsValid = StringFormatValidator.ValidateTelefone(cliente.telefone2);
+    if (!telefone1IsValid) return Results.BadRequest("Telefone 1 inválido.");
+    if (!telefone2IsValid) return Results.BadRequest("Telefone 2 inválido.");
 
     // Verificação de CNH
     bool cnhIsValid = CnhValidation.Validate(cliente.cnh);

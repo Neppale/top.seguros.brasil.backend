@@ -9,10 +9,6 @@ public static class UpdateTerceirizadoService
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    // Verificando se terceirizado existe.
-    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_terceirizado from Terceirizados WHERE id_terceirizado = @Id", new { Id = id });
-    if (!Exists) return Results.NotFound("Terceirizado não encontrado");
-
     // Verificando se alguma das propriedades do terceirizado é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(terceirizado);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
@@ -20,6 +16,10 @@ public static class UpdateTerceirizadoService
     // Validando CNPJ
     bool cnpjIsValid = CnpjValidation.Validate(terceirizado.cnpj);
     if (!cnpjIsValid) return Results.BadRequest("O CNPJ informado é inválido.");
+
+    // Verificando se terceirizado existe.
+    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_terceirizado from Terceirizados WHERE id_terceirizado = @Id", new { Id = id });
+    if (!Exists) return Results.NotFound("Terceirizado não encontrado");
 
     // Verificando se o CNPJ já existe no banco de dados.
     bool cnpjExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT cnpj FROM Terceirizados WHERE cnpj = @Cnpj AND status = 'true' AND id_terceirizado != @Id) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Cnpj = terceirizado.cnpj, Id = id });
@@ -36,7 +36,7 @@ public static class UpdateTerceirizadoService
 
     try
     {
-      connectionString.Query<Terceirizado>("UPDATE Terceirizados SET nome = @Nome, funcao = @Funcao, cnpj = @Cnpj, telefone = @Telefone, valor = @Valor, WHERE id_terceirizado = @Id", new { Nome = terceirizado.nome, Funcao = terceirizado.funcao, Cnpj = terceirizado.cnpj, Telefone = terceirizado.telefone, Valor = terceirizado.valor, Id = id });
+      connectionString.Query<Terceirizado>("UPDATE Terceirizados SET nome = @Nome, funcao = @Funcao, cnpj = @Cnpj, telefone = @Telefone, valor = @Valor WHERE id_terceirizado = @Id", new { Nome = terceirizado.nome, Funcao = terceirizado.funcao, Cnpj = terceirizado.cnpj, Telefone = terceirizado.telefone, Valor = terceirizado.valor, Id = id });
       return Results.Ok();
     }
     catch (SystemException)

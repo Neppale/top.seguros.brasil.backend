@@ -9,8 +9,9 @@
   public string renavam { get; set; }
   public bool sinistrado { get; set; }
   public int id_cliente { get; set; }
+  public bool status { get; set; }
 
-  public Veiculo(string brand, string model, int year, string usage, string plate, string renavam, bool sinistrado, int idcliente)
+  public Veiculo(string brand, string model, int year, string usage, string plate, string renavam, bool sinistrado, int idcliente, bool status)
   {
     this.marca = brand;
     this.modelo = model;
@@ -20,6 +21,7 @@
     this.renavam = renavam;
     this.sinistrado = sinistrado;
     this.id_cliente = idcliente;
+    this.status = status;
   }
   public Veiculo()
   {

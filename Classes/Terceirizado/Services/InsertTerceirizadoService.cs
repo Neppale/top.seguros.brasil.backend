@@ -13,6 +13,9 @@ public static class InsertTerceirizadoService
     bool hasValidProperties = NullPropertyValidator.Validate(terceirizado);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
+    // Por padrão, o status do terceirizado é true.
+    terceirizado.status = true;
+
     // Validando CNPJ
     bool cnpjIsValid = CnpjValidation.Validate(terceirizado.cnpj);
     cnpjIsValid = StringFormatValidator.ValidateCNPJ(terceirizado.cnpj);

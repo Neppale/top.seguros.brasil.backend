@@ -20,6 +20,9 @@ static class InsertClienteService
     // Voltando telefone2 para o valor original.
     cliente.telefone2 = originalTelefone2;
 
+    // Por padrão, o status do cliente é true.
+    cliente.status = true;
+
     // Verificação de CPF
     bool cpfIsValid = CpfValidation.Validate(cliente.cpf);
     cpfIsValid = StringFormatValidator.ValidateCPF(cliente.cpf);

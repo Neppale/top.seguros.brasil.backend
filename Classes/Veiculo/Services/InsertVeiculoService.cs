@@ -13,6 +13,9 @@ public static class InsertVeiculoService
     bool hasValidProperties = NullPropertyValidator.Validate(veiculo);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
+    // Por padrão, o status do veículo é true.
+    veiculo.status = true;
+
     // Verificando se o RENAVAM é válido.
     bool RenavamIsValid = RenavamValidator.Validate(veiculo.renavam);
     if (!RenavamIsValid) return Results.BadRequest("O RENAVAM informado é inválido.");

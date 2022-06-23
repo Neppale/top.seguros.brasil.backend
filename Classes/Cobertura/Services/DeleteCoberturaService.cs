@@ -16,7 +16,7 @@ public static class DeleteCoberturaService
     try
     {
       connectionString.Query("UPDATE Coberturas SET status = 'false' WHERE id_cobertura = @Id", new { Id = id });
-      return Results.Ok();
+      return Results.NoContent();
     }
     catch (SystemException)
     {
