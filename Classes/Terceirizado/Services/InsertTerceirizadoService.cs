@@ -9,15 +9,24 @@ public static class InsertTerceirizadoService
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
+    // Verificando se alguma das propriedades do Terceirizado é nula ou vazia.
+    bool hasValidProperties = NullPropertyValidator.Validate(terceirizado);
+    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+    // Validando CNPJ
+    bool cnpjIsValid = CnpjValidation.Validate(terceirizado.cnpj);
+    if (!cnpjIsValid) return Results.BadRequest("O CNPJ informado é inválido.");
+
+    // Verificando se o CNPJ já existe no banco de dados.
+    bool cnpjIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT cnpj FROM Terceirizados WHERE cnpj = @Cnpj", new { Cnpj = terceirizado.cnpj });
+    if (cnpjIsExistent) return Results.Conflict("O CNPJ informado já está cadastrado.");
+
+    // Verificando se o telefone já existe no banco de dados.
+    bool telefoneIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT telefone FROM Terceirizados WHERE telefone = @Telefone", new { Telefone = terceirizado.telefone });
+    if (telefoneIsExistent) return Results.Conflict("O telefone informado já está cadastrado.");
+
     try
     {
-      // Verificando se alguma das propriedades do Terceirizado é nula ou vazia.
-      bool hasValidProperties = NullPropertyValidator.Validate(terceirizado);
-      if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
-
-      // Validando CNPJ
-      bool cnpjIsValid = CnpjValidation.Validate(terceirizado.cnpj);
-      if (!cnpjIsValid) return Results.BadRequest("O CNPJ informado é inválido.");
 
       connectionString.Query<Terceirizado>("INSERT INTO Terceirizados (nome, funcao, cnpj, telefone, valor, status) VALUES (@Nome, @Funcao, @Cnpj, @Telefone, @Valor, @Status)", new { Nome = terceirizado.nome, Funcao = terceirizado.funcao, Cnpj = terceirizado.cnpj, Telefone = terceirizado.telefone, Valor = terceirizado.valor, Status = terceirizado.status });
 

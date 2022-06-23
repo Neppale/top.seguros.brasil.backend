@@ -15,13 +15,18 @@ static class UpdateStatusApoliceService
     // Verifica se o status passado é válido.
     if (!validStatuses.Contains(status)) return Results.BadRequest("Status inválido. Status permitidos: " + string.Join(", ", validStatuses));
 
+    // Se status for "Analise", alterar para "Em Análise".
+    if (status == "Analise") status = "Em Análise";
+
     // Verificando se apólice existe.
     bool isExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_apolice from Apolices WHERE id_apolice = @Id", new { Id = id });
     if (!isExistent) return Results.NotFound("Apólice não encontrada.");
 
     // Verificando se o status é igual ao atual.
     string currentStatus = connectionString.QueryFirstOrDefault<string>("SELECT status from Apolices WHERE id_apolice = @Id", new { Id = id });
-    if (currentStatus == status) return Results.Conflict("Status novo da apólice não pode ser igual ao atual.");
+    if (currentStatus == status) return Results.Conflict("O novo status da apólice não pode ser igual ao atual.");
+    if (currentStatus == "Rejeitada" || currentStatus == "Inativa") return Results.Conflict($"O status desta apólice não pode ser alterado. Status atual: {currentStatus}");
+
 
     try
     {
