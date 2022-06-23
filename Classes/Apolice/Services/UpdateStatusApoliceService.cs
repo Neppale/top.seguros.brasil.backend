@@ -19,8 +19,8 @@ static class UpdateStatusApoliceService
     if (status == "Analise") status = "Em Análise";
 
     // Verificando se apólice existe.
-    bool isExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_apolice from Apolices WHERE id_apolice = @Id", new { Id = id });
-    if (!isExistent) return Results.NotFound("Apólice não encontrada.");
+    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_apolice from Apolices WHERE id_apolice = @Id", new { Id = id });
+    if (!Exists) return Results.NotFound("Apólice não encontrada.");
 
     // Verificando se o status é igual ao atual.
     string currentStatus = connectionString.QueryFirstOrDefault<string>("SELECT status from Apolices WHERE id_apolice = @Id", new { Id = id });

@@ -17,24 +17,24 @@ static class InsertApoliceService
     if (apolice.premio == 0) return Results.BadRequest("Valor de prêmio não pode ser 0.");
 
     // Verificando se o cliente existe no banco de dados.
-    bool clienteIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente from Clientes WHERE id_cliente = @Id", new { Id = apolice.id_cliente });
-    if (!clienteIsExistent) return Results.NotFound("Cliente não encontrado.");
+    bool clienteExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente from Clientes WHERE id_cliente = @Id", new { Id = apolice.id_cliente });
+    if (!clienteExists) return Results.NotFound("Cliente não encontrado.");
 
     // Verificando se o veículo existe no banco de dados.
-    bool veiculoIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo from Veiculos WHERE id_veiculo = @Id", new { Id = apolice.id_veiculo });
-    if (!veiculoIsExistent) return Results.NotFound("Veículo não encontrado.");
+    bool veiculoExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo from Veiculos WHERE id_veiculo = @Id", new { Id = apolice.id_veiculo });
+    if (!veiculoExists) return Results.NotFound("Veículo não encontrado.");
 
     // Verificando se o veículo realmente pertence ao cliente.
     bool veiculoIsValid = ClienteVeiculoValidator.Validate(apolice.id_cliente, apolice.id_veiculo, dbConnectionString);
     if (!veiculoIsValid) return Results.BadRequest("Veículo escolhido não pertence ao cliente.");
 
     // Verificando se a cobertura existe no banco de dados.
-    bool coberturaIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_cobertura from Coberturas WHERE id_cobertura = @Id", new { Id = apolice.id_cobertura });
-    if (!coberturaIsExistent) return Results.NotFound("Cobertura não encontrada.");
+    bool coberturaExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cobertura from Coberturas WHERE id_cobertura = @Id", new { Id = apolice.id_cobertura });
+    if (!coberturaExists) return Results.NotFound("Cobertura não encontrada.");
 
     // Verificando se usuário existe no banco de dados.
-    bool usuarioIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_usuario from Usuarios WHERE id_usuario = @Id", new { Id = apolice.id_usuario });
-    if (!usuarioIsExistent) return Results.NotFound("Usuário não encontrado.");
+    bool usuarioExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_usuario from Usuarios WHERE id_usuario = @Id", new { Id = apolice.id_usuario });
+    if (!usuarioExists) return Results.NotFound("Usuário não encontrado.");
 
     try
     {

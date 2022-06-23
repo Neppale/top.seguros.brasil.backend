@@ -10,8 +10,8 @@ public static class UpdateVeiculoService
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se veículo existe.
-    bool isExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo from Veiculos WHERE id_Veiculo = @Id", new { Id = id });
-    if (!isExistent) return Results.NotFound("Veículo não encontrado.");
+    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo from Veiculos WHERE id_Veiculo = @Id", new { Id = id });
+    if (!Exists) return Results.NotFound("Veículo não encontrado.");
 
     // Verificando se alguma das propriedades do veiculo é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(veiculo);

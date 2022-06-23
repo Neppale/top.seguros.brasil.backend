@@ -20,12 +20,12 @@ static class InsertOcorrenciaService
     ocorrencia.id_terceirizado = originalId_Terceirizado;
 
     // Verificando se cliente existe no banco de dados.
-    bool clienteIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente FROM Clientes WHERE id_cliente = @Id", new { Id = ocorrencia.id_cliente });
-    if (!clienteIsExistent) return Results.NotFound("Cliente não encontrado.");
+    bool clienteExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente FROM Clientes WHERE id_cliente = @Id", new { Id = ocorrencia.id_cliente });
+    if (!clienteExists) return Results.NotFound("Cliente não encontrado.");
 
     // Verificando se veículo existe no banco de dados.
-    bool veiculoIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo FROM Veiculos WHERE id_veiculo = @Id", new { Id = ocorrencia.id_veiculo });
-    if (!veiculoIsExistent) return Results.NotFound("Veículo não encontrado.");
+    bool veiculoExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo FROM Veiculos WHERE id_veiculo = @Id", new { Id = ocorrencia.id_veiculo });
+    if (!veiculoExists) return Results.NotFound("Veículo não encontrado.");
 
     // Verificando se veículo pertence ao cliente.
     bool veiculoIsValid = ClienteVeiculoValidator.Validate(ocorrencia.id_cliente, ocorrencia.id_veiculo, dbConnectionString);

@@ -9,8 +9,8 @@ public static class DeleteVeiculoService
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se veículo existe.
-    bool isExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo from Veiculos WHERE id_Veiculo = @Id", new { Id = id });
-    if (!isExistent) return Results.NotFound("Veículo não encontrado.");
+    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo from Veiculos WHERE id_Veiculo = @Id", new { Id = id });
+    if (!Exists) return Results.NotFound("Veículo não encontrado.");
 
     try
     {

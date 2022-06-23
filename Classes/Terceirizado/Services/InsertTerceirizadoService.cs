@@ -18,12 +18,12 @@ public static class InsertTerceirizadoService
     if (!cnpjIsValid) return Results.BadRequest("O CNPJ informado é inválido.");
 
     // Verificando se o CNPJ já existe no banco de dados.
-    bool cnpjIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT cnpj FROM Terceirizados WHERE cnpj = @Cnpj", new { Cnpj = terceirizado.cnpj });
-    if (cnpjIsExistent) return Results.Conflict("O CNPJ informado já está cadastrado.");
+    bool cnpjExists = connectionString.QueryFirstOrDefault<bool>("SELECT cnpj FROM Terceirizados WHERE cnpj = @Cnpj", new { Cnpj = terceirizado.cnpj });
+    if (cnpjExists) return Results.Conflict("O CNPJ informado já está cadastrado.");
 
     // Verificando se o telefone já existe no banco de dados.
-    bool telefoneIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT telefone FROM Terceirizados WHERE telefone = @Telefone", new { Telefone = terceirizado.telefone });
-    if (telefoneIsExistent) return Results.Conflict("O telefone informado já está cadastrado.");
+    bool telefoneExists = connectionString.QueryFirstOrDefault<bool>("SELECT telefone FROM Terceirizados WHERE telefone = @Telefone", new { Telefone = terceirizado.telefone });
+    if (telefoneExists) return Results.Conflict("O telefone informado já está cadastrado.");
 
     try
     {

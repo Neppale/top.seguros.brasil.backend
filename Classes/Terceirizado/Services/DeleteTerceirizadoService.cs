@@ -9,8 +9,8 @@ public static class DeleteTerceirizadoService
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se terceirizado existe.
-    bool isExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_terceirizado from Terceirizados WHERE id_terceirizado = @Id AND status = 'true'", new { Id = id });
-    if (!isExistent) return Results.NotFound("Terceirizado não encontrado");
+    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_terceirizado from Terceirizados WHERE id_terceirizado = @Id AND status = 'true'", new { Id = id });
+    if (!Exists) return Results.NotFound("Terceirizado não encontrado");
 
     try
     {

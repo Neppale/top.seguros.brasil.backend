@@ -8,8 +8,8 @@ static class DeleteUsuarioService
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se o usuário existe.
-    bool isExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_usuario FROM Usuarios WHERE id_usuario = @Id AND status = 'true'", new { Id = id });
-    if (!isExistent) return Results.NotFound("Usuário não encontrado.");
+    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_usuario FROM Usuarios WHERE id_usuario = @Id AND status = 'true'", new { Id = id });
+    if (!Exists) return Results.NotFound("Usuário não encontrado.");
 
     try
     {

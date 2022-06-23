@@ -10,8 +10,8 @@ static class UpdateClienteService
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se o cliente existe.
-    bool isExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente FROM Clientes WHERE id_cliente = @Id", new { Id = id });
-    if (!isExistent) return Results.NotFound("Cliente não encontrado.");
+    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente FROM Clientes WHERE id_cliente = @Id", new { Id = id });
+    if (!Exists) return Results.NotFound("Cliente não encontrado.");
 
     // Verificando se alguma das propriedades do cliente é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(cliente);

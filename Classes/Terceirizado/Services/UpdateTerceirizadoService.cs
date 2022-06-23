@@ -10,8 +10,8 @@ public static class UpdateTerceirizadoService
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se terceirizado existe.
-    bool isExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_terceirizado from Terceirizados WHERE id_terceirizado = @Id", new { Id = id });
-    if (!isExistent) return Results.NotFound("Terceirizado não encontrado");
+    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_terceirizado from Terceirizados WHERE id_terceirizado = @Id", new { Id = id });
+    if (!Exists) return Results.NotFound("Terceirizado não encontrado");
 
     // Verificando se alguma das propriedades do terceirizado é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(terceirizado);
@@ -22,12 +22,12 @@ public static class UpdateTerceirizadoService
     if (!cnpjIsValid) return Results.BadRequest("O CNPJ informado é inválido.");
 
     // Verificando se o CNPJ já existe no banco de dados.
-    bool cnpjIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT cnpj FROM Terceirizados WHERE cnpj = @Cnpj AND id_terceirizado != @Id", new { Cnpj = terceirizado.cnpj, Id = id });
-    if (cnpjIsExistent) return Results.Conflict("O CNPJ informado já está cadastrado.");
+    bool cnpjExists = connectionString.QueryFirstOrDefault<bool>("SELECT cnpj FROM Terceirizados WHERE cnpj = @Cnpj AND id_terceirizado != @Id", new { Cnpj = terceirizado.cnpj, Id = id });
+    if (cnpjExists) return Results.Conflict("O CNPJ informado já está cadastrado.");
 
     // Verificando se o telefone já existe no banco de dados.
-    bool telefoneIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT telefone FROM Terceirizados WHERE telefone = @Telefone AND id_terceirizado != @Id", new { Telefone = terceirizado.telefone, Id = id });
-    if (telefoneIsExistent) return Results.Conflict("O telefone informado já está cadastrado.");
+    bool telefoneExists = connectionString.QueryFirstOrDefault<bool>("SELECT telefone FROM Terceirizados WHERE telefone = @Telefone AND id_terceirizado != @Id", new { Telefone = terceirizado.telefone, Id = id });
+    if (telefoneExists) return Results.Conflict("O telefone informado já está cadastrado.");
 
 
     try

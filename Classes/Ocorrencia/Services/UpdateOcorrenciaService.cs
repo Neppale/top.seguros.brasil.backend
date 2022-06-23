@@ -15,24 +15,24 @@ static class UpdateOcorrenciaService
     if (!validStatuses.Contains(ocorrencia.status)) return Results.BadRequest("Status inválido. Status permitidos: " + string.Join(", ", validStatuses));
 
     // Verificando se ocorrência existe no banco de dados.
-    bool ocorrenciaIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_ocorrencia FROM Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
-    if (!ocorrenciaIsExistent) return Results.NotFound("Ocorrência não encontrada.");
+    bool ocorrenciaExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_ocorrencia FROM Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
+    if (!ocorrenciaExists) return Results.NotFound("Ocorrência não encontrada.");
 
     // Verificando se cliente existe no banco de dados.
-    bool clienteIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente FROM Clientes WHERE id_cliente = @Id", new { Id = ocorrencia.id_cliente });
-    if (!clienteIsExistent) return Results.NotFound("Cliente não encontrado.");
+    bool clienteExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente FROM Clientes WHERE id_cliente = @Id", new { Id = ocorrencia.id_cliente });
+    if (!clienteExists) return Results.NotFound("Cliente não encontrado.");
 
     // Verificando se veículo existe no banco de dados.
-    bool veiculoIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo FROM Veiculos WHERE id_veiculo = @Id", new { Id = ocorrencia.id_veiculo });
-    if (!veiculoIsExistent) return Results.NotFound("Veículo não encontrado.");
+    bool veiculoExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo FROM Veiculos WHERE id_veiculo = @Id", new { Id = ocorrencia.id_veiculo });
+    if (!veiculoExists) return Results.NotFound("Veículo não encontrado.");
 
     // Verificando se veículo pertence ao cliente.
     bool veiculoIsValid = ClienteVeiculoValidator.Validate(ocorrencia.id_cliente, ocorrencia.id_veiculo, dbConnectionString);
     if (!veiculoIsValid) return Results.BadRequest("Veículo não pertence ao cliente.");
 
     // Verificando se terceirizado existe no banco de dados.
-    bool terceirizadoIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_terceirizado FROM Terceirizados WHERE id_terceirizado = @Id", new { Id = ocorrencia.id_terceirizado });
-    if (!terceirizadoIsExistent) return Results.NotFound("Terceirizado não encontrado.");
+    bool terceirizadoExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_terceirizado FROM Terceirizados WHERE id_terceirizado = @Id", new { Id = ocorrencia.id_terceirizado });
+    if (!terceirizadoExists) return Results.NotFound("Terceirizado não encontrado.");
 
     try
     {

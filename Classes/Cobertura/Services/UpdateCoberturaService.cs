@@ -14,8 +14,8 @@ public static class UpdateCoberturaService
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
     // Verificando se a cobertura existe.
-    bool isExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_cobertura from Coberturas WHERE id_cobertura = @Id", new { Id = id });
-    if (!isExistent) return Results.NotFound("Cobertura não encontrada.");
+    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cobertura from Coberturas WHERE id_cobertura = @Id", new { Id = id });
+    if (!Exists) return Results.NotFound("Cobertura não encontrada.");
 
     try
     {

@@ -22,8 +22,8 @@ static class InsertDocumentOcorrenciaService
     string fileBase64 = DocumentConverter.Encode(fileReader);
 
     // Verificando se ocorrência existe.
-    bool ocorrenciaIsExistent = connectionString.QueryFirstOrDefault<bool>("SELECT id_ocorrencia FROM Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
-    if (!ocorrenciaIsExistent) return Results.NotFound("Ocorrência não encontrada.");
+    bool ocorrenciaExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_ocorrencia FROM Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
+    if (!ocorrenciaExists) return Results.NotFound("Ocorrência não encontrada.");
 
     try
     {
