@@ -17,8 +17,17 @@ public static class UpdateVeiculoService
     bool hasValidProperties = NullPropertyValidator.Validate(veiculo);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
+    // Verificando se o RENAVAM é válido.
     bool RenavamIsValid = RenavamValidator.Validate(veiculo.renavam);
     if (!RenavamIsValid) return Results.BadRequest("O RENAVAM informado é inválido.");
+
+    // Verificando se o RENAVAM já existe em outro veiculo no banco de dados.
+    bool renavamAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT renavam FROM Veiculos WHERE renavam = @Renavam AND id_veiculo != @Id) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Renavam = veiculo.renavam, Id = id });
+    if (renavamAlreadyExists) return Results.BadRequest("O RENAVAM informado já está sendo utilizado por outro veiculo.");
+
+    // Verificando se a placa já existe em outro veiculo no banco de dados.
+    bool placaAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT placa FROM Veiculos WHERE placa = @Placa AND id_veiculo != @Id) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Placa = veiculo.placa, Id = id });
+    if (placaAlreadyExists) return Results.BadRequest("A placa informada já está sendo utilizada por outro veiculo.");
 
     try
     {

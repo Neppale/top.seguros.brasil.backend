@@ -9,13 +9,18 @@ public static class InsertCoberturaService
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
+
+    // Verificando se alguma das propriedades do Cobertura é nula ou vazia.
+    bool hasValidProperties = NullPropertyValidator.Validate(cobertura);
+    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+    // Verificando se o nome da cobertura já existe em outra cobertura no banco de dados.
+    bool nomeAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT nome FROM Coberturas WHERE nome = @Nome AND status = 'true') THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Nome = cobertura.nome });
+    if (nomeAlreadyExists) return Results.BadRequest("O nome da cobertura já está sendo utiizado por outra cobertura ativa.");
+
     try
     {
-      // Verificando se alguma das propriedades do Cobertura é nula ou vazia.
-      bool hasValidProperties = NullPropertyValidator.Validate(cobertura);
-      if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
-
-      connectionString.Query<Cobertura>("INSERT INTO Coberturas (nome, descricao, valor, status) VALUES (@Nome, @Descricao, @Valor, @Status)", new { Nome = cobertura.nome, Descricao = cobertura.descricao, Valor = cobertura.valor, Status = cobertura.status });
+      connectionString.Query<Cobertura>("INSERT INTO Coberturas (nome, descricao, valor) VALUES (@Nome, @Descricao, @Valor)", new { Nome = cobertura.nome, Descricao = cobertura.descricao, Valor = cobertura.valor });
 
       // Pegando o ID da cobertura que acabou de ser inserida.
       int createdCoberturaId = connectionString.QueryFirstOrDefault<int>("SELECT id_cobertura FROM Coberturas WHERE nome = @Nome", new { Nome = cobertura.nome });

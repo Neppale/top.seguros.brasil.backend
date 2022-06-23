@@ -22,12 +22,16 @@ public static class UpdateTerceirizadoService
     if (!cnpjIsValid) return Results.BadRequest("O CNPJ informado é inválido.");
 
     // Verificando se o CNPJ já existe no banco de dados.
-    bool cnpjExists = connectionString.QueryFirstOrDefault<bool>("SELECT cnpj FROM Terceirizados WHERE cnpj = @Cnpj AND id_terceirizado != @Id", new { Cnpj = terceirizado.cnpj, Id = id });
-    if (cnpjExists) return Results.Conflict("O CNPJ informado já está cadastrado.");
+    bool cnpjExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT cnpj FROM Terceirizados WHERE cnpj = @Cnpj AND status = 'true' AND id_terceirizado != @Id) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Cnpj = terceirizado.cnpj, Id = id });
+    if (cnpjExists) return Results.BadRequest("O CNPJ informado já está sendo utilizado por outro terceirizado ativo.");
+
+    // Verificando se telefone está formatado corretamente.
+    bool telefoneIsValid = StringFormatValidator.ValidateTelefone(terceirizado.telefone);
+    if (!telefoneIsValid) return Results.BadRequest("O telefone informado está mal formatado. Lembre-se de que o telefone deve estar no formato (99) 99999-9999.");
 
     // Verificando se o telefone já existe no banco de dados.
     bool telefoneExists = connectionString.QueryFirstOrDefault<bool>("SELECT telefone FROM Terceirizados WHERE telefone = @Telefone AND id_terceirizado != @Id", new { Telefone = terceirizado.telefone, Id = id });
-    if (telefoneExists) return Results.Conflict("O telefone informado já está cadastrado.");
+    if (telefoneExists) return Results.BadRequest("O telefone informado já está cadastrado.");
 
 
     try
