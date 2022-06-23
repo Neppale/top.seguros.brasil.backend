@@ -14,7 +14,7 @@ public static class DeleteVeiculoService
 
     try
     {
-      connectionString.Query("DELETE FROM Veiculos WHERE id_Veiculo = @Id", new { Id = id });
+      connectionString.Query("UPDATE Veiculos SET status = 'false' WHERE id_veiculo = @Id", new { Id = id });
 
       return Results.NoContent();
     }
