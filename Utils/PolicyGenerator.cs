@@ -6,12 +6,12 @@ static class PolicyGenerator
   public static float GenerateIndenizacao(int id_veiculo)
   {
     // TODO: Implementar o cálculo da indenização.
-    return 0.00f;
+    return 1.00f;
   }
   public static float GeneratePremio(int id_veiculo)
   {
     // TODO: Implementar o cálculo do prêmio.
-    return 0.00f;
+    return 1.00f;
   }
   public static int ChooseUsuario(string dbConnectionString)
   {

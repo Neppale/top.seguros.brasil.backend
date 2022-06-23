@@ -19,7 +19,7 @@ abstract public class StringFormatValidator
 
   }
   /** <summary> Esta função valida a formatação do telefone informado. </summary>**/
-  static public bool ValidateTelefone(string telefone)
+  static public bool ValidateTelefone(string? telefone)
   {
     Regex regex = new Regex(@"^\(\d\d\)\s\d\d\d\d\d-\d\d\d\d$");
 
