@@ -10,8 +10,8 @@ static class UpdateClienteService
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se o cliente existe.
-    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente FROM Clientes WHERE id_cliente = @Id", new { Id = id });
-    if (!Exists) return Results.NotFound("Cliente não encontrado.");
+    var storedCliente = connectionString.QueryFirstOrDefault("SELECT * FROM Clientes WHERE id_cliente = @Id", new { Id = id });
+    if (storedCliente == null) return Results.NotFound("Cliente não encontrado.");
 
     // Verificando se alguma das propriedades do cliente é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(cliente);
@@ -24,6 +24,13 @@ static class UpdateClienteService
     // Verificação de CEP
     Task<bool> cepIsValid = CepValidator.Validate(cliente.cep);
     if (!cepIsValid.Result) return Results.BadRequest("O CEP informado é inválido.");
+
+    // Verificando se CNH já existe em outra conta no banco de dados.
+    bool cnhAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT cnh FROM Clientes WHERE cnh = @Cnh AND id_cliente != @Id) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Cnh = cliente.cnh, Id = storedCliente.id_cliente });
+    if (cnhAlreadyExists) return Results.BadRequest("A CNH informada já está sendo utilizada em outra conta.");
+
+    // Verificando se o e-mail já existe em outra conta no banco de dados.
+    bool emailAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT email FROM Clientes WHERE email = @Email AND id_cliente != @Id) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Email = cliente.email, Id = storedCliente.id_cliente });
 
     // Criptografando a senha do cliente.
     cliente.senha = PasswordHasher.HashPassword(cliente.senha);
