@@ -40,8 +40,8 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
 
-      - name: Run
-        run: dotnet run
+      # - name: Run
+      #   run: dotnet run
 
-      - name: Run tests
-        run: newman run Tests/apicollection.json -e Tests/env.json -k --bail
+      # - name: Run tests
+      #   run: newman run Tests/apicollection.json -e Tests/env.json -k --bail
