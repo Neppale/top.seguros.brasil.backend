@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: Install dependencies
+      - name: Install Node.js dependencies
         run: npm install -g newman
 
       - name: Setup .NET
@@ -34,14 +34,20 @@ jobs:
         with:
           dotnet-version: 6.0.x
 
-      - name: Restore dependencies
+      - name: Install .NET dependencies
         run: dotnet restore
 
       - name: Build
         run: dotnet build --no-restore
 
-      # - name: Run
-      #   run: dotnet run
+      - name: edit connection string
+        uses: benday-inc/edit-dbconnstr-in-appsettings@main
+        with:
+          pathtosettingsfile: "${{ github.workspace }}/appsettings.json"
+          name: "default"
+          connectionstring: "${{ secrets.CONNECTION_STRING }}"
+      - name: Run
+        run: dotnet run
 
-      # - name: Run tests
-      #   run: newman run Tests/apicollection.json -e Tests/env.json -k --bail
+      - name: Run tests
+        run: newman run Tests/apicollection.json -e Tests/env.json -k --bail

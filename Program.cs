@@ -20,7 +20,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
-string dbConnectionString = builder.Configuration["dbConnectionStringDev"];
+string dbConnectionString = builder.Configuration["connectionString"];
 
 // Configura a pipeline de requests HTTP.
 app.UseSwagger();
