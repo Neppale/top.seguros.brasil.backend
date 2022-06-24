@@ -14,12 +14,18 @@ on:
 # Um workflow é composto de um ou mais jobs que podem rodar em sequência ou em paralelo
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     # Steps representam uma sequência de ações tomadas dentro de um job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+
+      - name: Install SQL Server
+        uses: Particular/install-sql-server-action@main
+        with:
+          connection-string-env-var: SQL_SERVER_CONNECTION_STRING
+          catalog: tsb_database
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
@@ -37,16 +43,10 @@ jobs:
       - name: Install .NET dependencies
         run: dotnet restore
 
-      - name: Build
+      - name: Build project
         run: dotnet build --no-restore
 
-      - name: edit connection string
-        uses: benday-inc/edit-dbconnstr-in-appsettings@main
-        with:
-          pathtosettingsfile: "${{ github.workspace }}/appsettings.json"
-          name: "default"
-          connectionstring: "${{ secrets.CONNECTION_STRING }}"
-      - name: Run
+      - name: Run project
         run: dotnet run
 
       - name: Run tests
