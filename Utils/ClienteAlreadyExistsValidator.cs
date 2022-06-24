@@ -1,6 +1,3 @@
-using Microsoft.Data.SqlClient;
-using Dapper;
-
 static class ClienteAlreadyExistsValidator
 {
   /** <summary> Esta função verifica se os dados do cliente já existem no banco de dados. </summary>**/

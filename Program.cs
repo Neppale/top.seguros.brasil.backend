@@ -1,11 +1,8 @@
-using Microsoft.Data.SqlClient;
-
 var builder = WebApplication.CreateBuilder(args);
 var app = APISetup.Setup(builder);
 
 string dbConnectionString = builder.Configuration["connectionString"];
 SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
 connectionString.Open();
 
 // HEALTHCHECK

@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+
 namespace tsb.mininal.policy.engine.Utils
 {
   public static class RenavamValidator

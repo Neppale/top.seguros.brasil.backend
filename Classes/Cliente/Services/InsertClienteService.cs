@@ -1,7 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-using tsb.mininal.policy.engine.Utils;
-using DocumentValidator;
 static class InsertClienteService
 {
   /** <summary> Esta função insere um cliente no banco de dados. </summary>**/

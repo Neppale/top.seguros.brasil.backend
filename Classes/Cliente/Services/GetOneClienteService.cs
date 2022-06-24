@@ -1,5 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
 static class GetOneClienteService
 {
   /** <summary> Esta função retorna um cliente em específico no banco de daods. </summary>**/

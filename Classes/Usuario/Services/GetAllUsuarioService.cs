@@ -1,6 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-
 static class GetAllUsuarioService
 {
   /** <summary> Esta função retorna todos os usuários no banco de dados. </summary>**/

@@ -1,6 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-
 static class InsertDocumentOcorrenciaService
 {
   public static async Task<IResult> Insert(int id, HttpRequest request, string dbConnectionString)

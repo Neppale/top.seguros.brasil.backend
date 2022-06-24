@@ -1,6 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-using tsb.mininal.policy.engine.Utils;
 static class InsertApoliceService
 {
   /** <summary> Esta função insere uma apólice no banco de dados. </summary>**/

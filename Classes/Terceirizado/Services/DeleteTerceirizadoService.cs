@@ -1,6 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-
 public static class DeleteTerceirizadoService
 {
   /** <summary> Esta função altera um terceirizado no banco de dados. </summary>**/

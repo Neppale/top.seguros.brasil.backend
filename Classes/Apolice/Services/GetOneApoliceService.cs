@@ -1,5 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
 static class GetOneApoliceService
 {
   /** <summary> Esta função retorna uma apólice específica no banco de dados. </summary>**/

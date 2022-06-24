@@ -1,6 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-
 public static class DeleteVeiculoService
 {
   /** <summary> Esta função deleta um Veículo no banco de dados. </summary>**/

@@ -1,5 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
 public static class GetOneVeiculoService
 {
   /** <summary> Esta função retorna um veículo específico no banco de dados. </summary>**/

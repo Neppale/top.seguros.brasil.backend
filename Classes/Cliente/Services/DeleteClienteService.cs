@@ -1,6 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-
 static class DeleteClienteService
 {
   public static IResult Delete(int id, string dbConnectionString)

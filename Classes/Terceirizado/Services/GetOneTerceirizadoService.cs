@@ -1,5 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
 public static class GetOneTerceirizadoService
 {
   public static IResult Get(int id, string dbConnectionString)

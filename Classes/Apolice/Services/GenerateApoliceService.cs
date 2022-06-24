@@ -1,5 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
 static class GenerateApoliceService
 {
 

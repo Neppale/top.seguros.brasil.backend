@@ -1,5 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
 static class GetAllClienteService
 {
   /** <summary> Esta função retorna todos os clientes no banco de dados. </summary>**/

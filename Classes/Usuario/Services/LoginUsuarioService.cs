@@ -1,8 +1,3 @@
-using tsb.mininal.policy.engine.Utils;
-using Dapper;
-using Microsoft.Data.SqlClient;
-
-
 static class LoginUsuarioService
 {
   /** <summary> Esta função realiza o login do usuario. </summary>**/

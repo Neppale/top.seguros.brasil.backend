@@ -1,6 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-
 public static class GetAllVeiculoService
 {
   /** <summary> Esta função retorna todos os veículos no banco de dados. </summary>**/

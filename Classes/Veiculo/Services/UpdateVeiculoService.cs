@@ -1,7 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-using tsb.mininal.policy.engine.Utils;
-
 public static class UpdateVeiculoService
 {
   /** <summary> Esta função altera um Veículo no banco de dados. </summary>**/

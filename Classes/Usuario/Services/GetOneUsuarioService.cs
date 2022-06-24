@@ -1,6 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-
 static class GetOneUsuarioService
 {
   /** <summary> Esta função retorna um usuário específico no banco de dados. </summary>**/

@@ -1,10 +1,6 @@
-using tsb.mininal.policy.engine.Utils;
-using Dapper;
-using Microsoft.Data.SqlClient;
-
-/** <summary> Esta função faz o login do cliente. </summary>**/
 static class LoginClienteService
 {
+  /** <summary> Esta função faz o login do cliente. </summary>**/
   public static IResult Login(string email, string password, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);

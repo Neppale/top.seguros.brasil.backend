@@ -1,7 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-
-
 public static class DeleteCoberturaService
 {
   /** <summary> Esta função desativa uma cobertura no banco de dados. </summary>**/

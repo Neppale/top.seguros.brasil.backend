@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+
 abstract public class StringFormatValidator
 {
   /** <summary> Esta função valida a formatação do CPF informado. </summary>**/

@@ -1,5 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
 static class GetAllOcorrenciaService
 {
   /** <summary> Esta função retorna todas as ocorrências no banco de dados. </summary>**/

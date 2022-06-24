@@ -1,7 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-using tsb.mininal.policy.engine.Utils;
-
 static class InsertUsuarioService
 {
   /** <summary> Esta função insere um Usuario no banco de dados. </summary>**/

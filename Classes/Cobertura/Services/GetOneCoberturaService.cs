@@ -1,7 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-
-
 public static class GetOneCoberturaService
 {
   /** <summary> Esta função retorna uma cobertura específica no banco de dados. </summary>**/

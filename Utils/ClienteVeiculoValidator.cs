@@ -1,7 +1,3 @@
-using Microsoft.Data.SqlClient;
-using Dapper;
-
-
 static class ClienteVeiculoValidator
 {
   /** <summary> Esta função verifica se o veículo escolhido pertence ao cliente escolhido. </summary>**/

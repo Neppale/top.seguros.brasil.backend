@@ -1,6 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-
 namespace tsb.mininal.policy.engine.Utils
 {
   public static class Healthcheck

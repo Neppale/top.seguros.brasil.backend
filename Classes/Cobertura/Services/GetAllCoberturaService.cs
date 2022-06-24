@@ -1,7 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-
-
 public static class GetAllCoberturaService
 {
   /** <summary> Esta função retorna todas as coberturas no banco de dados. </summary>**/

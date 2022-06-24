@@ -1,5 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
 static class GetAllApoliceService
 {
   /** <summary> Esta função retorna as apólices no banco de dados. </summary>**/

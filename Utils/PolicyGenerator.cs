@@ -1,6 +1,3 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-
 static class PolicyGenerator
 {
   public static float GenerateIndenizacao(int id_veiculo)
