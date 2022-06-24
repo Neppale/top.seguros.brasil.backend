@@ -2,13 +2,6 @@
   "dependencies": {
     "secrets1": {
       "type": "secrets.user"
-    },
-    "mssql1": {
-      "secretStore": "LocalSecretsFile",
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/tsbdevelopmentdatabaseserver/databases/tsb.mininal.policy.engine_dev_database",
-      "type": "mssql.azure",
-      "connectionId": "dbConnectionString",
-      "dynamicId": null
     }
   }
 }

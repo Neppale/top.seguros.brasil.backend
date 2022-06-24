@@ -1,39 +1,12 @@
-using Microsoft.OpenApi.Models;
 using Microsoft.Data.SqlClient;
 
-#region [CONFIGURATION]
 var builder = WebApplication.CreateBuilder(args);
+var app = APISetup.Setup(builder);
 
-// Adiciona servicos ao container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddHealthChecks();
-builder.Services.AddSwaggerGen(options =>
-{
-  options.SwaggerDoc("v1", new OpenApiInfo
-  {
-    Version = "v1",
-    Title = "Top Seguros Brasil Policy Engine",
-    Description = "Motor de gerenciamento de apolices para Top Seguros Brasil. Feito com amor <3",
-  }); ;
-});
-
-var app = builder.Build();
 string dbConnectionString = builder.Configuration["connectionString"];
-
-// Configura a pipeline de requests HTTP.
-app.UseSwagger();
-app.UseSwaggerUI();
-
-
-app.UseHttpsRedirection(); // Automaticamente redireciona requests feitos em HTTP para HTTPS
-
 SqlConnection connectionString = new SqlConnection(dbConnectionString);
+
 connectionString.Open();
-
-#endregion
-
 
 // HEALTHCHECK
 app.MapHealthChecks("/healthcheck/");

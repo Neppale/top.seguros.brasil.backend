@@ -21,20 +21,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: Install SQL Server
-        uses: Particular/install-sql-server-action@main
-        with:
-          connection-string-env-var: SQL_SERVER_CONNECTION_STRING
-          catalog: tsb_database
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.x
-
-      - name: Install Node.js dependencies
-        run: npm install -g newman
-
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
@@ -45,9 +31,3 @@ jobs:
 
       - name: Build project
         run: dotnet build --no-restore
-
-      - name: Run project
-        run: dotnet run
-
-      - name: Run tests
-        run: newman run Tests/apicollection.json -e Tests/env.json -k --bail
