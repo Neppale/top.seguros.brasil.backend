@@ -9,7 +9,7 @@ connectionString.Open();
 app.MapHealthChecks("/healthcheck/");
 
 // CLIENTES 
-ClienteController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
+ClienteController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString, builder: builder);
 
 // APOLICES 
 ApoliceController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
@@ -24,7 +24,7 @@ OcorrenciaController.ActivateEndpoints(app: app, dbConnectionString: dbConnectio
 TerceirizadoController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
 
 // USUARIOS
-UsuarioController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
+UsuarioController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString, builder: builder);
 
 // VEICULOS
 VeiculoController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);

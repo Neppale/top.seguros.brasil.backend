@@ -2,33 +2,33 @@ public static class TerceirizadoController
 {
   public static void ActivateEndpoints(WebApplication app, string dbConnectionString)
   {
-    app.MapGet("/terceirizado/", () =>
+    app.MapGet("/terceirizado/", [Authorize] () =>
     {
       return GetAllTerceirizadoService.Get(dbConnectionString: dbConnectionString);
 
     })
     .WithName("Selecionar todos os terceirizados");
 
-    app.MapGet("/terceirizado/{id:int}", (int id) =>
+    app.MapGet("/terceirizado/{id:int}", [Authorize] (int id) =>
     {
       return GetOneTerceirizadoService.Get(id: id, dbConnectionString: dbConnectionString);
     })
     .WithName("Selecionar terceirizado específico");
 
-    app.MapPost("/terceirizado/", (Terceirizado terceirizado) =>
+    app.MapPost("/terceirizado/", [Authorize] (Terceirizado terceirizado) =>
     {
       return InsertTerceirizadoService.Insert(terceirizado: terceirizado, dbConnectionString: dbConnectionString);
 
     })
     .WithName("Inserir terceirizado");
 
-    app.MapPut("/terceirizado/{id:int}", (int id, Terceirizado terceirizado) =>
+    app.MapPut("/terceirizado/{id:int}", [Authorize] (int id, Terceirizado terceirizado) =>
     {
       return UpdateTerceirizadoService.Update(id: id, terceirizado: terceirizado, dbConnectionString: dbConnectionString);
     })
     .WithName("Alterar terceirizado específico");
 
-    app.MapDelete("/terceirizado/{id:int}", (int id) =>
+    app.MapDelete("/terceirizado/{id:int}", [Authorize] (int id) =>
     {
       return DeleteTerceirizadoService.Delete(id: id, dbConnectionString: dbConnectionString);
     })

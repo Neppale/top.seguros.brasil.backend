@@ -1,40 +1,40 @@
 public static class UsuarioController
 {
-  public static void ActivateEndpoints(WebApplication app, string dbConnectionString)
+  public static void ActivateEndpoints(WebApplication app, string dbConnectionString, WebApplicationBuilder builder)
   {
-    app.MapGet("/usuario/", () =>
+    app.MapGet("/usuario/", [Authorize] () =>
     {
       return GetAllUsuarioService.Get(dbConnectionString: dbConnectionString);
     })
     .WithName("Selecionar todos os usuários");
 
-    app.MapGet("/usuario/{id:int}", (int id) =>
+    app.MapGet("/usuario/{id:int}", [Authorize] (int id) =>
     {
       return GetOneUsuarioService.Get(id: id, dbConnectionString: dbConnectionString);
     })
     .WithName("Selecionar usuário específico");
 
-    app.MapPost("/usuario/", (Usuario usuario) =>
+    app.MapPost("/usuario/", [Authorize] (Usuario usuario) =>
     {
       return InsertUsuarioService.Insert(usuario: usuario, dbConnectionString: dbConnectionString);
     })
     .WithName("Inserir usuário");
 
-    app.MapPut("/usuario/{id:int}", (int id, Usuario usuario) =>
+    app.MapPut("/usuario/{id:int}", [Authorize] (int id, Usuario usuario) =>
     {
       return UpdateUsuarioService.Update(id: id, usuario: usuario, dbConnectionString: dbConnectionString);
     })
     .WithName("Alterar usuário específico");
 
-    app.MapDelete("/usuario/{id:int}", (int id) =>
+    app.MapDelete("/usuario/{id:int}", [Authorize] (int id) =>
     {
       return DeleteUsuarioService.Delete(id: id, dbConnectionString: dbConnectionString);
     })
     .WithName("Desativar usuário específico");
 
-    app.MapPost("/usuario/login", (Usuario usuario) =>
+    app.MapPost("/usuario/login", [AllowAnonymous] (Usuario usuario) =>
     {
-      return LoginUsuarioService.Login(email: usuario.email, password: usuario.senha, dbConnectionString: dbConnectionString);
+      return LoginUsuarioService.Login(email: usuario.email, password: usuario.senha, dbConnectionString: dbConnectionString, builder: builder);
     })
     .WithName("Fazer login do usuário");
   }
