@@ -14,6 +14,18 @@ public static class ApoliceController
     })
     .WithName("Selecionar apólice específica");
 
+    app.MapGet("/apolice/usuario/{id:int}", [Authorize] (int id) =>
+    {
+      return GetApolicesByUsuarioService.Get(id_usuario: id, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Selecionar apólice por usuário");
+
+    app.MapGet("/apolice/cliente/{id:int}", [Authorize] (int id) =>
+    {
+      return GetApolicesByClienteService.Get(id_cliente: id, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Selecionar apólice por cliente");
+
     app.MapPost("/apolice/", [Authorize] (Apolice apolice) =>
     {
       return InsertApoliceService.Insert(apolice: apolice, dbConnectionString: dbConnectionString);

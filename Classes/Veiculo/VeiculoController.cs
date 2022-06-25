@@ -15,6 +15,12 @@ public static class VeiculoController
     })
     .WithName("Selecionar veículo específico");
 
+    app.MapGet("/veiculo/cliente/{id:int}", [Authorize] (int id) =>
+    {
+      return GetVeiculosByCliente.Get(id_cliente: id, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Selecionar veículo por cliente");
+
     app.MapPost("/veiculo/", [Authorize] (Veiculo veiculo) =>
     {
       return InsertVeiculoService.Insert(veiculo: veiculo, dbConnectionString: dbConnectionString);
