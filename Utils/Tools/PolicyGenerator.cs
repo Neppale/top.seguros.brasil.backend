@@ -1,14 +1,31 @@
 static class PolicyGenerator
 {
-  public static float GenerateIndenizacao(int id_veiculo)
+  /** <summary> Esta função gera um valor de indenização. </summary>**/
+  public static async Task<decimal> GenerateIndenizacao(int id_veiculo, string dbConnectionString)
   {
-    // TODO: Implementar o cálculo da indenização.
-    return 1.00f;
+    SqlConnection connection = new SqlConnection(dbConnectionString);
+
+    // Recuperar dados do veículo no banco.
+    Veiculo veiculo = connection.QueryFirst<Veiculo>("SELECT * FROM Veiculos WHERE id_veiculo = @id", new { id = id_veiculo });
+
+    decimal indenizationValue = await FipeAPIAccess.GetValue(veiculo.marca, veiculo.modelo, veiculo.ano);
+    return indenizationValue;
+
   }
-  public static float GeneratePremio(int id_veiculo)
+  /** <summary> Esta função gera um valor de prêmio. </summary>**/
+  public static async Task<decimal> GeneratePremio(int id_veiculo, string dbConnectionString)
   {
-    // TODO: Implementar o cálculo do prêmio.
-    return 1.00f;
+    SqlConnection connection = new SqlConnection(dbConnectionString);
+
+    // Recuperar dados do veículo no banco.
+    Veiculo veiculo = connection.QueryFirst<Veiculo>("SELECT * FROM Veiculos WHERE id_veiculo = @id", new { id = id_veiculo });
+
+    // O prêmio consiste em apenas 1% do valor do veículo.
+    decimal value = await FipeAPIAccess.GetValue(veiculo.marca, veiculo.modelo, veiculo.ano);
+    decimal premiumValue = value * 0.01m;
+    premiumValue = Math.Round(premiumValue, 2);
+
+    return premiumValue;
   }
   public static int ChooseUsuario(string dbConnectionString)
   {

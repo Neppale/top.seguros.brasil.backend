@@ -17,6 +17,10 @@ static class GenerateApoliceService
     bool coberturaExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cobertura from Coberturas WHERE id_cobertura = @Id", new { Id = id_cobertura });
     if (!coberturaExists) return Results.BadRequest("Cobertura não encontrada.");
 
+    // Verificando se o veículo realmente pertence ao cliente.
+    bool veiculoBelongsToCliente = ClienteVeiculoValidator.Validate(id_cliente, id_veiculo, dbConnectionString);
+    if (!veiculoBelongsToCliente) return Results.BadRequest("Veículo escolhido não pertence ao cliente.");
+
     try
     {
       Apolice generatedApolice = new();
@@ -24,8 +28,8 @@ static class GenerateApoliceService
       generatedApolice.data_inicio = generatedApolice.data_inicio.Substring(0, 10) + " 00:00:00"; // Removendo as horas da data de ínicio.
       generatedApolice.data_fim = DateTime.Now.AddYears(1).ToString();
       generatedApolice.data_fim = generatedApolice.data_fim.Substring(0, 10) + " 00:00:00"; // Removendo as horas da data de fim.
-      generatedApolice.indenizacao = PolicyGenerator.GenerateIndenizacao(id_veiculo);
-      generatedApolice.premio = PolicyGenerator.GeneratePremio(id_veiculo);
+      generatedApolice.indenizacao = PolicyGenerator.GenerateIndenizacao(id_veiculo, dbConnectionString).Result;
+      generatedApolice.premio = PolicyGenerator.GeneratePremio(id_veiculo, dbConnectionString).Result;
       generatedApolice.id_cliente = id_cliente;
       generatedApolice.id_cobertura = id_cobertura;
       generatedApolice.id_veiculo = id_veiculo;
