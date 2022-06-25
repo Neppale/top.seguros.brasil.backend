@@ -20,6 +20,13 @@ public static class InsertVeiculoService
     bool RenavamIsValid = RenavamValidator.Validate(veiculo.renavam);
     if (!RenavamIsValid) return Results.BadRequest("O RENAVAM informado é inválido.");
 
+    // Se o modelo do veículo possui uma barra, adicionar outra barra para passar ma validação da FIPE.
+    if (veiculo.modelo.Contains("/")) veiculo.modelo = veiculo.modelo.Replace("/", "\\\\/");
+
+    // Se o modelo do veículo possui um parenteses, adicionar uma barra para passar na validação da FIPE.
+    if (veiculo.modelo.Contains("(")) veiculo.modelo = veiculo.modelo.Replace("(", "\\(");
+    if (veiculo.modelo.Contains(")")) veiculo.modelo = veiculo.modelo.Replace(")", "\\)");
+
     // Verificando se os dados do veículo são validados pela API da FIPE.
     bool isValidVehicle = await VehicleFIPEValidator.Validate(veiculo.marca, veiculo.modelo, veiculo.ano);
     if (!isValidVehicle) return Results.BadRequest("Este veículo é inválido.");
@@ -35,8 +42,6 @@ public static class InsertVeiculoService
     // Verificando se o cliente existe.
     bool clienteIsValid = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente from Clientes WHERE id_cliente = @Id", new { Id = veiculo.id_cliente });
     if (!clienteIsValid) return Results.BadRequest("Cliente não encontrado.");
-
-    //TODO: Se veículo tiver caracteres especiais, trocá-los de forma a não gerar erro no regex do VehiclePriceFinder.
 
     try
     {
