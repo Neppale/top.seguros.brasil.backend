@@ -12,7 +12,7 @@ static class PremiumGenerator
     decimal coberturaPrice = connection.QueryFirst<decimal>("SELECT valor FROM Coberturas WHERE id_cobertura = @id", new { id = id_cobertura });
 
     // O prêmio consiste em apenas 1% do valor do veículo + valor da cobertura.
-    decimal value = await FipeAPIAccess.GetValue(veiculo.marca, veiculo.modelo, veiculo.ano);
+    decimal value = await VehiclePriceFinder.Find(veiculo.marca, veiculo.modelo, veiculo.ano);
     decimal premiumValue = value * 0.01m;
     premiumValue = Math.Round(premiumValue, 2) + coberturaPrice;
 

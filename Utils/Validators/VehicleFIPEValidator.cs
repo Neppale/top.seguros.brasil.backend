@@ -1,9 +1,9 @@
-static class FipeAPIAccess
+static class VehicleFIPEValidator
 {
   private static readonly HttpClient client = new HttpClient();
 
-  /** <summary> Esta função recupera o valor do veículo da tabela FIPE. </summary>**/
-  public static async Task<decimal> GetValue(string brand, string model, string year)
+  /**<summary> Esta função valida se os dados do veículo existem na API da FIPE. </summary>*/
+  public static async Task<bool> Validate(string brand, string model, string year)
   {
     // Pesquisar por todos os veículos na API FIPE da mesma marca do veículo.
     HttpResponseMessage brands = await client.GetAsync($"https://parallelum.com.br/fipe/api/v1/carros/marcas");
@@ -19,7 +19,6 @@ static class FipeAPIAccess
     string brandCode = foundBrandCode.Value;
 
     // Pesquisar na API por veículo com mesmo modelo.
-    // BUG: Modelos com caracteres especiais não são encontrados.
     HttpResponseMessage models = await client.GetAsync($"https://parallelum.com.br/fipe/api/v1/carros/marcas/{brandCode}/modelos");
     string modelsJson = await models.Content.ReadAsStringAsync();
 
@@ -45,24 +44,7 @@ static class FipeAPIAccess
     Match foundYearCode = regex6.Match(match5.Value);
     string yearCode = foundYearCode.Value;
 
-    // Pesquisar na API por veículo com mesmo tipo de combustível e ano
-    HttpResponseMessage veiculoFipeJson = await client.GetAsync($"https://parallelum.com.br/fipe/api/v1/carros/marcas/{brandCode}/modelos/{modelCode}/anos/{yearCode}");
-    string veiculoJson = await veiculoFipeJson.Content.ReadAsStringAsync();
-
-    // Encontrar o atributo 'Valor' do veículo na variável veiculoFipeJsonString
-    Regex regex7 = new Regex("\"Valor\":\"R\\$ [0-9]+.[0-9]+,[0-9]+\"");
-    Match foundveiculoFipeValue = regex7.Match(veiculoJson);
-    string veiculoFipeValue = foundveiculoFipeValue.Value;
-
-    // Encontrar o valor dentro de 'veiculoFipeJsonStringValue'
-    Regex regex8 = new Regex("[0-9]+.[0-9]+,[0-9]+");
-    Match foundVeiculoValue = regex8.Match(veiculoFipeValue);
-    string veiculoValue = foundVeiculoValue.Value;
-
-    // Remover o 'R$' e o ',' do valor, trocar o ',' por '.' e converter para decimal.
-    veiculoValue = veiculoValue.Replace("R$ ", "").Replace(".", "");
-    decimal value = decimal.Parse(veiculoValue);
-
-    return value;
+    if (brandCode == null || modelCode == null || yearCode == null) return false;
+    return true;
   }
 }

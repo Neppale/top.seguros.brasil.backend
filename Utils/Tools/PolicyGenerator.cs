@@ -8,7 +8,7 @@ static class IndemnisationGenerator
     // Recuperar dados do veículo no banco.
     Veiculo veiculo = connection.QueryFirst<Veiculo>("SELECT * FROM Veiculos WHERE id_veiculo = @id", new { id = id_veiculo });
 
-    decimal indenizationValue = await FipeAPIAccess.GetValue(veiculo.marca, veiculo.modelo, veiculo.ano);
+    decimal indenizationValue = await VehiclePriceFinder.Find(veiculo.marca, veiculo.modelo, veiculo.ano);
     return indenizationValue;
 
   }

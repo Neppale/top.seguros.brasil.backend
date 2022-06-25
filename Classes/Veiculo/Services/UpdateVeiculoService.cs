@@ -1,7 +1,7 @@
 public static class UpdateVeiculoService
 {
   /** <summary> Esta função altera um Veículo no banco de dados. </summary>**/
-  public static IResult Update(int id, Veiculo veiculo, string dbConnectionString)
+  public static async Task<IResult> Update(int id, Veiculo veiculo, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
@@ -16,6 +16,10 @@ public static class UpdateVeiculoService
     // Verificando se o RENAVAM é válido.
     bool RenavamIsValid = RenavamValidator.Validate(veiculo.renavam);
     if (!RenavamIsValid) return Results.BadRequest("O RENAVAM informado é inválido.");
+
+    // Verificando se os dados do veículo existem na API da FIPE.
+    bool vehicleIsValid = await VehicleFIPEValidator.Validate(veiculo.marca, veiculo.modelo, veiculo.ano);
+    if (!vehicleIsValid) return Results.BadRequest("Este veículo é inválido.");
 
     // Verificando se o RENAVAM já existe em outro veiculo no banco de dados.
     bool renavamAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT renavam FROM Veiculos WHERE renavam = @Renavam AND id_veiculo != @Id) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Renavam = veiculo.renavam, Id = id });

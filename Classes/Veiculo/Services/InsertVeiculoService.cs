@@ -1,7 +1,7 @@
 public static class InsertVeiculoService
 {
   /** <summary> Esta função insere um Veiculo no banco de dados. </summary>**/
-  public static IResult Insert(Veiculo veiculo, string dbConnectionString)
+  public static async Task<IResult> Insert(Veiculo veiculo, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
@@ -12,9 +12,17 @@ public static class InsertVeiculoService
     // Por padrão, o status do veículo é true.
     veiculo.status = true;
 
+    // Verificando se o ano é válido. Lembrando que o ano é composto de ano + combustível. Ex: "2019 Flex".
+    bool isValidYear = VehicleYearValidator.Validate(veiculo.ano);
+    if (!isValidYear) return Results.BadRequest("O ano do veículo não segue o formato correto.");
+
     // Verificando se o RENAVAM é válido.
     bool RenavamIsValid = RenavamValidator.Validate(veiculo.renavam);
     if (!RenavamIsValid) return Results.BadRequest("O RENAVAM informado é inválido.");
+
+    // Verificando se os dados do veículo são validados pela API da FIPE.
+    bool isValidVehicle = await VehicleFIPEValidator.Validate(veiculo.marca, veiculo.modelo, veiculo.ano);
+    if (!isValidVehicle) return Results.BadRequest("Este veículo é inválido.");
 
     // Verificando se o RENAVAM já existe em outro veiculo no banco de dados.
     bool renavamAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT renavam FROM Veiculos WHERE renavam = @Renavam) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Renavam = veiculo.renavam });
@@ -27,6 +35,8 @@ public static class InsertVeiculoService
     // Verificando se o cliente existe.
     bool clienteIsValid = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente from Clientes WHERE id_cliente = @Id", new { Id = veiculo.id_cliente });
     if (!clienteIsValid) return Results.BadRequest("Cliente não encontrado.");
+
+    //TODO: Se veículo tiver caracteres especiais, trocá-los de forma a não gerar erro no regex do VehiclePriceFinder.
 
     try
     {
