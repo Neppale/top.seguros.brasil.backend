@@ -1,7 +1,7 @@
 static class InsertClienteService
 {
   /** <summary> Esta função insere um cliente no banco de dados. </summary>**/
-  public static IResult Insert(Cliente cliente, string dbConnectionString)
+  public static async Task<IResult> Insert(Cliente cliente, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
@@ -29,8 +29,8 @@ static class InsertClienteService
     if (!cnhIsValid) return Results.BadRequest("O CNH informado é inválido.");
 
     // Verificação de CEP
-    Task<bool> cepIsValid = CepValidator.Validate(cliente.cep);
-    if (!cepIsValid.Result) return Results.BadRequest("O CEP informado é inválido.");
+    bool cepIsValid = await CepValidator.Validate(cliente.cep);
+    if (!cepIsValid) return Results.BadRequest("O CEP informado é inválido.");
 
     // Verificando se o cliente já existe no banco de dados.
     bool clienteIsValid = ClienteAlreadyExistsValidator.Validate(cliente, dbConnectionString);
