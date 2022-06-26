@@ -5,11 +5,10 @@ public static class GetOneVeiculoService
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
     var data = connectionString.QueryFirstOrDefault<Veiculo>("SELECT * from Veiculos WHERE id_Veiculo = @Id", new { Id = id });
+    if (data == null) return Results.NotFound("Veículo não encontrado.");
 
     // Removendo caracteres especiais da exibição do modelo do veículo.
     data.modelo = data.modelo.Replace(@"\", "");
-
-    if (data == null) return Results.NotFound("Veículo não encontrado.");
 
     return Results.Ok(data);
   }

@@ -20,12 +20,8 @@ public static class InsertVeiculoService
     bool RenavamIsValid = RenavamValidator.Validate(veiculo.renavam);
     if (!RenavamIsValid) return Results.BadRequest("O RENAVAM informado é inválido.");
 
-    // Se o modelo do veículo possui uma barra, adicionar outra barra para passar ma validação da FIPE.
-    if (veiculo.modelo.Contains("/")) veiculo.modelo = veiculo.modelo.Replace("/", "\\\\/");
-
-    // Se o modelo do veículo possui um parenteses, adicionar uma barra para passar na validação da FIPE.
-    if (veiculo.modelo.Contains("(")) veiculo.modelo = veiculo.modelo.Replace("(", "\\(");
-    if (veiculo.modelo.Contains(")")) veiculo.modelo = veiculo.modelo.Replace(")", "\\)");
+    // Formatando modelo do veículo para passar na validação da API da FIPE.
+    veiculo.modelo = VehicleModelFormatter.Format(veiculo.modelo);
 
     // Verificando se os dados do veículo são validados pela API da FIPE.
     bool isValidVehicle = await VehicleFIPEValidator.Validate(veiculo.marca, veiculo.modelo, veiculo.ano);

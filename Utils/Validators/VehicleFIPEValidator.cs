@@ -44,7 +44,7 @@ static class VehicleFIPEValidator
     Match foundYearCode = regex6.Match(match5.Value);
     string yearCode = foundYearCode.Value;
 
-    if (brandCode == null || modelCode == null || yearCode == null) return false;
+    if (brandCode == "" || modelCode == "" || yearCode == "") return false;
     return true;
   }
 }
