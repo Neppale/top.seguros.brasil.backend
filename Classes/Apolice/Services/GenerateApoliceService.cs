@@ -13,6 +13,10 @@ static class GenerateApoliceService
     bool veiculoExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo from Veiculos WHERE id_veiculo = @Id AND status = 'true'", new { Id = id_veiculo });
     if (!veiculoExists) return Results.BadRequest("Veiculo não encontrado.");
 
+    // Recuperando valor do veículo na tabela FIPE.
+    Veiculo veiculo = connectionString.QueryFirst<Veiculo>("SELECT * FROM Veiculos WHERE id_veiculo = @Id", new { Id = id_veiculo });
+    decimal vehicleValue = await VehiclePriceFinder.Find(veiculo.marca, veiculo.modelo, veiculo.ano);
+
     // Verificando se cobertura existe e está ativa.
     bool coberturaExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cobertura from Coberturas WHERE id_cobertura = @Id AND status = 'true'", new { Id = id_cobertura });
     if (!coberturaExists) return Results.BadRequest("Cobertura não encontrada.");
@@ -24,12 +28,10 @@ static class GenerateApoliceService
     try
     {
       Apolice generatedApolice = new();
-      generatedApolice.data_inicio = DateTime.Now.ToString();
-      generatedApolice.data_inicio = generatedApolice.data_inicio.Substring(0, 10) + " 00:00:00"; // Removendo as horas da data de ínicio.
-      generatedApolice.data_fim = DateTime.Now.AddYears(1).ToString();
-      generatedApolice.data_fim = generatedApolice.data_fim.Substring(0, 10) + " 00:00:00"; // Removendo as horas da data de fim.
-      generatedApolice.indenizacao = await IndemnisationGenerator.Generate(id_veiculo, dbConnectionString);
-      generatedApolice.premio = await PremiumGenerator.Generate(id_veiculo, id_cobertura, dbConnectionString);
+      generatedApolice.data_inicio = DateTime.Now.ToString().Substring(0, 10) + " 00:00:00";
+      generatedApolice.data_fim = DateTime.Now.AddYears(1).ToString().Substring(0, 10) + " 00:00:00";
+      generatedApolice.indenizacao = IndemnisationGenerator.Generate(vehicleValue);
+      generatedApolice.premio = PremiumGenerator.Generate(vehicleValue, id_cobertura, dbConnectionString);
       generatedApolice.id_cliente = id_cliente;
       generatedApolice.id_cobertura = id_cobertura;
       generatedApolice.id_veiculo = id_veiculo;
