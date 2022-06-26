@@ -7,7 +7,7 @@ CREATE TABLE Veiculos (
     placa VARCHAR(8) UNIQUE NOT NULL ,
     renavam VARCHAR(11) UNIQUE NOT NULL ,
     sinistrado BIT NOT NULL,
-    id_cliente INT NOT NULL,
+    id_cliente INT,
     status BIT DEFAULT 1 NOT NULL,
 );
 
@@ -42,8 +42,8 @@ CREATE TABLE Apolices (
     indenizacao DECIMAL(9, 2) NOT NULL,
     id_cobertura INT NOT NULL,
     id_usuario INT NOT NULL,
-    id_cliente INT NOT NULL,
-    id_veiculo INT NOT NULL,
+    id_cliente INT,
+    id_veiculo INT,
     status VARCHAR(15) DEFAULT 'Em Análise' NOT NULL
 );
 
@@ -65,7 +65,7 @@ CREATE TABLE Ocorrencias (
     tipo VARCHAR(15) NOT NULL,
     documento VARCHAR(max),
     id_veiculo INT NOT NULL,
-    id_cliente INT NOT NULL,
+    id_cliente INT,
     id_terceirizado INT,
     status VARCHAR(15) DEFAULT 'Andamento' NOT NULL
 );
@@ -82,7 +82,7 @@ CREATE TABLE Terceirizados (
  
 ALTER TABLE Veiculos ADD CONSTRAINT FK_Veiculos_2
     FOREIGN KEY (id_cliente)
-    REFERENCES Clientes (id_cliente);
+    REFERENCES Clientes (id_cliente) ON DELETE SET NULL;
  
 ALTER TABLE Apolices ADD CONSTRAINT FK_Apolices_2
     FOREIGN KEY (id_cobertura)
@@ -94,7 +94,7 @@ ALTER TABLE Apolices ADD CONSTRAINT FK_Apolices_3
  
 ALTER TABLE Apolices ADD CONSTRAINT FK_Apolices_4
     FOREIGN KEY (id_cliente)
-    REFERENCES Clientes (id_cliente);
+    REFERENCES Clientes (id_cliente) ON DELETE SET NULL;
  
 ALTER TABLE Apolices ADD CONSTRAINT FK_Apolices_5
     FOREIGN KEY (id_veiculo)
@@ -106,7 +106,7 @@ ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_2
  
 ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_3
     FOREIGN KEY (id_cliente)
-    REFERENCES Clientes (id_cliente);
+    REFERENCES Clientes (id_cliente) ON DELETE SET NULL;
  
 ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_4
     FOREIGN KEY (id_terceirizado)
