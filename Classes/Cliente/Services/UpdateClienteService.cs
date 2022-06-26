@@ -10,7 +10,7 @@ static class UpdateClienteService
     if (!clienteExists) return Results.NotFound("Cliente não encontrado.");
 
     // Fazendo telefone2 pular a verificação.
-    string originalTelefone2 = cliente.telefone2;
+    string? originalTelefone2 = cliente.telefone2;
     cliente.telefone2 = "-";
 
     // Verificando se alguma das propriedades do cliente é nula ou vazia.
