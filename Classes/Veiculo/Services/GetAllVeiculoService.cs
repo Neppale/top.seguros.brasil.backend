@@ -4,7 +4,7 @@ public static class GetAllVeiculoService
   public static IResult Get(string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.Query("SELECT marca, modelo, Clientes.nome_completo AS dono, placa FROM Veiculos LEFT JOIN Clientes ON Clientes.id_cliente = Veiculos.id_cliente WHERE Veiculos.status = 'true'");
+    var data = connectionString.Query("SELECT id_veiculo, marca, modelo, Clientes.nome_completo AS dono, placa FROM Veiculos LEFT JOIN Clientes ON Clientes.id_cliente = Veiculos.id_cliente WHERE Veiculos.status = 'true'");
 
     // Removendo caracteres especiais da exibição do modelo dos veículos da lista.
     foreach (var item in data)
