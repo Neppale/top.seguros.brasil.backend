@@ -4,8 +4,8 @@ public static class GetOneCoberturaService
   public static IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.QueryFirstOrDefault<Cobertura>("SELECT * from Coberturas WHERE id_cobertura = @Id", new { Id = id });
 
+    var data = connectionString.QueryFirstOrDefault("SELECT * FROM Coberturas WHERE id_cobertura = @Id", new { Id = id });
     if (data == null) return Results.NotFound("Cobertura não encontrada.");
 
     return Results.Ok(data);

@@ -4,7 +4,8 @@ public static class GetOneVeiculoService
   public static IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
-    var data = connectionString.QueryFirstOrDefault<Veiculo>("SELECT * from Veiculos WHERE id_Veiculo = @Id", new { Id = id });
+
+    var data = connectionString.QueryFirstOrDefault("SELECT * FROM Veiculos WHERE id_Veiculo = @Id", new { Id = id });
     if (data == null) return Results.NotFound("Veículo não encontrado.");
 
     // Removendo caracteres especiais da exibição do modelo do veículo.
