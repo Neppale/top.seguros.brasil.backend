@@ -12,5 +12,14 @@ static class GetApolicesByUsuarioService
     if (data.Count() == 0) return Results.NotFound("Nenhuma apólice encontrada para o usuário, ou usuário não existe.");
 
     return Results.Ok(data);
+
+    // Exemplo de retorno, adaptada para o Management Stage:
+    // [{
+    //   "id_apolice": 1,
+    //   "nome": "João da Silva",
+    //   "tipo": "Premium",
+    //   "veiculo": "Uno",
+    //   "status": "Ativa"
+    //   }]
   }
 }

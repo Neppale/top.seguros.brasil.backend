@@ -20,9 +20,9 @@ public static class ApoliceController
     })
     .WithName("Selecionar apólice por usuário");
 
-    app.MapGet("/apolice/cliente/{id:int}", [Authorize] (int id) =>
+    app.MapGet("/apolice/cliente/{id:int}", [Authorize] (int id, int? pageNumber) =>
     {
-      return GetApolicesByClienteService.Get(id_cliente: id, dbConnectionString: dbConnectionString);
+      return GetApolicesByClienteService.Get(id_cliente: id, pageNumber: pageNumber, dbConnectionString: dbConnectionString);
     })
     .WithName("Selecionar apólice por cliente");
 

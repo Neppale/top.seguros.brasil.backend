@@ -15,9 +15,9 @@ public static class VeiculoController
     })
     .WithName("Selecionar veículo específico");
 
-    app.MapGet("/veiculo/cliente/{id:int}", [Authorize] (int id) =>
+    app.MapGet("/veiculo/cliente/{id:int}", [Authorize] (int id, int? pageNumber) =>
     {
-      return GetVeiculosByCliente.Get(id_cliente: id, dbConnectionString: dbConnectionString);
+      return GetVeiculosByCliente.Get(id_cliente: id, pageNumber: pageNumber, dbConnectionString: dbConnectionString);
     })
     .WithName("Selecionar veículo por cliente");
 
