@@ -5,7 +5,7 @@ static class GetAllClienteService
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    var data = connectionString.Query("SELECT id_cliente, nome_completo, email, cpf, cnh, cep, data_nascimento, telefone1, telefone2, status FROM Clientes WHERE status = 'true'");
+    var data = connectionString.Query("SELECT id_cliente, nome_completo, email, cpf, telefone1 FROM Clientes WHERE status = 'true'");
 
     return Results.Ok(data);
   }

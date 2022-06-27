@@ -6,7 +6,7 @@ static class GetAllOcorrenciaService
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Há outro serviço para retorno de documentos. Isso é feito para otimizar o tempo e tamanho da resposta.
-    var data = connectionString.Query<Ocorrencia>("SELECT id_ocorrencia, data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado from Ocorrencias");
+    var data = connectionString.Query("SELECT Clientes.nome_completo AS nome, tipo, data, Ocorrencias.status FROM Ocorrencias LEFT JOIN Clientes ON Clientes.id_cliente = Ocorrencias.id_cliente");
 
     return Results.Ok(data);
   }
