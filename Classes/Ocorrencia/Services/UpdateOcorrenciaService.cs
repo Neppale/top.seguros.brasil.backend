@@ -9,9 +9,15 @@ static class UpdateOcorrenciaService
     // Fazendo documento pular a verificação de nulos.
     ocorrencia.documento = "-";
 
+    // Fazendo terceirizado pular a verificação de nulos.
+    int? originalTerceirizado = ocorrencia.id_terceirizado;
+
     // Verificando se alguma das propriedades é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(ocorrencia);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+    // Voltando terceirizado para o valor original.
+    ocorrencia.id_terceirizado = originalTerceirizado;
 
     // Letra inicial maiúscula para o status.
     ocorrencia.status = ocorrencia.status.Substring(0, 1).ToUpper() + ocorrencia.status.Substring(1);
@@ -38,6 +44,10 @@ static class UpdateOcorrenciaService
     // Verificando se terceirizado existe no banco de dados.
     bool terceirizadoExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_terceirizado FROM Terceirizados WHERE id_terceirizado = @Id", new { Id = ocorrencia.id_terceirizado });
     if (!terceirizadoExists) return Results.NotFound("Terceirizado não encontrado.");
+
+    // Verificando se ocorrência possui um documento. Não é possível alterar seu status para concluída sem um documento.
+    string storedDocument = connectionString.QueryFirstOrDefault<string>("SELECT documento FROM Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
+    if (ocorrencia.status == "Concluida" && storedDocument == null) return Results.BadRequest("Ocorrência não possui documento. Não é possível alterar seu status para Concluída sem um documento.");
 
     try
     {
