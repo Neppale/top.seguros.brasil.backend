@@ -64,6 +64,7 @@ CREATE TABLE Ocorrencias (
     descricao VARCHAR(255) NOT NULL,
     tipo VARCHAR(15) NOT NULL,
     documento VARCHAR(max),
+    tipoDocumento VARCHAR(15),
     id_veiculo INT NOT NULL,
     id_cliente INT,
     id_terceirizado INT,

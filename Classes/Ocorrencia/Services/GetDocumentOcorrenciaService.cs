@@ -7,11 +7,11 @@ static class GetDocumentOcorrenciaService
 
     try
     {
-      var data = connectionString.QueryFirstOrDefault<string>("SELECT documento from Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
-      if (data == null) return Results.NotFound("Ocorrência não encontrada, ou ocorrência não possui documento.");
+      var data = connectionString.QueryFirstOrDefault("SELECT documento, tipoDocumento from Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
+      if (data.documento == null) return Results.NotFound("Ocorrência não encontrada, ou ocorrência não possui documento.");
 
-      string fileName = DocumentConverter.Decode(data);
-      return Results.File(fileName, contentType: "image/png");
+      string fileName = DocumentConverter.Decode(data.documento, data.tipoDocumento);
+      return Results.File(fileName, contentType: data.tipoDocumento);
 
     }
     catch (SystemException)

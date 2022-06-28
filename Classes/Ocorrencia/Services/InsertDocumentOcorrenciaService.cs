@@ -1,5 +1,6 @@
 static class InsertDocumentOcorrenciaService
 {
+  private static readonly string[] validExtensions = { "image/png", "image/jpg", "image/jpeg" };
   public static async Task<IResult> Insert(int id, HttpRequest request, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
@@ -12,7 +13,7 @@ static class InsertDocumentOcorrenciaService
     var formRequest = await request.ReadFormAsync();
     var formFile = formRequest.Files.GetFile("file");
     if (formFile == null || formFile.Length == 0) return Results.BadRequest("Arquivo enviado não pode ser vazio.");
-    if (formFile.ContentType != "image/png") return Results.BadRequest("Formato de arquivo inválido. Formatos aceitos: PNG.");
+    if (!validExtensions.Contains(formFile.ContentType)) return Results.BadRequest("Formato de arquivo inválido. Formatos aceitos: PNG, JPG, JPEG.");
 
     // Lendo conteúdo do arquivo e convertendo para base64.
     Stream fileReader = formFile.OpenReadStream();
@@ -24,7 +25,7 @@ static class InsertDocumentOcorrenciaService
 
     try
     {
-      connectionString.Query("UPDATE Ocorrencias SET documento = @File WHERE id_ocorrencia = @Id", new { File = fileBase64, Id = id });
+      connectionString.Query("UPDATE Ocorrencias SET documento = @File, tipoDocumento = @FileType WHERE id_ocorrencia = @Id", new { File = fileBase64, Id = id, FileType = formFile.ContentType });
       return Results.StatusCode(201);
     }
     catch (SystemException)
