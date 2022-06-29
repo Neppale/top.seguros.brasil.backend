@@ -14,11 +14,11 @@ public static class InsertCoberturaService
 
     // Verificando se o nome da cobertura já existe em outra cobertura no banco de dados.
     bool nomeAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT nome FROM Coberturas WHERE nome = @Nome AND status = 'true') THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Nome = cobertura.nome });
-    if (nomeAlreadyExists) return Results.BadRequest("O nome da cobertura já está sendo utiizado por outra cobertura ativa.");
+    if (nomeAlreadyExists) return Results.Conflict("O nome da cobertura já está sendo utiizado por outra cobertura ativa.");
 
     try
     {
-      connectionString.Query<Cobertura>("INSERT INTO Coberturas (nome, descricao, valor) VALUES (@Nome, @Descricao, @Valor)", new { Nome = cobertura.nome, Descricao = cobertura.descricao, Valor = cobertura.valor });
+      connectionString.Query("INSERT INTO Coberturas (nome, descricao, valor) VALUES (@Nome, @Descricao, @Valor)", new { Nome = cobertura.nome, Descricao = cobertura.descricao, Valor = cobertura.valor });
 
       // Pegando o ID da cobertura que acabou de ser inserida.
       int createdCoberturaId = connectionString.QueryFirstOrDefault<int>("SELECT id_cobertura FROM Coberturas WHERE nome = @Nome", new { Nome = cobertura.nome });

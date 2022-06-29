@@ -34,13 +34,13 @@ static class InsertClienteService
 
     // Verificando se o cliente já existe no banco de dados.
     bool clienteIsValid = ClienteAlreadyExistsValidator.Validate(cliente, dbConnectionString);
-    if (!clienteIsValid) return Results.BadRequest("Os dados deste cliente já estão cadastrados no banco de dados.");
+    if (!clienteIsValid) return Results.Conflict("Os dados deste cliente já estão cadastrados no banco de dados.");
 
-    // Verificando se o telefone1 já existe no banco de dados.
+    // Verificando se o telefone1 está formatado corretamente.
     bool telefone1IsValid = StringFormatValidator.ValidateTelefone(cliente.telefone1);
     if (!telefone1IsValid) return Results.BadRequest("O telefone1 informado está mal formatado. Lembre-se de que o telefone deve estar no formato: (99) 99999-9999.");
 
-    // Verificando se o telefone2 já existe no banco de dados.
+    // Verificando se o telefone2 está formatado corretamente.
     bool telefone2IsValid = StringFormatValidator.ValidateTelefone(cliente.telefone2);
     if (!telefone2IsValid) return Results.BadRequest("O telefone2 informado está mal formatado. Lembre-se de que o telefone deve estar no formato: (99) 99999-9999.");
 

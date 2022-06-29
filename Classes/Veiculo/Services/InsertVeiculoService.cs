@@ -24,16 +24,16 @@ public static class InsertVeiculoService
     veiculo.modelo = VehicleModelFormatter.Format(veiculo.modelo);
 
     // Verificando se os dados do veículo são validados pela API da FIPE.
-    bool isValidVehicle = await VehicleFIPEValidator.Validate(veiculo.marca, veiculo.modelo, veiculo.ano);
-    if (!isValidVehicle) return Results.BadRequest("Este veículo é inválido.");
+    bool vehicleIsValid = await VehicleFIPEValidator.Validate(veiculo.marca, veiculo.modelo, veiculo.ano);
+    if (!vehicleIsValid) return Results.BadRequest("Este veículo não existe na tabela FIPE. Confira todos os campos e tente novamente.");
 
     // Verificando se o RENAVAM já existe em outro veiculo no banco de dados.
     bool renavamAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT renavam FROM Veiculos WHERE renavam = @Renavam) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Renavam = veiculo.renavam });
-    if (renavamAlreadyExists) return Results.BadRequest("O RENAVAM informado já está sendo utilizado por outro veiculo.");
+    if (renavamAlreadyExists) return Results.Conflict("O RENAVAM informado já está sendo utilizado por outro veiculo.");
 
     // Verificando se a placa já existe em outro veiculo no banco de dados.
     bool placaAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT placa FROM Veiculos WHERE placa = @Placa) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Placa = veiculo.placa });
-    if (placaAlreadyExists) return Results.BadRequest("A placa informada já está sendo utilizada por outro veiculo.");
+    if (placaAlreadyExists) return Results.Conflict("A placa informada já está sendo utilizada por outro veiculo.");
 
     // Verificando se o cliente existe.
     bool clienteIsValid = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente from Clientes WHERE id_cliente = @Id", new { Id = veiculo.id_cliente });
