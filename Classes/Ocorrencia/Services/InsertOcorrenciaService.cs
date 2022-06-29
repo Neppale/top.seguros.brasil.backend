@@ -13,6 +13,9 @@ static class InsertOcorrenciaService
     string? originalDocumento = ocorrencia.documento;
     if (ocorrencia.documento == null || ocorrencia.documento == "") ocorrencia.documento = "-";
 
+    // Fazendo o tipoDocumento pular a verificação de nulos.
+    string? originalTipoDocumento = ocorrencia.tipoDocumento;
+
     // Por padrão, o status é "Andamento".
     if (ocorrencia.status == null) ocorrencia.status = "Andamento";
 
@@ -25,6 +28,9 @@ static class InsertOcorrenciaService
 
     // Voltando documento para o valor original.
     ocorrencia.documento = originalDocumento;
+
+    // Voltando tipoDocumento para o valor original.
+    ocorrencia.tipoDocumento = originalTipoDocumento;
 
     // Verificando se cliente existe no banco de dados.
     bool clienteExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente FROM Clientes WHERE id_cliente = @Id", new { Id = ocorrencia.id_cliente });
