@@ -21,7 +21,7 @@ CREATE TABLE Clientes (
     cep VARCHAR(9) NOT NULL,
     data_nascimento DATE NOT NULL,
     telefone1 VARCHAR(15) UNIQUE NOT NULL,
-    telefone2 VARCHAR(15) UNIQUE,
+    telefone2 VARCHAR(15),
     status BIT DEFAULT 1 NOT NULL
 );
 
@@ -64,7 +64,7 @@ CREATE TABLE Ocorrencias (
     descricao VARCHAR(255) NOT NULL,
     tipo VARCHAR(15) NOT NULL,
     documento VARCHAR(max),
-    tipoDocumento VARCHAR(15),
+    tipoDocumento VARCHAR(11),
     id_veiculo INT NOT NULL,
     id_cliente INT,
     id_terceirizado INT,
@@ -112,3 +112,5 @@ ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_3
 ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_4
     FOREIGN KEY (id_terceirizado)
     REFERENCES Terceirizados (id_terceirizado);
+
+INSERT INTO Usuarios (nome_completo, email, senha, tipo) VALUES ('Administrador 1', 'system-admin@topseguros.br', 'Senha123', 'Administrador');

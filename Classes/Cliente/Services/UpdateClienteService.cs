@@ -1,7 +1,7 @@
 static class UpdateClienteService
 {
   /** <summary> Esta função altera um cliente no banco de dados. </summary>**/
-  public static IResult Update(int id, Cliente cliente, string dbConnectionString)
+  public static async Task<IResult> Update(int id, Cliente cliente, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
@@ -31,8 +31,8 @@ static class UpdateClienteService
     if (!cnhIsValid) return Results.BadRequest("O CPF informado é inválido.");
 
     // Verificação de CEP
-    Task<bool> cepIsValid = CepValidator.Validate(cliente.cep);
-    if (!cepIsValid.Result) return Results.BadRequest("O CEP informado é inválido.");
+    bool cepIsValid = await CepValidator.Validate(cliente.cep);
+    if (!cepIsValid) return Results.BadRequest("O CEP informado é inválido.");
 
     // Verificando se CNH já existe em outra conta no banco de dados.
     bool cnhAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT cnh FROM Clientes WHERE cnh = @Cnh AND id_cliente != @Id) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Cnh = cliente.cnh, Id = id });
