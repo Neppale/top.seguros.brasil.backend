@@ -2,9 +2,9 @@ public static class OcorrenciaController
 {
   public static void ActivateEndpoints(WebApplication app, string dbConnectionString)
   {
-    app.MapGet("/ocorrencia/", [Authorize] () =>
+    app.MapGet("/ocorrencia/", [Authorize] (int? pageNumber) =>
     {
-      return GetAllOcorrenciaService.Get(dbConnectionString: dbConnectionString);
+      return GetAllOcorrenciaService.Get(dbConnectionString: dbConnectionString, pageNumber: pageNumber);
     })
     .WithName("Selecionar todas as ocorrências");
 

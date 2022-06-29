@@ -2,9 +2,9 @@ public static class ApoliceController
 {
   public static void ActivateEndpoints(WebApplication app, string dbConnectionString)
   {
-    app.MapGet("/apolice/", [Authorize] () =>
+    app.MapGet("/apolice/", [Authorize] (int? pageNumber) =>
     {
-      return GetAllApoliceService.Get(dbConnectionString: dbConnectionString);
+      return GetAllApoliceService.Get(dbConnectionString: dbConnectionString, pageNumber: pageNumber);
     })
     .WithName("Selecionar todas as apólices");
 

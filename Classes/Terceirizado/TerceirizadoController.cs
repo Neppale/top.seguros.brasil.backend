@@ -2,10 +2,9 @@ public static class TerceirizadoController
 {
   public static void ActivateEndpoints(WebApplication app, string dbConnectionString)
   {
-    app.MapGet("/terceirizado/", [Authorize] () =>
+    app.MapGet("/terceirizado/", [Authorize] (int? pageNumber) =>
     {
-      return GetAllTerceirizadoService.Get(dbConnectionString: dbConnectionString);
-
+      return GetAllTerceirizadoService.Get(dbConnectionString: dbConnectionString, pageNumber: pageNumber);
     })
     .WithName("Selecionar todos os terceirizados");
 
@@ -18,7 +17,6 @@ public static class TerceirizadoController
     app.MapPost("/terceirizado/", [Authorize] (Terceirizado terceirizado) =>
     {
       return InsertTerceirizadoService.Insert(terceirizado: terceirizado, dbConnectionString: dbConnectionString);
-
     })
     .WithName("Inserir terceirizado");
 

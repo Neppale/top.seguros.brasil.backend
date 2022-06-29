@@ -1,4 +1,4 @@
-name: Teste de Build .NET
+name: Build
 
 # Controla quando esse workflow vai acontecer
 on:

@@ -2,10 +2,9 @@ public static class VeiculoController
 {
   public static void ActivateEndpoints(WebApplication app, string dbConnectionString)
   {
-    app.MapGet("/veiculo/", [Authorize] () =>
+    app.MapGet("/veiculo/", [Authorize] (int? pageNumber) =>
     {
-      return GetAllVeiculoService.Get(dbConnectionString: dbConnectionString);
-
+      return GetAllVeiculoService.Get(dbConnectionString: dbConnectionString, pageNumber: pageNumber);
     })
     .WithName("Selecionar todos os veículos");
 
@@ -24,7 +23,6 @@ public static class VeiculoController
     app.MapPost("/veiculo/", [Authorize] (Veiculo veiculo) =>
     {
       return InsertVeiculoService.Insert(veiculo: veiculo, dbConnectionString: dbConnectionString);
-
     })
     .WithName("Inserir veículo");
 
