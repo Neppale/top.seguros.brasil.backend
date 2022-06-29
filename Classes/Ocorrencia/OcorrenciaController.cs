@@ -8,6 +8,12 @@ public static class OcorrenciaController
     })
     .WithName("Selecionar todas as ocorrências");
 
+    app.MapGet("/ocorrencia/cliente/{id:int}", [Authorize] (int id, int? pageNumber) =>
+    {
+      return GetAllOcorrenciasByClienteService.Get(id_cliente: id, dbConnectionString: dbConnectionString, pageNumber: pageNumber);
+    })
+    .WithName("Selecionar todas as ocorrências por cliente");
+
     app.MapGet("/ocorrencia/{id:int}", [Authorize] (int id) =>
     {
       return GetOneOcorrenciaService.Get(id: id, dbConnectionString: dbConnectionString);
