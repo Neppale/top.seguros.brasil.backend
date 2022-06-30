@@ -14,20 +14,19 @@
   public int? id_terceirizado { get; set; }
   public string status { get; set; }
 
-  public Ocorrencia(string date, string place, string UF, string city, string description, string type, string? document, string? documentType, int idveiculo, int idcliente, int? idterceirizado, string status)
+  public Ocorrencia(string data, string local, string UF, string municipio, string descricao, string tipo, string? documento, string? tipoDocumento, int id_veiculo, int id_cliente, int? id_terceirizado, string status)
   {
-
-    this.data = date;
-    this.local = place;
+    this.data = data;
+    this.local = local;
     this.UF = UF;
-    this.municipio = city;
-    this.descricao = description;
-    this.tipo = type;
-    this.documento = document;
-    this.tipoDocumento = documentType;
-    this.id_veiculo = idveiculo;
-    this.id_cliente = idcliente;
-    this.id_terceirizado = idterceirizado;
+    this.municipio = municipio;
+    this.descricao = descricao;
+    this.tipo = tipo;
+    this.documento = documento;
+    this.tipoDocumento = tipoDocumento;
+    this.id_veiculo = id_veiculo;
+    this.id_cliente = id_cliente;
+    this.id_terceirizado = id_terceirizado;
     this.status = status;
   }
 

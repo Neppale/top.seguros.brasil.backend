@@ -12,17 +12,17 @@
   public string? telefone2 { get; set; }
   public bool status { get; set; }
 
-  public Cliente(string fullName, string email, string password, string cpf, string cnh, string cep, string birthdate, string phone1, string? phone2, bool status)
+  public Cliente(string nome_completo, string email, string senha, string cpf, string cnh, string cep, string data_nascimento, string telefone1, string? telefone2, bool status)
   {
-    this.nome_completo = fullName;
+    this.nome_completo = nome_completo;
     this.email = email;
-    this.senha = password;
+    this.senha = senha;
     this.cpf = cpf;
     this.cnh = cnh;
     this.cep = cep;
-    this.data_nascimento = birthdate;
-    this.telefone1 = phone1;
-    this.telefone2 = phone2;
+    this.data_nascimento = data_nascimento;
+    this.telefone1 = telefone1;
+    this.telefone2 = telefone2;
     this.status = status;
   }
 

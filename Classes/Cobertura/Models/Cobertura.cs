@@ -6,11 +6,11 @@
   public string valor { get; set; }
   public bool status { get; set; }
 
-  public Cobertura(string name, string description, double price, bool status)
+  public Cobertura(string nome, string descricao, string valor, bool status)
   {
-    this.nome = name;
-    this.descricao = description;
-    this.valor = price.ToString();
+    this.nome = nome;
+    this.descricao = descricao;
+    this.valor = valor;
     this.status = status;
   }
 

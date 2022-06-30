@@ -12,12 +12,12 @@
   {
   }
 
-  public Usuario(string fullName, string email, string type, string password, bool status)
+  public Usuario(string nome_completo, string email, string senha, string tipo, bool status)
   {
-    this.nome_completo = fullName;
+    this.nome_completo = nome_completo;
     this.email = email;
-    this.tipo = type;
-    this.senha = password;
+    this.senha = senha;
+    this.tipo = tipo;
     this.status = status;
   }
 }

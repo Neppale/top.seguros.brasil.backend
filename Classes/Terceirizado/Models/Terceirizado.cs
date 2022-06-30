@@ -9,13 +9,13 @@
   public double valor { get; set; }
   public bool status { get; set; }
 
-  public Terceirizado(string fullName, string function, string cnpj, string phone, double price, bool status)
+  public Terceirizado(string nome, string funcao, string cnpj, string telefone, double valor, bool status)
   {
-    this.nome = fullName;
-    this.funcao = function;
+    this.nome = nome;
+    this.funcao = funcao;
     this.cnpj = cnpj;
-    this.telefone = phone;
-    this.valor = price;
+    this.telefone = telefone;
+    this.valor = valor;
     this.status = status;
   }
 

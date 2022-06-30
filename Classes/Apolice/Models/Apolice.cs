@@ -11,17 +11,16 @@ public class Apolice
   public int id_veiculo { get; set; }
   public string status { get; set; }
 
-  public Apolice(string startDate, string endDate, decimal premium, decimal indemnity, int idcobertura, int idusuario, int idcliente, int idveiculo, string status)
+  public Apolice(string data_inicio, string data_fim, decimal premio, decimal indenizacao, int id_cobertura, int id_usuario, int id_cliente, int id_veiculo, string status)
   {
-
-    this.data_inicio = startDate;
-    this.data_fim = endDate;
-    this.premio = premium;
-    this.indenizacao = indemnity;
-    this.id_cobertura = idcobertura;
-    this.id_usuario = idusuario;
-    this.id_cliente = idcliente;
-    this.id_veiculo = idveiculo;
+    this.data_inicio = data_inicio;
+    this.data_fim = data_fim;
+    this.premio = premio;
+    this.indenizacao = indenizacao;
+    this.id_cobertura = id_cobertura;
+    this.id_usuario = id_usuario;
+    this.id_cliente = id_cliente;
+    this.id_veiculo = id_veiculo;
     this.status = status;
   }
 

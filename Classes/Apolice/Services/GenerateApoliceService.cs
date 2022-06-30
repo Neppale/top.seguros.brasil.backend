@@ -27,16 +27,17 @@ static class GenerateApoliceService
 
     try
     {
-      Apolice generatedApolice = new();
-      generatedApolice.data_inicio = DateTime.Now.ToString().Substring(0, 10) + " 00:00:00";
-      generatedApolice.data_fim = DateTime.Now.AddYears(1).ToString().Substring(0, 10) + " 00:00:00";
-      generatedApolice.indenizacao = IndemnisationGenerator.Generate(vehicleValue);
-      generatedApolice.premio = PremiumGenerator.Generate(vehicleValue, id_cobertura, dbConnectionString);
-      generatedApolice.id_cliente = id_cliente;
-      generatedApolice.id_cobertura = id_cobertura;
-      generatedApolice.id_veiculo = id_veiculo;
-      generatedApolice.id_usuario = UsuarioSelector.Select(dbConnectionString);
-      generatedApolice.status = "Em Análise";
+      Apolice generatedApolice = new(
+        data_inicio: DateTime.Now.ToString().Substring(0, 10) + " 00:00:00",
+        data_fim: DateTime.Now.AddYears(1).ToString().Substring(0, 10) + " 00:00:00",
+        indenizacao: IndemnisationGenerator.Generate(vehicleValue),
+        premio: PremiumGenerator.Generate(vehicleValue, id_cobertura, dbConnectionString),
+        id_cliente: id_cliente,
+        id_cobertura: id_cobertura,
+        id_veiculo: id_veiculo,
+        id_usuario: UsuarioSelector.Select(dbConnectionString),
+        status: "Em Análise"
+      );
 
       return Results.Ok(new { message = "Apólice gerada com sucesso.", warning = "Lembre-se de que a apólice não foi salva no banco de dados, apenas gerada, e por isso seu id é 0.", apolice = generatedApolice });
     }
