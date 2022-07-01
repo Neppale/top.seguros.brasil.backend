@@ -9,7 +9,7 @@ static class ApoliceDocumentGenerator
     var cliente = connectionString.QueryFirstOrDefault("SELECT nome_completo, cpf, cep FROM Clientes WHERE id_cliente = @Id", new { Id = apolice.id_cliente });
     var veiculo = connectionString.QueryFirstOrDefault("SELECT placa, marca, modelo, ano, uso FROM Veiculos WHERE id_veiculo = @Id", new { Id = apolice.id_veiculo });
     var cobertura = connectionString.QueryFirstOrDefault("SELECT valor, descricao, taxa_indenizacao FROM Coberturas WHERE id_cobertura = @Id", new { Id = apolice.id_cobertura });
-    var localizacao = await CepValidator.Get(cliente.cep);
+    var localizacao = await GetCepInfo.Get(cliente.cep);
     localizacao = await localizacao.ReadAsStringAsync();
     decimal veiculoPreco = await VehiclePriceFinder.Find(veiculo.marca, veiculo.modelo, veiculo.ano);
 
@@ -77,7 +77,6 @@ static class ApoliceDocumentGenerator
     documentoHTML = documentoHTML.Replace("{{VALORVEICULOFIPE}}", veiculoPreco.ToString());
     documentoHTML = documentoHTML.Replace("{{PREMIOAPOLICE}}", apolice.premio.ToString());
     documentoHTML = documentoHTML.Replace("{{INDENIZACAOAPOLICE}}", apolice.indenizacao.ToString());
-    // TODO: Indenização.
 
     string temporaryDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
 

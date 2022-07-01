@@ -67,21 +67,10 @@ static class APISetup
     app.UseHttpsRedirection();
     builder.Services.AddAuthorization();
 
+    // Criando diretório temporário para armazenar os arquivos de imagens e documentos.
     string temporaryDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
 
-    Directory.CreateDirectory(temporaryDirectory);
-    //     DateTime CutOffDate = DateTime.Now.AddDays(-4)
-    //     DirectoryInfo di = new DirectoryInfo(folderPath);
-    //     FileInfo[] fi = di.GetFiles();
-
-    //     for (int i = 0; i < fi.Length; i++)
-    //     {
-    //       if (fi[i].LastWriteTime < CutOffDate)
-    //       {
-    //         File.Delete(fi[i].FullName);
-    //       }
-    //     }
-
+    // TODO: Criar um timer para limpar o diretório de imagens e documentos.
 
     return app;
   }
