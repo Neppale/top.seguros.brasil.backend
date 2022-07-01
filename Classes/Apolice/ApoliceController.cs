@@ -14,6 +14,12 @@ public static class ApoliceController
     })
     .WithName("Selecionar apólice específica");
 
+    app.MapGet("/apolice/documento/{id:int}", [Authorize] (int id) =>
+    {
+      return GetApoliceDocumentService.Get(id: id, dbConnectionString: dbConnectionString);
+    })
+    .WithName("Selecionar documento de apólice específica");
+
     app.MapGet("/apolice/usuario/{id:int}", [Authorize] (int id, int? pageNumber) =>
     {
       return GetApolicesByUsuarioService.Get(id_usuario: id, pageNumber: pageNumber, dbConnectionString: dbConnectionString);

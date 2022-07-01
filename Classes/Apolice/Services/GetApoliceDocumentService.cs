@@ -1,6 +1,6 @@
 static class GetApoliceDocumentService
 {
-  public static IResult GetApoliceDocument(int id, string dbConnectionString)
+  public static IResult Get(int id, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
@@ -10,8 +10,10 @@ static class GetApoliceDocumentService
 
     try
     {
-      string data = connectionString.QueryFirstOrDefault("SELECT documento FROM Apolices WHERE id_apolice = @Id", new { Id = id });
+      string data = connectionString.QueryFirstOrDefault<string>("SELECT documento FROM Apolices WHERE id_apolice = @Id", new { Id = id });
       string filePath = DocumentConverter.Decode(data, "application/pdf");
+
+      //TODO: Results.File não encontra arquivos que não estão com root path.
       return Results.File(path: filePath, contentType: "application/pdf");
 
     }

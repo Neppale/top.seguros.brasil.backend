@@ -25,18 +25,20 @@ class DocumentConverter
     if (fileType == "image/jpg") fileType = "jpg";
     // Se fileType for image/jpeg, então o arquivo é um JPEG.
     if (fileType == "image/jpeg") fileType = "jpeg";
+    // Se fileType for application/pdf, então o arquivo é um PDF.
+    if (fileType == "application/pdf") fileType = "pdf";
 
-    // O nome do arquivo é a data atual no momento da requisição.
-    string localTime = DateTime.Now.ToString().Replace("/", "").Replace(":", "").Replace(" ", "");
-    string fileName = $"Temp/{localTime}-{Guid.NewGuid()}.{fileType}";
+    string temporaryDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
+
+    string filePath = Path.Combine(temporaryDirectory, $"{DateTime.Now.ToString("yyyy-MM-dd")}-{Guid.NewGuid()}.{fileType}");
 
     // Criando arquivo no diretório de downloads da aplicação.
-    using (var image = new FileStream(fileName, FileMode.Create))
+    using (var image = new FileStream(filePath, FileMode.Create))
     {
       image.Write(data, 0, data.Length);
       image.Flush();
     }
 
-    return fileName;
+    return filePath;
   }
 }

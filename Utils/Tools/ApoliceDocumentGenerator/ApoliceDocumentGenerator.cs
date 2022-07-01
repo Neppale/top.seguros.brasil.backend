@@ -79,7 +79,9 @@ static class ApoliceDocumentGenerator
     documentoHTML = documentoHTML.Replace("{{INDENIZACAOAPOLICE}}", apolice.indenizacao.ToString());
     // TODO: Indenização.
 
-    string filePath = $"Temp/{DateTime.Now.ToString("yyyy-MM-dd")}-{Guid.NewGuid()}.pdf";
+    string temporaryDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
+
+    string filePath = Path.Combine(temporaryDirectory, $"{DateTime.Now.ToString("yyyy-MM-dd")}-{Guid.NewGuid()}.pdf");
     var converter = new ConverterProperties();
     converter.SetBaseUri(documentoHTML);
     HtmlConverter.ConvertToPdf(documentoHTML, new FileStream(filePath, FileMode.Create), converter);
