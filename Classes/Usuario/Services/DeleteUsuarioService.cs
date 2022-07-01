@@ -11,7 +11,7 @@ static class DeleteUsuarioService
     try
     {
       connectionString.Query("UPDATE Usuarios SET status = 'false' WHERE id_Usuario = @Id", new { Id = id });
-      return Results.StatusCode(204);
+      return Results.NoContent();
     }
     catch (SystemException)
     {

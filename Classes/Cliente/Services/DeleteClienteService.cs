@@ -11,7 +11,7 @@ static class DeleteClienteService
     try
     {
       connectionString.Query("UPDATE Clientes SET status = 'false' WHERE id_cliente = @Id", new { Id = id });
-      return Results.StatusCode(204);
+      return Results.NoContent();
     }
     catch (SystemException)
     {
