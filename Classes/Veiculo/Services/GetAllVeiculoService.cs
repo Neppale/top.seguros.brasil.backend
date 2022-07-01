@@ -12,7 +12,7 @@ public static class GetAllVeiculoService
     // Removendo caracteres especiais da exibição do modelo dos veículos da lista.
     foreach (var item in data)
     {
-      item.modelo = item.modelo.Replace(@"\", "");
+      item.modelo = VehicleModelUnformatter.Unformat(item.modelo);
     }
 
 

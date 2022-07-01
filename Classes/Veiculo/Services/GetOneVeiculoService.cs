@@ -9,7 +9,7 @@ public static class GetOneVeiculoService
     if (data == null) return Results.NotFound("Veículo não encontrado.");
 
     // Removendo caracteres especiais da exibição do modelo do veículo.
-    data.modelo = data.modelo.Replace(@"\", "");
+    data.modelo = VehicleModelUnformatter.Unformat(data.modelo);
 
     return Results.Ok(data);
   }
