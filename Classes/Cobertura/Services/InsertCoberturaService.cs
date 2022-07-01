@@ -18,7 +18,7 @@ public static class InsertCoberturaService
 
     try
     {
-      connectionString.Query("INSERT INTO Coberturas (nome, descricao, valor) VALUES (@Nome, @Descricao, @Valor)", new { Nome = cobertura.nome, Descricao = cobertura.descricao, Valor = cobertura.valor });
+      connectionString.Query("INSERT INTO Coberturas (nome, descricao, valor, taxa_indenizacao) VALUES (@Nome, @Descricao, @Valor, @TaxaIndenizacao)", new { Nome = cobertura.nome, Descricao = cobertura.descricao, Valor = cobertura.valor, TaxaIndenizacao = cobertura.taxa_indenizacao });
 
       // Pegando o ID da cobertura que acabou de ser inserida.
       int createdCoberturaId = connectionString.QueryFirstOrDefault<int>("SELECT id_cobertura FROM Coberturas WHERE nome = @Nome", new { Nome = cobertura.nome });

@@ -67,6 +67,8 @@ static class APISetup
     app.UseHttpsRedirection();
     builder.Services.AddAuthorization();
 
+    Directory.CreateDirectory("Temp/");
+
     return app;
   }
 }

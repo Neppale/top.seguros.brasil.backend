@@ -28,7 +28,7 @@ class DocumentConverter
 
     // O nome do arquivo é a data atual no momento da requisição.
     string localTime = DateTime.Now.ToString().Replace("/", "").Replace(":", "").Replace(" ", "");
-    string fileName = @"C:\Users\Desktop\Downloads\" + $"{localTime}.{fileType}";
+    string fileName = $"Temp/{localTime}-{Guid.NewGuid()}.{fileType}";
 
     // Criando arquivo no diretório de downloads da aplicação.
     using (var image = new FileStream(fileName, FileMode.Create))

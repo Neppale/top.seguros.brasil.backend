@@ -40,6 +40,7 @@ CREATE TABLE Apolices (
     data_fim DATE NOT NULL,
     premio DECIMAL(9, 2) NOT NULL,
     indenizacao DECIMAL(9, 2) NOT NULL,
+    documento VARCHAR(max) NOT NULL,
     id_cobertura INT NOT NULL,
     id_usuario INT NOT NULL,
     id_cliente INT,
@@ -52,6 +53,7 @@ CREATE TABLE Coberturas (
     nome VARCHAR(50) UNIQUE NOT NULL,
     descricao VARCHAR(255) NOT NULL,
     valor DECIMAL(9, 2) NOT NULL,
+    taxa_indenizacao DECIMAL(9, 2) NOT NULL,
     status BIT DEFAULT 1 NOT NULL
 );
 

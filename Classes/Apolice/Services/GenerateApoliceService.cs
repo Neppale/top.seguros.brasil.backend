@@ -28,10 +28,11 @@ static class GenerateApoliceService
     try
     {
       Apolice generatedApolice = new(
-        data_inicio: DateTime.Now.ToString().Substring(0, 10) + " 00:00:00",
-        data_fim: DateTime.Now.AddYears(1).ToString().Substring(0, 10) + " 00:00:00",
-        indenizacao: IndemnisationGenerator.Generate(vehicleValue),
-        premio: PremiumGenerator.Generate(vehicleValue, id_cobertura, dbConnectionString),
+        data_inicio: DateTime.Now.AddDays(5).ToString().Substring(0, 10),
+        data_fim: DateTime.Now.AddDays(5).AddYears(1).ToString().Substring(0, 10),
+        premio: PremiumGenerator.Generate(vehicleValue: vehicleValue, id_cobertura: id_cobertura, dbConnectionString: dbConnectionString),
+        indenizacao: IndemnisationGenerator.Generate(id_cobertura: id_cobertura, vehicleValue: vehicleValue, dbConnectionString: dbConnectionString),
+        documento: "-",
         id_cliente: id_cliente,
         id_cobertura: id_cobertura,
         id_veiculo: id_veiculo,
