@@ -17,7 +17,7 @@ public static class DeleteVeiculoService
     }
     catch (SystemException)
     {
-      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
     }
 
   }

@@ -1,1424 +1,1795 @@
 {
-  "info": {
-    "_postman_id": "38e1e1af-5955-4f01-987a-9a2fff45ea4e",
-    "name": "TSB API Policy Engine",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "19211160"
-  },
-  "item": [
-    {
-      "name": "Usuário",
-      "item": [
-        {
-          "name": "inserir usuário",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 201\", function () {\r",
-                  "    pm.response.to.have.status(201);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n\t\"nome_completo\": \"Jonathan Henrique dos Santos\",\n\t\"email\": \"jonathan.santos@topseguros.br\",\n\t\"senha\": \"Senha123\",\n\t\"tipo\": \"Corretor\"\n}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/usuario/",
-              "host": ["{{ _.URL }}"],
-              "path": ["usuario", ""]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "selecionar todos os usuários",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/usuario/",
-              "host": ["{{ _.URL }}"],
-              "path": ["usuario", ""]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "selecionar usuário por ID",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/usuario/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["usuario", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "alterar usuário",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n\t\"nome_completo\": \"Jonathan Henrique dos Santos\",\n\t\"email\": \"jonathan.santos@topseguros.br\",\n\t\"senha\": \"Senha123\",\n\t\"tipo\": \"Analista\"\n}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/usuario/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["usuario", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "fazer login",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n\t\"email\": \"jonathan.santos@topseguros.br\",\n\t\"senha\": \"Senha123\"\n}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/usuario/login",
-              "host": ["{{ _.URL }}"],
-              "path": ["usuario", "login"]
-            }
-          },
-          "response": []
-        }
-      ],
-      "auth": {
-        "type": "noauth"
-      },
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        },
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Cobertura",
-      "item": [
-        {
-          "name": "inserir cobertura",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 201\", function () {\r",
-                  "    pm.response.to.have.status(201);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "\t{\n\t\t\"nome\": \"Básico\",\n\t\t\"descricao\": \"Cobre roubo e furto de peças.\",\n\t\t\"valor\": \"199.99\"\n\t}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/cobertura/",
-              "host": ["{{ _.URL }}"],
-              "path": ["cobertura", ""]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "selecionar todas as coberturas",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/cobertura/",
-              "host": ["{{ _.URL }}"],
-              "path": ["cobertura", ""]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "selecionar cobertura por ID",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/cobertura/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["cobertura", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "alterar cobertura",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "\t{\n\t\t\"nome\": \"Básico\",\n\t\t\"descricao\": \"Cobre roubo e furto de peças.\",\n\t\t\"valor\": \"299.99\"\n\t}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/cobertura/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["cobertura", "1"]
-            }
-          },
-          "response": []
-        }
-      ],
-      "auth": {
-        "type": "noauth"
-      },
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        },
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Cliente",
-      "item": [
-        {
-          "name": "inserir cliente",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 201\", function () {\r",
-                  "    pm.response.to.have.status(201);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n\t\"nome_completo\": \"Ednalro Pereira César\",\n\t\"email\": \"ednaldopereiracesar@email.com\",\n\t\"senha\": \"123Senha\",\n\t\"cpf\": \"430.967.558-17\",\n\t\"cnh\": \"51222939317\",\n\t\"cep\": \"57045-081\",\n\t\"data_nascimento\": \"06/06/1955\",\n\t\"telefone1\": \"(82) 93685-4088\",\n\t\"telefone2\": \"\"\n}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/cliente/",
-              "host": ["{{ _.URL }}"],
-              "path": ["cliente", ""]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "selecionar todos os clientes",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/cliente",
-              "host": ["{{ _.URL }}"],
-              "path": ["cliente"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "selecionar cliente por ID",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/cliente/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["cliente", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "alterar cliente",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n\t\"nome_completo\": \"Ednalro Pereira César\",\n\t\"email\": \"ednaldopereiracesar@email.com\",\n\t\"senha\": \"123Senha\",\n\t\"cpf\": \"430.967.558-17\",\n\t\"cnh\": \"51222939317\",\n\t\"cep\": \"57045-081\",\n\t\"data_nascimento\": \"06/06/1955\",\n\t\"telefone1\": \"(11) 99500-6027\",\n\t\"telefone2\": \"\"\n}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/cliente/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["cliente", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "fazer login",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"email\": \"ednaldopereiracesar@email.com\",\n\t\"senha\": \"123Senha\"\n}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/cliente/login",
-              "host": ["{{ _.URL }}"],
-              "path": ["cliente", "login"]
-            }
-          },
-          "response": []
-        }
-      ],
-      "auth": {
-        "type": "noauth"
-      },
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        },
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Veículo",
-      "item": [
-        {
-          "name": "inserir veiculo",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 201\", function () {\r",
-                  "    pm.response.to.have.status(201);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "\t{\n\t\t\"marca\": \"VW - VolksWagen\",\n\t\t\"modelo\": \"Gol 1000 Mi 16V/ Ouro 4p\",\n\t\t\"ano\": 1998,\n\t\t\"renavam\": \"57041940567\",\n\t\t\"placa\": \"MVU-5759\",\n\t\t\"uso\": \"Passeio\",\n\t\t\"sinistrado\": false,\n\t\t\"id_cliente\": 1\n\t}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/veiculo/",
-              "host": ["{{ _.URL }}"],
-              "path": ["veiculo", ""]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "selecionar todos os veículos",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/veiculo/",
-              "host": ["{{ _.URL }}"],
-              "path": ["veiculo", ""]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "selecionar veículo por ID",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/veiculo/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["veiculo", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "alterar veiculo",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "\t{\n\t\t\"marca\": \"VW - VolksWagen\",\n\t\t\"modelo\": \"Gol 1000 Mi 16V/ Ouro 4p\",\n\t\t\"ano\": 1998,\n\t\t\"renavam\": \"57041940567\",\n\t\t\"placa\": \"MVU-5759\",\n\t\t\"uso\": \"Trabalho\",\n\t\t\"sinistrado\": false,\n\t\t\"id_cliente\": 1\n\t}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/veiculo/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["veiculo", "1"]
-            }
-          },
-          "response": []
-        }
-      ],
-      "auth": {
-        "type": "noauth"
-      },
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        },
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Terceirizado",
-      "item": [
-        {
-          "name": "inserir terceirizado",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 201\", function () {\r",
-                  "    pm.response.to.have.status(201);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "\t{\n\t\t\"nome\": \"Yasmin Larissa Brito\",\n\t\t\"funcao\": \"Guincheiro\",\n\t\t\"cnpj\": \"93.542.859/0001-03\",\n\t\t\"telefone\": \"(15) 99566-9926\",\n\t\t\"valor\": 150.00\n\t}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/terceirizado/",
-              "host": ["{{ _.URL }}"],
-              "path": ["terceirizado", ""]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "selecionar terceirizado por ID",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/terceirizado/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["terceirizado", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "selecionar todos os terceirizados",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/terceirizado/",
-              "host": ["{{ _.URL }}"],
-              "path": ["terceirizado", ""]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "alterar terceirizado",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "\t{\n\t\t\"nome\": \"Yasmin Larissa Brito\",\n\t\t\"funcao\": \"Guincheiro\",\n\t\t\"cnpj\": \"93.542.859/0001-03\",\n\t\t\"telefone\": \"(11) 99566-9926\",\n\t\t\"valor\": 299.99\n\t}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/terceirizado/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["terceirizado", "1"]
-            }
-          },
-          "response": []
-        }
-      ],
-      "auth": {
-        "type": "noauth"
-      },
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        },
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Apólice",
-      "item": [
-        {
-          "name": "gerar apólice",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n\t\"id_cliente\": 1,\n\t\"id_veiculo\": 1,\n\t\"id_cobertura\": 1\n}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/apolice/gerar/",
-              "host": ["{{ _.URL }}"],
-              "path": ["apolice", "gerar", ""]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "inserir apolice",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 201\", function () {\r",
-                  "    pm.response.to.have.status(201);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n\t\"data_inicio\": \"2022-01-01\",\n\t\"data_fim\": \"2023-01-01\",\n\t\"premio\": 2500,\n\t\"indenizacao\": 22000,\n\t\"id_cobertura\": 1,\n\t\"id_usuario\": 1,\n\t\"id_cliente\": 1,\n\t\"id_veiculo\": 1\n}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/apolice/",
-              "host": ["{{ _.URL }}"],
-              "path": ["apolice", ""]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "selecionar apólice por ID",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/apolice/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["apolice", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "selecionar todas as apólices",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/apolice/",
-              "host": ["{{ _.URL }}"],
-              "path": ["apolice", ""]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "alterar status apolice",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
-            "url": {
-              "raw": "{{ _.URL }}/apolice/1/ativa",
-              "host": ["{{ _.URL }}"],
-              "path": ["apolice", "1", "ativa"]
-            }
-          },
-          "response": []
-        }
-      ],
-      "auth": {
-        "type": "noauth"
-      },
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        },
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Ocorrência",
-      "item": [
-        {
-          "name": "inserir ocorrência",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 201\", function () {\r",
-                  "    pm.response.to.have.status(201);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n\t\"data\": \"2022-01-01\",\n\t\"local\": \"Av. Paulista, 900, Bela Vista\",\n\t\"uf\": \"SP\",\n\t\"municipio\": \"São Paulo\",\n\t\"descricao\": \"Colisão veicular\",\n\t\"tipo\": \"Acidente\",\n\t\"id_veiculo\": 1,\n\t\"id_cliente\": 1,\n    \"id_terceirizado\": 1\n}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/ocorrencia/",
-              "host": ["{{ _.URL }}"],
-              "path": ["ocorrencia", ""]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "inserir documento",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 201\", function () {\r",
-                  "    pm.response.to.have.status(201);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "multipart/form-data"
-              }
-            ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "file",
-                  "type": "file",
-                  "src": "/C:/Users/Desktop/Pictures/Logos e Etc/Arquivos Verissimo.dev/favicon.png"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{ _.URL }}/ocorrencia/documento/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["ocorrencia", "documento", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "selecionar ocorrência por ID",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/ocorrencia/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["ocorrencia", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "selecionar documento de ocorrência",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/ocorrencia/documento/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["ocorrencia", "documento", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "selecionar todas as ocorrências",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/ocorrencia/",
-              "host": ["{{ _.URL }}"],
-              "path": ["ocorrencia", ""]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "alterar ocorrência",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n\t\"data\": \"01/01/2022 00:00:00\",\n\t\"local\": \"Av. Paulista, 900, Bela Vista\",\n\t\"uf\": \"SP\",\n\t\"municipio\": \"São Paulo\",\n\t\"descricao\": \"Colisão veicular\",\n\t\"tipo\": \"Acidente\",\n\t\"id_veiculo\": 1,\n\t\"id_cliente\": 1,\n\t\"id_terceirizado\": 1,\n\t\"status\": \"Concluida\"\n}"
-            },
-            "url": {
-              "raw": "{{ _.URL }}/ocorrencia/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["ocorrencia", "1"]
-            }
-          },
-          "response": []
-        }
-      ],
-      "auth": {
-        "type": "noauth"
-      },
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        },
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Healthcheck",
-      "item": [
-        {
-          "name": "Healthcheck",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/healthcheck",
-              "host": ["{{ _.URL }}"],
-              "path": ["healthcheck"]
-            }
-          },
-          "response": []
-        }
-      ],
-      "auth": {
-        "type": "noauth"
-      },
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        },
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Desativar tudo",
-      "item": [
-        {
-          "name": "desativar usuário",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 204\", function () {\r",
-                  "    pm.response.to.have.status(204);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/usuario/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["usuario", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "desativar cobertura",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 204\", function () {\r",
-                  "    pm.response.to.have.status(204);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/cobertura/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["cobertura", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "desativar cliente",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 204\", function () {\r",
-                  "    pm.response.to.have.status(204);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/cliente/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["cliente", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "desativar veículo",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 204\", function () {\r",
-                  "    pm.response.to.have.status(204);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/veiculo/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["veiculo", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "desativar terceirizado",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 204\", function () {\r",
-                  "    pm.response.to.have.status(204);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/terceirizado/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["terceirizado", "1"]
-            }
-          },
-          "response": []
-        }
-      ],
-      "auth": {
-        "type": "noauth"
-      },
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        },
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [""]
-          }
-        }
-      ]
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    }
-  ]
+	"info": {
+		"_postman_id": "38e1e1af-5955-4f01-987a-9a2fff45ea4e",
+		"name": "TSB API Policy Engine",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19211160"
+	},
+	"item": [
+		{
+			"name": "Usuário",
+			"item": [
+				{
+					"name": "inserir usuário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nome_completo\": \"Jonathan Henrique dos Santos\",\n\t\"email\": \"jonathan.santos@topseguros.br\",\n\t\"senha\": \"Senha123\",\n\t\"tipo\": \"Corretor\"\n}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/usuario/",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"usuario",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar todos os usuários",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/usuario/",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"usuario",
+								""
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar usuário por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/usuario/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alterar usuário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nome_completo\": \"Jonathan Henrique dos Santos\",\n\t\"email\": \"jonathan.santos@topseguros.br\",\n\t\"senha\": \"Senha123\",\n\t\"tipo\": \"Analista\"\n}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/usuario/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fazer login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"jonathan.santos@topseguros.br\",\n\t\"senha\": \"Senha123\"\n}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/usuario/login",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"usuario",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Cobertura",
+			"item": [
+				{
+					"name": "inserir cobertura",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\t{\n\t\t\"nome\": \"Básico\",\n\t\t\"descricao\": \"Cobre roubo e furto de peças.\",\n\t\t\"valor\": \"199.99\",\n        \"taxa_indenizacao\": \"80\"\n\t}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/cobertura/",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"cobertura",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar todas as coberturas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/cobertura/",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"cobertura",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar cobertura por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/cobertura/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"cobertura",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alterar cobertura",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\t{\n\t\t\"nome\": \"Básico\",\n\t\t\"descricao\": \"Cobre roubo e furto de peças.\",\n\t\t\"valor\": \"299.99\",\n        \"taxa_indenizacao\": \"90\",\n        \"status\": true\n\t}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/cobertura/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"cobertura",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Cliente",
+			"item": [
+				{
+					"name": "inserir cliente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nome_completo\": \"Ednalro Pereira César\",\n\t\"email\": \"ednaldopereiracesar@email.com\",\n\t\"senha\": \"123Senha\",\n\t\"cpf\": \"430.967.558-17\",\n\t\"cnh\": \"51222939317\",\n\t\"cep\": \"57045-081\",\n\t\"data_nascimento\": \"06/06/1955\",\n\t\"telefone1\": \"(82) 93685-4088\",\n\t\"telefone2\": \"\"\n}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/cliente/",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"cliente",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar todos os clientes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/cliente",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"cliente"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar cliente por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/cliente/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"cliente",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alterar cliente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nome_completo\": \"Ednalro Pereira César\",\n\t\"email\": \"ednaldopereiracesar@email.com\",\n\t\"senha\": \"123Senha\",\n\t\"cpf\": \"430.967.558-17\",\n\t\"cnh\": \"51222939317\",\n\t\"cep\": \"57045-081\",\n\t\"data_nascimento\": \"06/06/1955\",\n\t\"telefone1\": \"(11) 99500-6027\",\n\t\"telefone2\": \"\"\n}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/cliente/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"cliente",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fazer login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ednaldopereiracesar@email.com\",\n\t\"senha\": \"123Senha\"\n}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/cliente/login",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"cliente",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Veículo",
+			"item": [
+				{
+					"name": "inserir veiculo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\t{\n\t\t\"marca\": \"Mazda\",\n\t\t\"modelo\": \"MX-3 1.6 16V\",\n\t\t\"ano\": \"1992 Gasolina\",\n\t\t\"renavam\": \"57041940567\",\n\t\t\"placa\": \"MVU-5759\",\n\t\t\"uso\": \"Passeio\",\n\t\t\"sinistrado\": false,\n\t\t\"id_cliente\": 1\n\t}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/veiculo/",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"veiculo",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar todos os veículos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/veiculo/",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"veiculo",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar veículo por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/veiculo/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"veiculo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar veículo por cliente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/veiculo/cliente/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"veiculo",
+								"cliente",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alterar veiculo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\t{\n\t\t\"marca\": \"VW - VolksWagen\",\n\t\t\"modelo\": \"Gol 1000 Mi 16V/ Ouro 4p\",\n\t\t\"ano\": \"1998 Gasolina\",\n\t\t\"renavam\": \"57041940567\",\n\t\t\"placa\": \"MVU-5759\",\n\t\t\"uso\": \"Trabalho\",\n\t\t\"sinistrado\": false,\n\t\t\"id_cliente\": 1\n\t}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/veiculo/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"veiculo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Terceirizado",
+			"item": [
+				{
+					"name": "inserir terceirizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\t{\n\t\t\"nome\": \"Yasmin Larissa Brito\",\n\t\t\"funcao\": \"Guincheiro\",\n\t\t\"cnpj\": \"93.542.859/0001-03\",\n\t\t\"telefone\": \"(15) 99566-9926\",\n\t\t\"valor\": 150.00\n\t}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/terceirizado/",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"terceirizado",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar terceirizado por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/terceirizado/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"terceirizado",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar todos os terceirizados",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/terceirizado/",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"terceirizado",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alterar terceirizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\t{\n\t\t\"nome\": \"Yasmin Larissa Brito\",\n\t\t\"funcao\": \"Guincheiro\",\n\t\t\"cnpj\": \"93.542.859/0001-03\",\n\t\t\"telefone\": \"(11) 99566-9926\",\n\t\t\"valor\": 299.99\n\t}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/terceirizado/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"terceirizado",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Apólice",
+			"item": [
+				{
+					"name": "gerar apólice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id_cliente\": 1,\n\t\"id_veiculo\": 1,\n\t\"id_cobertura\": 1\n}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/apolice/gerar/",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"apolice",
+								"gerar",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "inserir apolice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"data_inicio\": \"11/07/2022\",\n    \"data_fim\": \"11/07/2023\",\n    \"premio\": 389.02,\n    \"indenizacao\": 8012.70,\n    \"documento\": \"-\",\n    \"id_cobertura\": 1,\n    \"id_usuario\": 1,\n    \"id_cliente\": 1,\n    \"id_veiculo\": 1,\n    \"status\": \"Em Análise\"\n}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/apolice/",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"apolice",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar apólice por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/apolice/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"apolice",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar documento de apólice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/apolice/documento/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"apolice",
+								"documento",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar todas as apólices",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/apolice/",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"apolice",
+								""
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar apólices por usuário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/apolice/usuario/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"apolice",
+								"usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar apólices por cliente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/apolice/cliente/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"apolice",
+								"cliente",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alterar status apolice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{ _.URL }}/apolice/1/ativa",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"apolice",
+								"1",
+								"ativa"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Ocorrência",
+			"item": [
+				{
+					"name": "inserir ocorrência",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"data\": \"2022-01-01\",\n\t\"local\": \"Av. Paulista, 900, Bela Vista\",\n\t\"uf\": \"SP\",\n\t\"municipio\": \"São Paulo\",\n\t\"descricao\": \"Colisão veicular\",\n\t\"tipo\": \"Acidente\",\n\t\"id_veiculo\": 1,\n\t\"id_cliente\": 1,\n    \"id_terceirizado\": 1\n}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/ocorrencia/",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"ocorrencia",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "inserir documento",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Desktop/Pictures/Logos e Etc/Arquivos Verissimo.dev/favicon.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ _.URL }}/ocorrencia/documento/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"ocorrencia",
+								"documento",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar ocorrência por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/ocorrencia/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"ocorrencia",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar documento de ocorrência",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/ocorrencia/documento/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"ocorrencia",
+								"documento",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "selecionar todas as ocorrências",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/ocorrencia/",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"ocorrencia",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alterar ocorrência",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"data\": \"01/01/2022 00:00:00\",\n\t\"local\": \"Av. Paulista, 900, Bela Vista\",\n\t\"uf\": \"SP\",\n\t\"municipio\": \"São Paulo\",\n\t\"descricao\": \"Colisão veicular\",\n\t\"tipo\": \"Acidente\",\n\t\"id_veiculo\": 1,\n\t\"id_cliente\": 1,\n\t\"id_terceirizado\": 1,\n\t\"status\": \"Concluida\"\n}"
+						},
+						"url": {
+							"raw": "{{ _.URL }}/ocorrencia/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"ocorrencia",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Healthcheck",
+			"item": [
+				{
+					"name": "Healthcheck",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/healthcheck",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"healthcheck"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Desativar tudo",
+			"item": [
+				{
+					"name": "desativar usuário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/usuario/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "desativar cobertura",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/cobertura/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"cobertura",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "desativar cliente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/cliente/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"cliente",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "desativar veículo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/veiculo/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"veiculo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "desativar terceirizado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ _.URL }}/terceirizado/1",
+							"host": [
+								"{{ _.URL }}"
+							],
+							"path": [
+								"terceirizado",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{BEARER}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
 }

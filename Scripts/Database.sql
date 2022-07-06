@@ -114,5 +114,3 @@ ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_3
 ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_4
     FOREIGN KEY (id_terceirizado)
     REFERENCES Terceirizados (id_terceirizado);
-
-INSERT INTO Usuarios (nome_completo, email, senha, tipo) VALUES ('Administrador 1', 'system-admin@topseguros.br', 'Senha123', 'Administrador');

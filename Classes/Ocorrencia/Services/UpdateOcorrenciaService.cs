@@ -11,6 +11,10 @@ static class UpdateOcorrenciaService
 
     // Fazendo terceirizado pular a verificação de nulos.
     int? originalTerceirizado = ocorrencia.id_terceirizado;
+    ocorrencia.id_terceirizado = 0;
+
+    // Fazendo tipoDocumento pular a verificação de nulos.
+    ocorrencia.tipoDocumento = "-";
 
     // Verificando se alguma das propriedades é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(ocorrencia);
@@ -58,7 +62,7 @@ static class UpdateOcorrenciaService
     catch (System.Exception)
     {
 
-      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
     }
 
   }

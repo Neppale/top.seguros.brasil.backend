@@ -15,6 +15,7 @@ static class InsertOcorrenciaService
 
     // Fazendo o tipoDocumento pular a verificação de nulos.
     string? originalTipoDocumento = ocorrencia.tipoDocumento;
+    if (ocorrencia.tipoDocumento == null || ocorrencia.tipoDocumento == "") ocorrencia.tipoDocumento = "-";
 
     // Por padrão, o status é "Andamento".
     if (ocorrencia.status == null) ocorrencia.status = "Andamento";
@@ -55,7 +56,7 @@ static class InsertOcorrenciaService
     }
     catch (SystemException)
     {
-      return Results.BadRequest("Requisição feita incorretamente. Confira todos os campos e tente novamente.");
+      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
     }
 
   }
