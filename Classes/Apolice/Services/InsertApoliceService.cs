@@ -5,12 +5,13 @@ static class InsertApoliceService
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    // Por padrão, o status da apólice é "Em Análise".
-    apolice.status = "Em Análise";
 
     // Verificando se alguma das propriedades do Veiculo é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(apolice);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+
+    // Por padrão, o status da apólice é "Em Análise".
+    apolice.status = "Em Análise";
 
     // Verificando valores de indenização e prêmio.
     if (apolice.indenizacao == 0) return Results.BadRequest("Valor de indenização não pode ser 0.");

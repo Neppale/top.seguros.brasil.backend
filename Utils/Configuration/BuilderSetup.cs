@@ -70,8 +70,6 @@ static class APISetup
     // Criando diretório temporário para armazenar os arquivos de imagens e documentos.
     string temporaryDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
 
-    // TODO: Criar um timer para limpar o diretório de imagens e documentos.
-
     return app;
   }
 }

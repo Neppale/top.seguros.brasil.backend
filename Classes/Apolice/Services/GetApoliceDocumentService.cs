@@ -13,7 +13,6 @@ static class GetApoliceDocumentService
       string data = connectionString.QueryFirstOrDefault<string>("SELECT documento FROM Apolices WHERE id_apolice = @Id", new { Id = id });
       string filePath = DocumentConverter.Decode(data, "application/pdf");
 
-      //TODO: Results.File não encontra arquivos que não estão com root path.
       return Results.File(path: filePath, contentType: "application/pdf");
 
     }

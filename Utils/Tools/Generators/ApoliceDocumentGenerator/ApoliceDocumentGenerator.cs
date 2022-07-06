@@ -1,6 +1,6 @@
 static class ApoliceDocumentGenerator
 {
-  // Gerando documento pdf da apólice.
+  /**<summary> Esta função gera um arquivo pdf em apólice. O retorno é o diretório do documento no sistema. </summary>**/
   public static async Task<string> Generate(Apolice apolice, string dbConnectionString)
   {
     SqlConnection connectionString = new SqlConnection(dbConnectionString);
@@ -13,7 +13,7 @@ static class ApoliceDocumentGenerator
     localizacao = await localizacao.ReadAsStringAsync();
     decimal veiculoPreco = await VehiclePriceFinder.Find(veiculo.marca, veiculo.modelo, veiculo.ano);
 
-    string documentoHTML = await File.ReadAllTextAsync("Utils/Tools/ApoliceDocumentGenerator/Files/ApoliceDocument.html");
+    string documentoHTML = await File.ReadAllTextAsync("Utils/Tools/Generators/ApoliceDocumentGenerator/Files/ApoliceDocument.html");
 
     // Alterando dados da apólice no documento.
     documentoHTML = documentoHTML.Replace("{{DATAHOJE}}", DateTime.Now.ToString("dd/MM/yyyy"));
