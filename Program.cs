@@ -27,7 +27,7 @@ OutsourcedController.ActivateEndpoints(app: app, dbConnectionString: dbConnectio
 UserController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString, builder: builder);
 
 // VEICULOS
-VeiculoController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
+VehicleController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
 
 app.Run();
 

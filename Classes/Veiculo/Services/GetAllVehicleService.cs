@@ -1,4 +1,4 @@
-public static class GetAllVeiculoService
+public static class GetAllVehicleService
 {
   /** <summary> Esta função retorna todos os veículos no banco de dados. </summary>**/
   public static IResult Get(string dbConnectionString, int? pageNumber)

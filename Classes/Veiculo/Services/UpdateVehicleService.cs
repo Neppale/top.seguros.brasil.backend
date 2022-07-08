@@ -1,4 +1,4 @@
-public static class UpdateVeiculoService
+public static class UpdateVehicleService
 {
   /** <summary> Esta função altera um Veículo no banco de dados. </summary>**/
   public static async Task<IResult> Update(int id, Veiculo veiculo, string dbConnectionString)

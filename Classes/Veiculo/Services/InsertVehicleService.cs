@@ -1,4 +1,4 @@
-public static class InsertVeiculoService
+public static class InsertVehicleService
 {
   /** <summary> Esta função insere um Veiculo no banco de dados. </summary>**/
   public static async Task<IResult> Insert(Veiculo veiculo, string dbConnectionString)

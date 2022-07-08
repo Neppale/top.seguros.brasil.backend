@@ -1,4 +1,4 @@
-public static class DeleteVeiculoService
+public static class DeleteVehicleService
 {
   /** <summary> Esta função deleta um Veículo no banco de dados. </summary>**/
   public static IResult Delete(int id, string dbConnectionString)

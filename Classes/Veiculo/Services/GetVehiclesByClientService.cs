@@ -1,4 +1,4 @@
-static class GetVeiculosByCliente
+static class GetVehiclesByClient
 {
   /** <summary>Esta função retorna todos os veículos do cliente.</summary> **/
   public static IResult Get(int id_cliente, int? pageNumber, string dbConnectionString)

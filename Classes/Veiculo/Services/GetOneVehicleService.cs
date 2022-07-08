@@ -1,4 +1,4 @@
-public static class GetOneVeiculoService
+public static class GetOneVehicleService
 {
   /** <summary> Esta função retorna um veículo específico no banco de dados. </summary>**/
   public static IResult Get(int id, string dbConnectionString)
