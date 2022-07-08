@@ -1,3 +1,7 @@
+USE msdb;
+GO
+DROP DATABASE IF EXISTS tsb_database;
+GO
 CREATE DATABASE tsb_database;
 GO
 USE tsb_database;
@@ -119,3 +123,4 @@ ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_3
 ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_4
     FOREIGN KEY (id_terceirizado)
     REFERENCES Terceirizados (id_terceirizado);
+GO
