@@ -9,25 +9,25 @@ connectionString.Open();
 app.MapHealthChecks("/healthcheck/");
 
 // CLIENTES 
-ClienteController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString, builder: builder);
+ClientController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString, builder: builder);
 
 // APOLICES 
-ApoliceController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
+PolicyController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
 
 // COBERTURAS
-CoberturaController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
+CoverageController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
 
 // OCORRENCIAS
-OcorrenciaController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
+IncidentController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
 
 // TERCEIRIZADOS
-TerceirizadoController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
+OutsourcedController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
 
 // USUARIOS
-UsuarioController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString, builder: builder);
+UserController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString, builder: builder);
 
 // VEICULOS
-VeiculoController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
+VehicleController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
 
 app.Run();
 
