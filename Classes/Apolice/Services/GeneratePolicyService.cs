@@ -22,7 +22,7 @@ static class GeneratePolicyService
     if (!coberturaExists) return Results.BadRequest("Cobertura não encontrada.");
 
     // Verificando se o veículo realmente pertence ao cliente.
-    bool veiculoBelongsToCliente = ClienteVeiculoValidator.Validate(id_cliente, id_veiculo, dbConnectionString);
+    bool veiculoBelongsToCliente = ClientVehicleValidator.Validate(id_cliente, id_veiculo, dbConnectionString);
     if (!veiculoBelongsToCliente) return Results.BadRequest("Veículo escolhido não pertence ao cliente.");
 
     try

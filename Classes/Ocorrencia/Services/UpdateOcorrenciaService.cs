@@ -42,7 +42,7 @@ static class UpdateOcorrenciaService
     if (!veiculoExists) return Results.NotFound("Veículo não encontrado.");
 
     // Verificando se veículo pertence ao cliente.
-    bool veiculoIsValid = ClienteVeiculoValidator.Validate(ocorrencia.id_cliente, ocorrencia.id_veiculo, dbConnectionString);
+    bool veiculoIsValid = ClientVehicleValidator.Validate(ocorrencia.id_cliente, ocorrencia.id_veiculo, dbConnectionString);
     if (!veiculoIsValid) return Results.BadRequest("Veículo não pertence ao cliente.");
 
     // Verificando se terceirizado existe no banco de dados.

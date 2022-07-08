@@ -1,4 +1,4 @@
-static class LoginClienteService
+static class LoginClientService
 {
   /** <summary> Esta função faz o login do cliente. </summary>**/
   public static IResult Login(string email, string password, string dbConnectionString, WebApplicationBuilder builder)

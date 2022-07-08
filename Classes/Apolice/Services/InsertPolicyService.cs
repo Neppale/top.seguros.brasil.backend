@@ -26,7 +26,7 @@ static class InsertPolicyService
     if (!veiculoExists) return Results.NotFound("Veículo não encontrado.");
 
     // Verificando se o veículo realmente pertence ao cliente.
-    bool veiculoBelongsToCliente = ClienteVeiculoValidator.Validate(apolice.id_cliente, apolice.id_veiculo, dbConnectionString);
+    bool veiculoBelongsToCliente = ClientVehicleValidator.Validate(apolice.id_cliente, apolice.id_veiculo, dbConnectionString);
     if (!veiculoBelongsToCliente) return Results.BadRequest("Veículo escolhido não pertence ao cliente.");
 
     // Verificando se a cobertura existe no banco de dados.

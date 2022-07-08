@@ -1,4 +1,4 @@
-static class GetOneClienteService
+static class GetOneClientService
 {
   /** <summary> Esta função retorna um cliente em específico no banco de daods. </summary>**/
   public static IResult Get(int id, string dbConnectionString)

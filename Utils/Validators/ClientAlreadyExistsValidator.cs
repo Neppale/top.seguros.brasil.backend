@@ -1,4 +1,4 @@
-static class ClienteAlreadyExistsValidator
+static class ClientAlreadyExistsValidator
 {
   /** <summary> Esta função verifica se os dados do cliente já existem no banco de dados. </summary>**/
   public static bool Validate(Cliente cliente, string dbConnectionString)

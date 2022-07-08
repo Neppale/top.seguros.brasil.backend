@@ -1,4 +1,4 @@
-static class DeleteClienteService
+static class DeleteClientService
 {
   public static IResult Delete(int id, string dbConnectionString)
   {

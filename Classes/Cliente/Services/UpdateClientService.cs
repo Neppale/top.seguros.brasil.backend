@@ -1,4 +1,4 @@
-static class UpdateClienteService
+static class UpdateClientService
 {
   /** <summary> Esta função altera um cliente no banco de dados. </summary>**/
   public static async Task<IResult> Update(int id, Cliente cliente, string dbConnectionString)

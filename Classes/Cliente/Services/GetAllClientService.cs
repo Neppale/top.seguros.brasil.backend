@@ -1,4 +1,4 @@
-static class GetAllClienteService
+static class GetAllClientService
 {
   /** <summary> Esta função retorna todos os clientes no banco de dados. </summary>**/
   public static IResult Get(string dbConnectionString, int? pageNumber)
