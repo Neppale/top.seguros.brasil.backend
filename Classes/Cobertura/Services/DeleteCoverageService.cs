@@ -1,4 +1,4 @@
-public static class DeleteCoberturaService
+public static class DeleteCoverageService
 {
   /** <summary> Esta função desativa uma cobertura no banco de dados. </summary>**/
   public static IResult Delete(int id, string dbConnectionString)

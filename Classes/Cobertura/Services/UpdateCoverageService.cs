@@ -1,4 +1,4 @@
-public static class UpdateCoberturaService
+public static class UpdateCoverageService
 {
   /** <summary> Esta função altera uma cobertura no banco de dados. </summary>**/
   public static IResult Update(int id, Cobertura cobertura, string dbConnectionString)

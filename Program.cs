@@ -15,7 +15,7 @@ ClientController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionStr
 PolicyController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
 
 // COBERTURAS
-CoberturaController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
+CoverageController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
 
 // OCORRENCIAS
 OcorrenciaController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);

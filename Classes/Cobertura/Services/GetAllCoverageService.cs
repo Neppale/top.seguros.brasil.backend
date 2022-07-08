@@ -1,4 +1,4 @@
-public static class GetAllCoberturaService
+public static class GetAllCoverageService
 {
   /** <summary> Esta função retorna todas as coberturas no banco de dados. </summary>**/
   public static IResult Get(string dbConnectionString, int? pageNumber)

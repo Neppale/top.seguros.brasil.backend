@@ -1,4 +1,4 @@
-public static class InsertCoberturaService
+public static class InsertCoverageService
 {
   /** <summary> Esta função insere uma cobertura no banco de dados. </summary>**/
   public static IResult Insert(Cobertura cobertura, string dbConnectionString)
