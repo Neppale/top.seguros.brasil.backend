@@ -44,6 +44,7 @@ START dotnet run --project ../
 echo Executando bateria de testes...
 echo ----------------------------------------------------------------
 timeout 5
+sleep 5s
 call newman run ./Postman/PostmanCollection.json -e ./Postman/PostmanEnvironment.json -k
 echo ----------------------------------------------------------------
 if errorlevel 1 GOTO ERROREND
@@ -54,6 +55,7 @@ if errorlevel 0 GOTO DATABASEKILL
 echo Testes finalizados com sucesso!
 echo Apagando banco de dados...
 timeout 5
+sleep 5s
 echo ----------------------------------------------------------------
 taskkill /IM tsb.mininal.policy.engine.exe /F
 sqlcmd -S DESKTOP-ELHKR4F\SQLEXPRESS -i "../Scripts/DropDatabase.sql"
