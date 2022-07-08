@@ -2,7 +2,7 @@
 
 [![Teste de Build .NET](https://github.com/Neppale/tsb.mininal.policy.engine/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Neppale/tsb.mininal.policy.engine/actions/workflows/dotnet.yml)
 
-![enter image description here](https://i.imgur.com/dEYYaYQ.png)
+![Logotipo da Top Seguros Brasil](https://i.imgur.com/dEYYaYQ.png)
 
 Projeto Integrado Multidisciplinar do segundo semestre da Universidade Paulista, curso Análise e Desenvolvimento de Sistemas. Neste projeto, foi desenvolvido um sistema de gerenciamento de apólices de seguros para uma empresa. O sistema foi desenvolvido em linguagem de programação C#, utilizando o framework ASP.NET Core.
 
@@ -33,7 +33,7 @@ Este comando irá instalar o pacote Newman, e em seguida, é possível executar 
 
     newman run Tests/Postman/PostmanCollection.json -e Tests/Postman/PostmanEnvironment.json -k --bail
 
-Lembre-se que o servidor deve estar ligado para que os testes funcionem. Os testes incluem a criação, alteração, exlusão e consulta de usuários, coberturas, terceirizados, clientes, veículos, apólices e ocorrências.
+Lembre-se que o servidor deve estar ligado para que os testes funcionem. Os testes incluem a criação, alteração, exclusão e consulta de usuários, coberturas, terceirizados, clientes, veículos, apólices e ocorrências.
 
 ## Endpoints
 
