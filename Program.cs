@@ -24,7 +24,7 @@ OcorrenciaController.ActivateEndpoints(app: app, dbConnectionString: dbConnectio
 OutsourcedController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
 
 // USUARIOS
-UsuarioController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString, builder: builder);
+UserController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString, builder: builder);
 
 // VEICULOS
 VeiculoController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);

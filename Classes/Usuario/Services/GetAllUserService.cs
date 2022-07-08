@@ -1,4 +1,4 @@
-static class GetAllUsuarioService
+static class GetAllUserService
 {
   /** <summary> Esta função retorna todos os usuários no banco de dados. </summary>**/
   public static IResult Get(string dbConnectionString, int? pageNumber)

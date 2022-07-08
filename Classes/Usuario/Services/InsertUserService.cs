@@ -1,4 +1,4 @@
-static class InsertUsuarioService
+static class InsertUserService
 {
   /** <summary> Esta função insere um Usuario no banco de dados. </summary>**/
   public static IResult Insert(Usuario usuario, string dbConnectionString)

@@ -1,4 +1,4 @@
-static class UpdateUsuarioService
+static class UpdateUserService
 {
   /** <summary> Esta função altera um Usuario no banco de dados. </summary>**/
   public static IResult Update(int id, Usuario usuario, string dbConnectionString)

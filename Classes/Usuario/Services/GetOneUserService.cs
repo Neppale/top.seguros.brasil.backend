@@ -1,4 +1,4 @@
-static class GetOneUsuarioService
+static class GetOneUserService
 {
   /** <summary> Esta função retorna um usuário específico no banco de dados. </summary>**/
   public static IResult Get(int id, string dbConnectionString)
