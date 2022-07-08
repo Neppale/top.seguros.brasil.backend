@@ -1,4 +1,4 @@
-static class GetAllApoliceService
+static class GetAllPolicyService
 {
   /** <summary> Esta função retorna as apólices no banco de dados. </summary>**/
   public static IResult Get(string dbConnectionString, int? pageNumber)

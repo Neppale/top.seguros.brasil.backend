@@ -1,4 +1,4 @@
-static class GetApoliceDocumentService
+static class GetPolicyDocumentService
 {
   public static IResult Get(int id, string dbConnectionString)
   {

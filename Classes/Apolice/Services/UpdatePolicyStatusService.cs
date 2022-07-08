@@ -1,4 +1,4 @@
-static class UpdateStatusApoliceService
+static class UpdatePolicyStatusService
 {
   private static string[] validStatuses = { "Ativa", "Inativa", "Analise", "Rejeitada" };
 

@@ -1,4 +1,4 @@
-static class GetApolicesByUsuarioService
+static class GetPolicyByUserService
 {
   public static IResult Get(int id_usuario, int? pageNumber, string dbConnectionString)
   {

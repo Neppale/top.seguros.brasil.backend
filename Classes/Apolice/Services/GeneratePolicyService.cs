@@ -1,4 +1,4 @@
-static class GenerateApoliceService
+static class GeneratePolicyService
 {
 
   public static async Task<IResult> Generate(int id_cliente, int id_veiculo, int id_cobertura, string dbConnectionString)

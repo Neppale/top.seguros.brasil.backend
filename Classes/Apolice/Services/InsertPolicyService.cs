@@ -1,4 +1,4 @@
-static class InsertApoliceService
+static class InsertPolicyService
 {
   /** <summary> Esta função insere uma apólice no banco de dados. </summary>**/
   public static async Task<IResult> Insert(Apolice apolice, string dbConnectionString)
@@ -47,7 +47,7 @@ static class InsertApoliceService
       apolice.id_apolice = createdApoliceId;
 
       // Gerando documento da apólice.
-      string filePath = await ApoliceDocumentGenerator.Generate(apolice: apolice, dbConnectionString: dbConnectionString);
+      string filePath = await PolicyDocumentGenerator.Generate(apolice: apolice, dbConnectionString: dbConnectionString);
 
       // Lendo documento no local específicado.
       Stream fileStream = File.OpenRead(filePath);

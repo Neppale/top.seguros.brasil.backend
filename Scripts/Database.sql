@@ -1,3 +1,8 @@
+CREATE DATABASE tsb_database;
+GO
+USE tsb_database;
+GO
+
 CREATE TABLE Veiculos (
     id_veiculo INT PRIMARY KEY IDENTITY NOT NULL,
     marca VARCHAR(50) NOT NULL,
