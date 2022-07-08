@@ -1,4 +1,4 @@
-public static class DeleteTerceirizadoService
+public static class DeleteOutsourcedService
 {
   /** <summary> Esta função altera um terceirizado no banco de dados. </summary>**/
   public static IResult Delete(int id, string dbConnectionString)

@@ -1,4 +1,4 @@
-public static class GetAllTerceirizadoService
+public static class GetAllOutsourcedService
 {
   public static IResult Get(string dbConnectionString, int? pageNumber)
   {

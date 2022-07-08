@@ -1,4 +1,4 @@
-public static class UpdateTerceirizadoService
+public static class UpdateOutsourcedService
 {
   /** <summary> Esta função altera um terceirizado no banco de dados. </summary>**/
   public static IResult Update(int id, Terceirizado terceirizado, string dbConnectionString)

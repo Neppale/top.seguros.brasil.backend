@@ -21,7 +21,7 @@ CoverageController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionS
 OcorrenciaController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
 
 // TERCEIRIZADOS
-TerceirizadoController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
+OutsourcedController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
 
 // USUARIOS
 UsuarioController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString, builder: builder);

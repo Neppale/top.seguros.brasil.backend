@@ -1,4 +1,4 @@
-public static class GetOneTerceirizadoService
+public static class GetOneOutsourcedService
 {
   /** <summary> Esta função retorna um terceirizado específico no banco de dados. </summary>**/
   public static IResult Get(int id, string dbConnectionString)

@@ -1,4 +1,4 @@
-public static class InsertTerceirizadoService
+public static class InsertOutsourcedService
 {
   /** <summary> Esta função insere uma Terceirizado no banco de dados. </summary>**/
   public static IResult Insert(Terceirizado terceirizado, string dbConnectionString)
