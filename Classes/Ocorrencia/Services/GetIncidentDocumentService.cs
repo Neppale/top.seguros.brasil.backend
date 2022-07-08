@@ -1,4 +1,4 @@
-static class GetDocumentOcorrenciaService
+static class GetIncidentDocumentService
 {
   /** <summary> Esta função retorna o documento de ocorrência específica no banco de dados. </summary>**/
   public static IResult Get(int id, string dbConnectionString)

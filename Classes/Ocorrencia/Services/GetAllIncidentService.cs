@@ -1,4 +1,4 @@
-static class GetAllOcorrenciaService
+static class GetAllIncidentService
 {
   /** <summary> Esta função retorna todas as ocorrências no banco de dados. </summary>**/
   public static IResult Get(string dbConnectionString, int? pageNumber)

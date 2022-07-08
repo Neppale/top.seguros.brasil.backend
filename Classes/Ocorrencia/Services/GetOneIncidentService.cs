@@ -1,4 +1,4 @@
-static class GetOneOcorrenciaService
+static class GetOneIncidentService
 {
   /** <summary> Esta função retorna uma ocorrência específica no banco de dados. </summary>**/
   public static IResult Get(int id, string dbConnectionString)

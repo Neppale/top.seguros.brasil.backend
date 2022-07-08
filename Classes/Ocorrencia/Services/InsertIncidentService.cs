@@ -1,4 +1,4 @@
-static class InsertOcorrenciaService
+static class InsertIncidentService
 {
   /** <summary> Esta função insere uma ocorrência no banco de dados. </summary>**/
   public static IResult Insert(Ocorrencia ocorrencia, string dbConnectionString)

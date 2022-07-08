@@ -1,4 +1,4 @@
-static class UpdateOcorrenciaService
+static class UpdateIncidentService
 {
 
   private static string[] validStatuses = { "Andamento", "Processando", "Concluida", "Rejeitada" };

@@ -1,4 +1,4 @@
-static class InsertDocumentOcorrenciaService
+static class InsertIncidentDocumentService
 {
   private static readonly string[] validExtensions = { "image/png", "image/jpg", "image/jpeg" };
   public static async Task<IResult> Insert(int id, HttpRequest request, string dbConnectionString)

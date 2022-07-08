@@ -1,4 +1,4 @@
-static class GetAllOcorrenciasByClienteService
+static class GetAllIncidentsByClientService
 {
   public static IResult Get(int id_cliente, string dbConnectionString, int? pageNumber)
   {
