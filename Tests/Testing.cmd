@@ -10,13 +10,18 @@ pause
 echo ----------------------------------------------------------------
 echo Reiniciando banco de dados. Caso o banco de dados esteja sendo utilizado, o programa congelara.
 echo ----------------------------------------------------------------
-sqlcmd -S DESKTOP-ELHKR4F\SQLEXPRESS -i "../Scripts/Database.sql"
+sqlcmd -S DESKTOP-ELHKR4F\SQLEXPRESS -i "../Scripts/CreateDatabase.sql"
 echo ----------------------------------------------------------------
-echo Banco de dados reiniciado. Ligue o servidor ou os testes falharao.
-pause 
+echo Banco de dados reiniciado.
+START dotnet run --project ../
 
-echo Executando bateria de testes...
+echo Executando bateria de testes. Aguarde...
+timeout 3
 call newman run ./Postman/PostmanCollection.json -e ./Postman/PostmanEnvironment.json -k
+echo ----------------------------------------------------------------
+echo Apagando banco de dados...
+taskkill /IM tsb.mininal.policy.engine.exe /F
+sqlcmd -S DESKTOP-ELHKR4F\SQLEXPRESS -i "../Scripts/DropDatabase.sql"
 echo ----------------------------------------------------------------
 echo Testes finalizados. Algum teste falhou? Corrija antes de fazer commit, por favor!
 pause

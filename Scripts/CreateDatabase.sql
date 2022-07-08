@@ -123,5 +123,4 @@ ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_3
 ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_4
     FOREIGN KEY (id_terceirizado)
     REFERENCES Terceirizados (id_terceirizado);
-
 GO
