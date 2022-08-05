@@ -9,7 +9,7 @@ connectionString.Open();
 app.MapHealthChecks("/healthcheck/");
 
 // CLIENTES 
-ClientController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString, builder: builder);
+ClientController.ActivateEndpoints(app: app, connectionString: connectionString, builder: builder);
 
 // APOLICES 
 PolicyController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);

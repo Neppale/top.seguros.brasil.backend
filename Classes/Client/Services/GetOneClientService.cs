@@ -1,13 +1,11 @@
 static class GetOneClientService
 {
-  /** <summary> Esta função retorna um cliente em específico no banco de daods. </summary>**/
-  public static IResult Get(int id, string dbConnectionString)
+  /** <summary> Esta função retorna um cliente em específico no banco de dados. </summary>**/
+  public static IResult Get(int id, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+    var client = GetOneClientRepository.Get(id: id, connectionString: connectionString);
+    if (client == null) return Results.NotFound("Cliente não encontrado.");
 
-    var data = connectionString.QueryFirstOrDefault("SELECT * FROM Clientes WHERE id_cliente = @Id", new { Id = id });
-    if (data == null) return Results.NotFound("Cliente não encontrado.");
-
-    return Results.Ok(data);
+    return Results.Ok(client);
   }
 }

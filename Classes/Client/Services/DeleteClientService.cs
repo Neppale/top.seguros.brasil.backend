@@ -1,23 +1,14 @@
 static class DeleteClientService
 {
-  public static IResult Delete(int id, string dbConnectionString)
+  public static IResult Delete(int id, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     // Verificando se o cliente existe.
-    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente FROM Clientes WHERE id_cliente = @Id AND status = 'true'", new { Id = id });
-    if (!Exists) return Results.NotFound("Cliente não encontrado.");
+    var client = GetOneClientRepository.Get(id: id, connectionString: connectionString);
+    if (client == null) return Results.NotFound("Cliente não encontrado.");
 
-    try
-    {
-      connectionString.Query("UPDATE Clientes SET status = 'false' WHERE id_cliente = @Id", new { Id = id });
-      return Results.NoContent();
-    }
-    catch (SystemException)
-    {
+    var result = DeleteClientRepository.Delete(id: id, connectionString: connectionString);
+    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
 
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
-    }
-
+    return Results.NoContent();
   }
 }

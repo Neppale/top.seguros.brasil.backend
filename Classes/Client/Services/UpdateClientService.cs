@@ -1,13 +1,11 @@
 static class UpdateClientService
 {
   /** <summary> Esta função altera um cliente no banco de dados. </summary>**/
-  public static async Task<IResult> Update(int id, Cliente cliente, string dbConnectionString)
+  public static async Task<IResult> Update(int id, Cliente cliente, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     // Verificando se o cliente existe.
-    bool clienteExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente FROM Clientes WHERE id_cliente = @Id", new { Id = id });
-    if (!clienteExists) return Results.NotFound("Cliente não encontrado.");
+    var client = GetOneClientRepository.Get(id: id, connectionString: connectionString);
+    if (client == null) return Results.NotFound("Cliente não encontrado.");
 
     // Fazendo telefone2 pular a verificação.
     string? originalTelefone2 = cliente.telefone2;
@@ -22,8 +20,9 @@ static class UpdateClientService
 
     // Verificando formatação dos telefones.
     bool telefone1IsValid = StringFormatValidator.ValidateTelefone(cliente.telefone1);
-    bool telefone2IsValid = StringFormatValidator.ValidateTelefone(cliente.telefone2);
     if (!telefone1IsValid) return Results.BadRequest("Telefone 1 inválido.");
+
+    bool telefone2IsValid = StringFormatValidator.ValidateTelefone(cliente.telefone2);
     if (!telefone2IsValid) return Results.BadRequest("Telefone 2 inválido.");
 
     // Verificação de CNH
@@ -45,17 +44,9 @@ static class UpdateClientService
     // Criptografando a senha do cliente.
     cliente.senha = PasswordHasher.HashPassword(cliente.senha);
 
-    try
-    {
-      connectionString.Query("UPDATE Clientes SET email = @Email, senha = @Senha, nome_completo = @Nome, cnh = @Cnh, cep = @Cep, data_nascimento = @DataNascimento, telefone1 = @Telefone1, telefone2 = @Telefone2 WHERE id_cliente = @Id",
-        new { Email = cliente.email, Senha = cliente.senha, Nome = cliente.nome_completo, Cnh = cliente.cnh, Cep = cliente.cep, DataNascimento = cliente.data_nascimento, Telefone1 = cliente.telefone1, Telefone2 = cliente.telefone2, Id = id });
+    var result = UpdateClientRepository.Update(id: id, cliente: cliente, connectionString: connectionString);
+    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
 
-      return Results.Ok();
-    }
-    catch (SystemException)
-    {
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
-    }
-
+    return Results.Ok("Cliente atualizado com sucesso.");
   }
 }

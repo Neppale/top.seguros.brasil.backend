@@ -1,13 +1,11 @@
 static class LoginClientService
 {
   /** <summary> Esta função faz o login do cliente. </summary>**/
-  public static IResult Login(string email, string password, string dbConnectionString, WebApplicationBuilder builder)
+  public static IResult Login(string email, string password, SqlConnection connectionString, WebApplicationBuilder builder)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
     try
     {
-      string hashPassword = connectionString.QueryFirstOrDefault<string>("SELECT senha FROM Clientes WHERE email = @Email", new { Email = email });
-
+      string hashPassword = GetHashPasswordByEmailRepository.Get(email: email, connectionString: connectionString);
       if (hashPassword == null) return Results.BadRequest("E-mail ou senha inválidos.");
 
       // Verificando senha do cliente.

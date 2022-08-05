@@ -1,10 +1,8 @@
 static class InsertClientService
 {
   /** <summary> Esta função insere um cliente no banco de dados. </summary>**/
-  public static async Task<IResult> Insert(Cliente cliente, string dbConnectionString)
+  public static async Task<IResult> Insert(Cliente cliente, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     // Fazendo o telefone2 pular a verificação de nulos.
     string? originalTelefone2 = cliente.telefone2;
     if (cliente.telefone2 == "" || cliente.telefone2 == null) cliente.telefone2 = "-";
@@ -33,7 +31,7 @@ static class InsertClientService
     if (!cepIsValid) return Results.BadRequest("O CEP informado é inválido.");
 
     // Verificando se o cliente já existe no banco de dados.
-    bool clienteIsValid = ClientAlreadyExistsValidator.Validate(cliente, dbConnectionString);
+    bool clienteIsValid = ClientAlreadyExistsValidator.Validate(cliente, connectionString);
     if (!clienteIsValid) return Results.Conflict("Os dados deste cliente já estão cadastrados no banco de dados.");
 
     // Verificando se o telefone1 está formatado corretamente.
@@ -47,19 +45,9 @@ static class InsertClientService
     // Criptografando a senha do cliente.
     cliente.senha = PasswordHasher.HashPassword(cliente.senha);
 
-    try
-    {
-      connectionString.Query<Cliente>("INSERT INTO Clientes (email, senha, nome_completo, cpf, cnh, cep, data_nascimento, telefone1, telefone2) VALUES (@Email, @Senha, @Nome, @Cpf, @Cnh, @Cep, @DataNascimento, @Telefone1, @Telefone2)", new { Email = cliente.email, Senha = cliente.senha, Nome = cliente.nome_completo, Cpf = cliente.cpf, Cnh = cliente.cnh, Cep = cliente.cep, DataNascimento = cliente.data_nascimento, Telefone1 = cliente.telefone1, Telefone2 = cliente.telefone2 });
+    var createdClientId = InsertClientRepository.Insert(cliente: cliente, connectionString: connectionString);
+    if (createdClientId == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
 
-      // Retornando o id do cliente criado.
-      int createdClienteId = connectionString.QueryFirstOrDefault<int>("SELECT id_cliente FROM Clientes WHERE email = @Email", new { Email = cliente.email });
-
-      return Results.Created($"/cliente/{createdClienteId}", new { id_cliente = createdClienteId });
-    }
-    catch (SystemException)
-    {
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
-    }
-
+    return Results.Created($"/cliente/{createdClientId}", new { id_cliente = createdClientId });
   }
 }
