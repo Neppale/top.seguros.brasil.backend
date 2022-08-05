@@ -1,16 +1,14 @@
 public static class GetOneVehicleService
 {
   /** <summary> Esta função retorna um veículo específico no banco de dados. </summary>**/
-  public static IResult Get(int id, string dbConnectionString)
+  public static IResult Get(int id, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
-    var data = connectionString.QueryFirstOrDefault("SELECT * FROM Veiculos WHERE id_Veiculo = @Id", new { Id = id });
-    if (data == null) return Results.NotFound("Veículo não encontrado.");
+    var vehicle = GetOneVehicleRepository.Get(id: id, connectionString: connectionString);
+    if (vehicle == null) return Results.NotFound("Veículo não encontrado.");
 
     // Removendo caracteres especiais da exibição do modelo do veículo.
-    data.modelo = VehicleModelUnformatter.Unformat(data.modelo);
+    vehicle.modelo = VehicleModelUnformatter.Unformat(vehicle.modelo);
 
-    return Results.Ok(data);
+    return Results.Ok(vehicle);
   }
 }

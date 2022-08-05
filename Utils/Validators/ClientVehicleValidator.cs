@@ -1,12 +1,14 @@
 static class ClientVehicleValidator
 {
   /** <summary> Esta função verifica se o veículo escolhido pertence ao cliente escolhido. </summary>**/
-  public static bool Validate(int id_cliente, int id_veiculo, string dbConnectionString)
+  public static bool Validate(int id_cliente, int id_veiculo, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
-    int veiculoClientId = connectionString.QueryFirstOrDefault<int>("SELECT id_cliente from Veiculos WHERE id_veiculo = @Id", new { Id = id_veiculo });
-    if (veiculoClientId != id_cliente) return false;
+    var vehicle = GetOneVehicleRepository.Get(id: id_veiculo, connectionString);
+    if (vehicle == null) return false;
+
+    if (vehicle.id_cliente != id_cliente) return false;
+
     return true;
   }
 }

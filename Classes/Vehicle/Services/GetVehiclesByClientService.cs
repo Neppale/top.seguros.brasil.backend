@@ -1,25 +1,23 @@
 static class GetVehiclesByClient
 {
   /** <summary>Esta função retorna todos os veículos do cliente.</summary> **/
-  public static IResult Get(int id_cliente, int? pageNumber, string dbConnectionString)
+  public static IResult Get(int id_cliente, int? pageNumber, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     // Se pageNumber for nulo, então a página atual é a primeira.
     if (pageNumber == null) pageNumber = 1;
 
-    var data = connectionString.Query("SELECT id_veiculo, marca, modelo, ano, uso, placa from Veiculos WHERE id_cliente = @Id ORDER BY id_veiculo OFFSET @PageNumber ROWS FETCH NEXT 5 ROWS ONLY", new { @Id = id_cliente, @PageNumber = (pageNumber - 1) * 5 });
-    if (data.Count() == 0) return Results.NotFound("Nenhum veículo encontrado para o cliente, ou cliente não existe.");
+    var client = GetOneClientRepository.Get(id: id_cliente, connectionString: connectionString);
+    if (client == null) return Results.NotFound("Cliente não encontrado.");
 
-
+    var results = GetVehiclesByClientRepository.Get(id: id_cliente, connectionString: connectionString, pageNumber: pageNumber);
 
     // Removendo caracteres especiais da exibição do modelo dos veículos da lista.
-    foreach (var item in data)
+    foreach (var item in results)
     {
       item.modelo = VehicleModelUnformatter.Unformat(item.modelo);
     }
 
-    return Results.Ok(data);
+    return Results.Ok(results);
 
     // Exemplo de retorno, adaptada para o Management Stage: 
     // [{ 

@@ -1,10 +1,8 @@
 static class InsertIncidentService
 {
   /** <summary> Esta função insere uma ocorrência no banco de dados. </summary>**/
-  public static IResult Insert(Ocorrencia ocorrencia, string dbConnectionString)
+  public static IResult Insert(Ocorrencia ocorrencia, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     // Fazendo o id_terceirizado pular a verificação de nulos.
     int? originalId_Terceirizado = ocorrencia.id_terceirizado;
     if (ocorrencia.id_terceirizado == null) ocorrencia.id_terceirizado = 0;
@@ -34,30 +32,20 @@ static class InsertIncidentService
     ocorrencia.tipoDocumento = originalTipoDocumento;
 
     // Verificando se cliente existe no banco de dados.
-    bool clienteExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente FROM Clientes WHERE id_cliente = @Id", new { Id = ocorrencia.id_cliente });
-    if (!clienteExists) return Results.NotFound("Cliente não encontrado.");
+    var client = GetOneClientRepository.Get(id: ocorrencia.id_cliente, connectionString);
+    if (client == null) return Results.NotFound("Cliente não encontrado.");
 
     // Verificando se veículo existe no banco de dados.
-    bool veiculoExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo FROM Veiculos WHERE id_veiculo = @Id", new { Id = ocorrencia.id_veiculo });
-    if (!veiculoExists) return Results.NotFound("Veículo não encontrado.");
+    var vehicle = GetOneVehicleRepository.Get(id: ocorrencia.id_veiculo, connectionString);
+    if (vehicle == null) return Results.NotFound("Veículo não encontrado.");
 
     // Verificando se veículo pertence ao cliente.
-    bool veiculoIsValid = ClientVehicleValidator.Validate(ocorrencia.id_cliente, ocorrencia.id_veiculo, dbConnectionString);
+    bool veiculoIsValid = ClientVehicleValidator.Validate(id_cliente: ocorrencia.id_cliente, id_veiculo: ocorrencia.id_veiculo, connectionString: connectionString);
     if (!veiculoIsValid) return Results.BadRequest("Veículo não pertence ao cliente.");
 
-    try
-    {
-      connectionString.Query<Veiculo>("INSERT INTO Ocorrencias (data, local, UF, municipio, descricao, tipo, id_veiculo, id_cliente, id_terceirizado) VALUES (@Data, @Local, @UF, @Municipio, @Descricao, @Tipo,  @IdVeiculo, @IdCliente, @IdTerceirizado)", new { Data = ocorrencia.data, Local = ocorrencia.local, UF = ocorrencia.UF, Municipio = ocorrencia.municipio, Descricao = ocorrencia.descricao, Tipo = ocorrencia.tipo, IdVeiculo = ocorrencia.id_veiculo, IdCliente = ocorrencia.id_cliente, IdTerceirizado = ocorrencia.id_terceirizado });
+    var result = InsertIncidentRepository.Insert(incident: ocorrencia, connectionString: connectionString);
+    if (result == 0) return Results.BadRequest("Ocorreu um erro ao inserir a ocorrência.");
 
-      // Pegando o id da ocorrência inserida para retornar na resposta.
-      int createdOcorrenciaId = connectionString.QueryFirstOrDefault<int>("SELECT id_ocorrencia FROM Ocorrencias WHERE data = @Data AND local = @Local AND UF = @UF AND municipio = @Municipio AND descricao = @Descricao AND tipo = @Tipo AND id_veiculo = @IdVeiculo AND id_cliente = @IdCliente AND id_terceirizado = @IdTerceirizado", new { Data = ocorrencia.data, Local = ocorrencia.local, UF = ocorrencia.UF, Municipio = ocorrencia.municipio, Descricao = ocorrencia.descricao, Tipo = ocorrencia.tipo, IdVeiculo = ocorrencia.id_veiculo, IdCliente = ocorrencia.id_cliente, IdTerceirizado = ocorrencia.id_terceirizado });
-
-      return Results.Created($"/ocorrencia/{createdOcorrenciaId}", new { id_ocorrencia = createdOcorrenciaId });
-    }
-    catch (SystemException)
-    {
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
-    }
-
+    return Results.Created($"/ocorrencia/{result}", new { id_ocorrencia = result });
   }
 }

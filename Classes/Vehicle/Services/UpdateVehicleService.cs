@@ -1,10 +1,8 @@
 public static class UpdateVehicleService
 {
   /** <summary> Esta função altera um Veículo no banco de dados. </summary>**/
-  public static async Task<IResult> Update(int id, Veiculo veiculo, string dbConnectionString)
+  public static async Task<IResult> Update(int id, Veiculo veiculo, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     // Verificando se veículo existe.
     bool veiculoExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo from Veiculos WHERE id_Veiculo = @Id", new { Id = id });
     if (!veiculoExists) return Results.NotFound("Veículo não encontrado.");

@@ -22,14 +22,14 @@ static class GeneratePolicyService
     if (!coberturaExists) return Results.BadRequest("Cobertura não encontrada.");
 
     // Verificando se o veículo realmente pertence ao cliente.
-    bool veiculoBelongsToCliente = ClientVehicleValidator.Validate(id_cliente, id_veiculo, dbConnectionString);
+    bool veiculoBelongsToCliente = ClientVehicleValidator.Validate(id_cliente, id_veiculo, connectionString);
     if (!veiculoBelongsToCliente) return Results.BadRequest("Veículo escolhido não pertence ao cliente.");
 
     try
     {
       Apolice generatedApolice = new(
-        data_inicio: DateTime.Now.AddDays(5).ToString().Substring(0, 10),
-        data_fim: DateTime.Now.AddDays(5).AddYears(1).ToString().Substring(0, 10),
+        data_inicio: DateTime.Now.AddDays(5).ToString("MM-dd-yyyy").Substring(0, 10),
+        data_fim: DateTime.Now.AddDays(5).AddYears(1).ToString("MM-dd-yyyy").Substring(0, 10),
         premio: PremiumGenerator.Generate(vehicleValue: vehicleValue, id_cobertura: id_cobertura, dbConnectionString: dbConnectionString),
         indenizacao: IndemnisationGenerator.Generate(id_cobertura: id_cobertura, vehicleValue: vehicleValue, dbConnectionString: dbConnectionString),
         documento: "-",

@@ -1,13 +1,11 @@
 public static class GetOneOutsourcedService
 {
   /** <summary> Esta função retorna um terceirizado específico no banco de dados. </summary>**/
-  public static IResult Get(int id, string dbConnectionString)
+  public static IResult Get(int id, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+    var outsourced = GetOneOutsourcedRepository.Get(id: id, connectionString: connectionString);
+    if (outsourced == null) return Results.NotFound("Terceirizado não encontrado.");
 
-    var data = connectionString.QueryFirstOrDefault("SELECT * FROM Terceirizados WHERE id_terceirizado = @Id", new { Id = id });
-    if (data == null) return Results.NotFound("Terceirizado não encontrado");
-
-    return Results.Ok(data);
+    return Results.Ok(outsourced);
   }
 }

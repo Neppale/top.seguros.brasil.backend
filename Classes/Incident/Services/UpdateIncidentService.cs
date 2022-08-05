@@ -2,10 +2,8 @@ static class UpdateIncidentService
 {
 
   private static string[] validStatuses = { "Andamento", "Processando", "Concluida", "Rejeitada" };
-  public static IResult Update(int id, Ocorrencia ocorrencia, string dbConnectionString)
+  public static IResult Update(int id, Ocorrencia ocorrencia, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     // Fazendo documento pular a verificação de nulos.
     ocorrencia.documento = "-";
 
@@ -30,40 +28,35 @@ static class UpdateIncidentService
     if (!validStatuses.Contains(ocorrencia.status)) return Results.BadRequest("Status inválido. Status permitidos: " + string.Join(", ", validStatuses));
 
     // Verificando se ocorrência existe no banco de dados.
-    bool ocorrenciaExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_ocorrencia FROM Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
-    if (!ocorrenciaExists) return Results.NotFound("Ocorrência não encontrada.");
+    var incident = GetOneIncidentRepository.Get(id: id, connectionString: connectionString);
+    if (incident == null) return Results.NotFound("Ocorrência não encontrada.");
 
     // Verificando se cliente existe no banco de dados.
-    bool clienteExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente FROM Clientes WHERE id_cliente = @Id", new { Id = ocorrencia.id_cliente });
-    if (!clienteExists) return Results.NotFound("Cliente não encontrado.");
+    var client = GetOneClientRepository.Get(id: ocorrencia.id_cliente, connectionString: connectionString);
+    if (client == null) return Results.NotFound("Cliente não encontrado.");
 
     // Verificando se veículo existe no banco de dados.
-    bool veiculoExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo FROM Veiculos WHERE id_veiculo = @Id", new { Id = ocorrencia.id_veiculo });
-    if (!veiculoExists) return Results.NotFound("Veículo não encontrado.");
+    var vehicle = GetOneVehicleRepository.Get(id: ocorrencia.id_veiculo, connectionString: connectionString);
+    if (vehicle == null) return Results.NotFound("Veículo não encontrado.");
 
     // Verificando se veículo pertence ao cliente.
-    bool veiculoIsValid = ClientVehicleValidator.Validate(ocorrencia.id_cliente, ocorrencia.id_veiculo, dbConnectionString);
+    bool veiculoIsValid = ClientVehicleValidator.Validate(id_cliente: ocorrencia.id_cliente, id_veiculo: ocorrencia.id_veiculo, connectionString: connectionString);
     if (!veiculoIsValid) return Results.BadRequest("Veículo não pertence ao cliente.");
 
     // Verificando se terceirizado existe no banco de dados.
-    bool terceirizadoExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_terceirizado FROM Terceirizados WHERE id_terceirizado = @Id", new { Id = ocorrencia.id_terceirizado });
-    if (!terceirizadoExists) return Results.NotFound("Terceirizado não encontrado.");
+    if (ocorrencia.id_terceirizado != null)
+    {
+      var outsourced = GetOneOutsourcedRepository.Get(id: (int)ocorrencia.id_terceirizado, connectionString: connectionString);
+      if (outsourced == null) return Results.NotFound("Terceirizado não encontrado.");
+    }
 
     // Verificando se ocorrência possui um documento. Não é possível alterar seu status para concluída sem um documento.
-    string storedDocument = connectionString.QueryFirstOrDefault<string>("SELECT documento FROM Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
-    if (ocorrencia.status == "Concluida" && storedDocument == null) return Results.BadRequest("Ocorrência não possui documento. Não é possível alterar seu status para Concluída sem um documento.");
+    var storedDocument = GetIncidentDocumentRepository.Get(id: id, connectionString: connectionString);
+    if (ocorrencia.status == "Concluida" && storedDocument.documento == null) return Results.BadRequest("Esta ocorrência não possui documento. Não é possível alterar seu status para Concluída sem um documento.");
 
-    try
-    {
-      connectionString.QueryFirstOrDefault("UPDATE Ocorrencias SET data = @Data, local = @Local, UF = @UF, municipio = @Municipio, descricao = @Descricao, tipo = @Tipo, status = @Status, id_veiculo = @Id_veiculo, id_cliente = @Id_cliente, id_terceirizado = @Id_terceirizado WHERE id_ocorrencia = @Id", new { Id = id, Data = ocorrencia.data, Local = ocorrencia.local, UF = ocorrencia.UF, Municipio = ocorrencia.municipio, Descricao = ocorrencia.descricao, Tipo = ocorrencia.tipo, Status = ocorrencia.status, Id_veiculo = ocorrencia.id_veiculo, Id_cliente = ocorrencia.id_cliente, Id_terceirizado = ocorrencia.id_terceirizado });
+    var result = UpdateIncidentRepository.Update(incident: ocorrencia, connectionString: connectionString);
+    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
 
-      return Results.Ok();
-    }
-    catch (System.Exception)
-    {
-
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
-    }
-
+    return Results.Ok("Ocorrência atualizada com sucesso.");
   }
 }

@@ -18,16 +18,16 @@ PolicyController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionStr
 CoverageController.ActivateEndpoints(app: app, connectionString: connectionString);
 
 // OCORRENCIAS
-IncidentController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
+IncidentController.ActivateEndpoints(app: app, connectionString: connectionString);
 
 // TERCEIRIZADOS
-OutsourcedController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
+OutsourcedController.ActivateEndpoints(app: app, connectionString: connectionString);
 
 // USUARIOS
 UserController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString, builder: builder);
 
 // VEICULOS
-VehicleController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
+VehicleController.ActivateEndpoints(app: app, connectionString: connectionString);
 
 app.Run();
 

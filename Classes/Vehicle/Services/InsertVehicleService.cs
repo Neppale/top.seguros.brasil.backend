@@ -1,10 +1,8 @@
 public static class InsertVehicleService
 {
   /** <summary> Esta função insere um Veiculo no banco de dados. </summary>**/
-  public static async Task<IResult> Insert(Veiculo veiculo, string dbConnectionString)
+  public static async Task<IResult> Insert(Veiculo veiculo, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     // Verificando se alguma das propriedades do Veiculo é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(veiculo);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");

@@ -1,10 +1,8 @@
 static class InsertIncidentDocumentService
 {
   private static readonly string[] validExtensions = { "image/png", "image/jpg", "image/jpeg" };
-  public static async Task<IResult> Insert(int id, HttpRequest request, string dbConnectionString)
+  public static async Task<IResult> Insert(int id, HttpRequest request, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     // Verificando se formato de requisição é válido.
     if (!request.HasFormContentType)
       return Results.BadRequest("Formato de requisição inválido.");
@@ -20,18 +18,12 @@ static class InsertIncidentDocumentService
     string fileBase64 = DocumentConverter.Encode(fileReader);
 
     // Verificando se ocorrência existe.
-    bool ocorrenciaExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_ocorrencia FROM Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
-    if (!ocorrenciaExists) return Results.NotFound("Ocorrência não encontrada.");
+    Ocorrencia incident = GetOneIncidentRepository.Get(id, connectionString);
+    if (incident == null) return Results.NotFound("Ocorrência não encontrada.");
 
-    try
-    {
-      connectionString.Query("UPDATE Ocorrencias SET documento = @File, tipoDocumento = @FileType WHERE id_ocorrencia = @Id", new { File = fileBase64, Id = id, FileType = formFile.ContentType });
-      return Results.StatusCode(201);
-    }
-    catch (SystemException)
-    {
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
-    }
+    var result = InsertIncidentDocumentRepository.Insert(id: id, fileType: formFile.ContentType, fileBase64: fileBase64, connectionString: connectionString);
+    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
 
+    return Results.Created($"/ocorrencia/{id}/documento", "Documento inserido com sucesso.");
   }
 }

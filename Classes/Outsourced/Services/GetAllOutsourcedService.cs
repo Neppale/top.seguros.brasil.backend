@@ -1,9 +1,7 @@
 public static class GetAllOutsourcedService
 {
-  public static IResult Get(string dbConnectionString, int? pageNumber)
+  public static IResult Get(SqlConnection connectionString, int? pageNumber)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     // Se pageNumber for nulo, então a página atual é a primeira.
     if (pageNumber == null) pageNumber = 1;
 

@@ -1,10 +1,8 @@
 public static class UpdateOutsourcedService
 {
   /** <summary> Esta função altera um terceirizado no banco de dados. </summary>**/
-  public static IResult Update(int id, Terceirizado terceirizado, string dbConnectionString)
+  public static IResult Update(int id, Terceirizado terceirizado, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     // Verificando se alguma das propriedades do terceirizado é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(terceirizado);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
