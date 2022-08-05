@@ -40,7 +40,7 @@ echo Reiniciando banco de dados.
 echo ----------------------------------------------------------------
 taskkill /IM dotnet.exe /F
 taskkill /IM Ssms.exe /F
-sqlcmd -S DESKTOP-ELHKR4F\SQLEXPRESS -i "../Scripts/CreateDatabase.sql"
+sqlcmd -S localhost -U sa -P Password1234! -i "../Scripts/CreateDatabase.sql"
 echo ----------------------------------------------------------------
 echo Banco de dados reiniciado.
 START dotnet run --project ../
@@ -63,7 +63,7 @@ echo ----------------------------------------------------------------
 timeout 5 /NOBREAK
 sleep 5s
 taskkill /IM tsb.mininal.policy.engine.exe /F
-sqlcmd -S DESKTOP-ELHKR4F\SQLEXPRESS -i "../Scripts/DropDatabase.sql"
+sqlcmd -S localhost -U sa -P Password1234! -i "../Scripts/DropDatabase.sql"
 cd ../Temp
 del *.pdf /q
 del *.png -/q

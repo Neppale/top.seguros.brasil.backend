@@ -1,23 +1,16 @@
 public static class DeleteCoverageService
 {
   /** <summary> Esta função desativa uma cobertura no banco de dados. </summary>**/
-  public static IResult Delete(int id, string dbConnectionString)
+  public static IResult Delete(int id, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
 
     // Verificando se a cobertura existe.
-    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cobertura from Coberturas WHERE id_cobertura = @Id", new { Id = id });
-    if (!Exists) return Results.NotFound("Cobertura não encontrada.");
+    var coverage = GetOneCoverageRepository.Get(id: id, connectionString: connectionString);
+    if (coverage == null) return Results.NotFound("Cobertura não encontrada.");
 
-    try
-    {
-      connectionString.Query("UPDATE Coberturas SET status = 'false' WHERE id_cobertura = @Id", new { Id = id });
-      return Results.NoContent();
-    }
-    catch (SystemException)
-    {
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
-    }
+    var result = DeleteCoverageRepository.Delete(id: id, connectionString: connectionString);
+    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
 
+    return Results.NoContent();
   }
 }
