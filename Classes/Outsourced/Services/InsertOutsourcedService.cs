@@ -27,19 +27,10 @@ public static class InsertOutsourcedService
     bool telefoneExists = connectionString.QueryFirstOrDefault<bool>("SELECT telefone FROM Terceirizados WHERE telefone = @Telefone", new { Telefone = terceirizado.telefone });
     if (telefoneExists) return Results.Conflict("O telefone informado já está sendo utilizado por outro terceirizado.");
 
-    try
-    {
-      connectionString.Query("INSERT INTO Terceirizados (nome, funcao, cnpj, telefone, valor) VALUES (@Nome, @Funcao, @Cnpj, @Telefone, @Valor)", new { Nome = terceirizado.nome, Funcao = terceirizado.funcao, Cnpj = terceirizado.cnpj, Telefone = terceirizado.telefone, Valor = terceirizado.valor });
+    var result = InsertOutsourcedRepository.Insert(outsourced: terceirizado, connectionString: connectionString);
+    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
 
-      // Pegando o ID do Terceirizado que acabou de ser inserido.
-      int createdTerceirizadoId = connectionString.QueryFirstOrDefault<int>("SELECT id_terceirizado FROM Terceirizados WHERE cnpj = @Cnpj", new { Cnpj = terceirizado.cnpj });
-
-      return Results.Created($"/terceirizado/{createdTerceirizadoId}", new { id_terceirizado = createdTerceirizadoId });
-    }
-    catch (SystemException)
-    {
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
-    }
-
+    return Results.Created($"/cliente/{result}", new { id_terceirizado = result });
   }
 }
+

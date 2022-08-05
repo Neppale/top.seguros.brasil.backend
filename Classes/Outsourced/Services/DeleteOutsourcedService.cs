@@ -4,18 +4,12 @@ public static class DeleteOutsourcedService
   public static IResult Delete(int id, SqlConnection connectionString)
   {
     // Verificando se terceirizado existe.
-    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_terceirizado from Terceirizados WHERE id_terceirizado = @Id AND status = 'true'", new { Id = id });
-    if (!Exists) return Results.NotFound("Terceirizado não encontrado");
+    var outsourced = GetOneOutsourcedRepository.Get(id: id, connectionString: connectionString);
+    if (outsourced == null) return Results.NotFound("Terceirizado não encontrado");
 
-    try
-    {
-      connectionString.Query("UPDATE Terceirizados SET status = 'false' WHERE id_terceirizado = @Id", new { Id = id });
-      return Results.NoContent();
-    }
-    catch (SystemException)
-    {
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
-    }
+    var result = DeleteOutsourcedRepository.Delete(id: id, connectionString: connectionString);
+    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
 
+    return Results.NoContent();
   }
 }

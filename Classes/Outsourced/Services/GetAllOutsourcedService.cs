@@ -5,8 +5,8 @@ public static class GetAllOutsourcedService
     // Se pageNumber for nulo, então a página atual é a primeira.
     if (pageNumber == null) pageNumber = 1;
 
-    var data = connectionString.Query<Terceirizado>("SELECT * from Terceirizados WHERE status = 'true' ORDER BY id_terceirizado OFFSET @PageNumber ROWS FETCH NEXT 5 ROWS ONLY", new { PageNumber = (pageNumber - 1) * 5 });
+    var outsourceds = GetAllOutsourcedRepository.Get(connectionString: connectionString, pageNumber: pageNumber);
 
-    return Results.Ok(data);
+    return Results.Ok(outsourceds);
   }
 }
