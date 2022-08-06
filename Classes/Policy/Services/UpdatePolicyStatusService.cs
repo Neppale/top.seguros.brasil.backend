@@ -19,9 +19,8 @@ static class UpdatePolicyStatusService
     if (policy == null) return Results.NotFound("Apólice não encontrada.");
 
     // Verificando se o status é igual ao atual.
-    string currentStatus = connectionString.QueryFirstOrDefault<string>("SELECT status from Apolices WHERE id_apolice = @Id", new { Id = id });
-    if (currentStatus == status) return Results.Conflict("O novo status da apólice não pode ser igual ao atual.");
-    if (currentStatus == "Rejeitada" || currentStatus == "Inativa") return Results.Conflict($"O status desta apólice não pode ser alterado. Status atual: {currentStatus}");
+    if (policy.status == status) return Results.Conflict("O novo status da apólice não pode ser igual ao atual.");
+    if (policy.status == "Rejeitada" || policy.status == "Inativa") return Results.Conflict($"O status desta apólice não pode ser alterado. Status atual: {policy}");
 
     var result = UpdatePolicyStatusRepository.Update(id: id, status: status, connectionString);
     if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
