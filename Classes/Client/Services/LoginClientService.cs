@@ -5,7 +5,7 @@ static class LoginClientService
   {
     try
     {
-      string hashPassword = GetHashPasswordByEmailRepository.Get(email: email, connectionString: connectionString);
+      string hashPassword = GetClientHashPasswordByEmailRepository.Get(email: email, connectionString: connectionString);
       if (hashPassword == null) return Results.BadRequest("E-mail ou senha inválidos.");
 
       // Verificando senha do cliente.

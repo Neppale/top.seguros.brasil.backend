@@ -1,42 +1,39 @@
 static class GeneratePolicyService
 {
 
-  public static async Task<IResult> Generate(int id_cliente, int id_veiculo, int id_cobertura, string dbConnectionString)
+  public static async Task<IResult> Generate(int id_cliente, int id_veiculo, int id_cobertura, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     // Verificando se cliente existe e está ativo.
-    bool clienteExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente from Clientes WHERE id_Cliente = @Id AND status = 'true'", new { Id = id_cliente });
-    if (!clienteExists) return Results.BadRequest("Cliente não encontrado.");
+    var client = GetOneClientRepository.Get(id_cliente, connectionString);
+    if (client == null) return Results.BadRequest("Cliente não encontrado.");
 
     // Verificando se veiculo existe e está ativo.
-    bool veiculoExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo from Veiculos WHERE id_veiculo = @Id AND status = 'true'", new { Id = id_veiculo });
-    if (!veiculoExists) return Results.BadRequest("Veiculo não encontrado.");
+    var vehicle = GetOneVehicleRepository.Get(id_veiculo, connectionString);
+    if (vehicle == null) return Results.BadRequest("Veiculo não encontrado.");
 
     // Recuperando valor do veículo na tabela FIPE.
-    Veiculo veiculo = connectionString.QueryFirst<Veiculo>("SELECT * FROM Veiculos WHERE id_veiculo = @Id", new { Id = id_veiculo });
-    decimal vehicleValue = await VehiclePriceFinder.Find(veiculo.marca, veiculo.modelo, veiculo.ano);
+    decimal vehicleValue = await VehiclePriceFinder.Find(vehicle.marca, vehicle.modelo, vehicle.ano);
 
     // Verificando se cobertura existe e está ativa.
-    bool coberturaExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cobertura from Coberturas WHERE id_cobertura = @Id AND status = 'true'", new { Id = id_cobertura });
-    if (!coberturaExists) return Results.BadRequest("Cobertura não encontrada.");
+    var coverage = GetOneCoverageRepository.Get(id_cobertura, connectionString);
+    if (coverage == null) return Results.BadRequest("Cobertura não encontrada.");
 
     // Verificando se o veículo realmente pertence ao cliente.
-    bool veiculoBelongsToCliente = ClientVehicleValidator.Validate(id_cliente, id_veiculo, connectionString);
-    if (!veiculoBelongsToCliente) return Results.BadRequest("Veículo escolhido não pertence ao cliente.");
+    bool vehicleBelongsToClient = ClientVehicleValidator.Validate(id_cliente, id_veiculo, connectionString);
+    if (!vehicleBelongsToClient) return Results.BadRequest("Veículo não pertence ao cliente.");
 
     try
     {
       Apolice generatedApolice = new(
         data_inicio: DateTime.Now.AddDays(5).ToString("MM-dd-yyyy").Substring(0, 10),
         data_fim: DateTime.Now.AddDays(5).AddYears(1).ToString("MM-dd-yyyy").Substring(0, 10),
-        premio: PremiumGenerator.Generate(vehicleValue: vehicleValue, id_cobertura: id_cobertura, dbConnectionString: dbConnectionString),
-        indenizacao: IndemnisationGenerator.Generate(id_cobertura: id_cobertura, vehicleValue: vehicleValue, dbConnectionString: dbConnectionString),
+        premio: PremiumGenerator.Generate(vehicleValue: vehicleValue, id_cobertura: id_cobertura, connectionString: connectionString),
+        indenizacao: IndemnisationGenerator.Generate(id_cobertura: id_cobertura, vehicleValue: vehicleValue, connectionString: connectionString),
         documento: "-",
         id_cliente: id_cliente,
         id_cobertura: id_cobertura,
         id_veiculo: id_veiculo,
-        id_usuario: UsuarioSelector.Select(dbConnectionString),
+        id_usuario: UsuarioSelector.Select(connectionString),
         status: "Em Análise"
       );
 

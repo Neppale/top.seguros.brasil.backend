@@ -1,4 +1,4 @@
-static class GetHashPasswordByEmailRepository
+static class GetClientHashPasswordByEmailRepository
 {
   public static string Get(string email, SqlConnection connectionString)
   {

@@ -1,23 +1,15 @@
 static class DeleteUserService
 {
-  public static IResult Delete(int id, string dbConnectionString)
+  public static IResult Delete(int id, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     // Verificando se o usuário existe.
-    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_usuario FROM Usuarios WHERE id_usuario = @Id AND status = 'true'", new { Id = id });
-    if (!Exists) return Results.NotFound("Usuário não encontrado.");
+    var user = GetOneUserRepository.Get(id: id, connectionString: connectionString);
+    if (user == null) return Results.NotFound("Usuário não encontrado.");
 
-    try
-    {
-      connectionString.Query("UPDATE Usuarios SET status = 'false' WHERE id_Usuario = @Id", new { Id = id });
-      return Results.NoContent();
-    }
-    catch (SystemException)
-    {
+    var results = DeleteUserRepository.Delete(id: id, connectionString: connectionString);
+    if (results == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde. ");
 
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
-    }
+    return Results.NoContent();
 
   }
 }

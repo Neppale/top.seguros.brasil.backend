@@ -1,14 +1,11 @@
 static class LoginUserService
 {
   /** <summary> Esta função realiza o login do usuario. </summary>**/
-  public static IResult Login(string email, string password, string dbConnectionString, WebApplicationBuilder builder)
+  public static IResult Login(string email, string password, SqlConnection connectionString, WebApplicationBuilder builder)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     try
     {
-      string hashPassword = connectionString.QueryFirstOrDefault<string>("SELECT senha FROM Usuarios WHERE email = @Email", new { Email = email });
-
+      string hashPassword = GetUserHashPasswordByEmailRepository.Get(email: email, connectionString: connectionString);
       if (hashPassword == null) return Results.BadRequest("E-mail ou senha inválidos.");
 
       // Verificando senha do usuario.

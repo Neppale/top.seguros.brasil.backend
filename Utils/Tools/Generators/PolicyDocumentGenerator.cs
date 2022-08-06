@@ -1,10 +1,8 @@
 static class PolicyDocumentGenerator
 {
   /**<summary> Esta função gera um arquivo pdf em apólice. O retorno é o diretório do documento no sistema. </summary>**/
-  public static async Task<string> Generate(Apolice apolice, string dbConnectionString)
+  public static async Task<string> Generate(Apolice apolice, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     var usuario = connectionString.QueryFirstOrDefault("SELECT nome_completo, id_usuario FROM Usuarios WHERE id_usuario = @Id", new { Id = apolice.id_usuario });
     var cliente = connectionString.QueryFirstOrDefault("SELECT nome_completo, cpf, cep FROM Clientes WHERE id_cliente = @Id", new { Id = apolice.id_cliente });
     var veiculo = connectionString.QueryFirstOrDefault("SELECT placa, marca, modelo, ano, uso FROM Veiculos WHERE id_veiculo = @Id", new { Id = apolice.id_veiculo });

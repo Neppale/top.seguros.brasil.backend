@@ -1,13 +1,12 @@
 static class GetOneUserService
 {
   /** <summary> Esta função retorna um usuário específico no banco de dados. </summary>**/
-  public static IResult Get(int id, string dbConnectionString)
+  public static IResult Get(int id, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
+    var user = GetOneUserRepository.Get(id: id, connectionString: connectionString);
+    if (user == null) return Results.NotFound("Usuário não encontrado.");
 
-    var data = connectionString.QueryFirstOrDefault("SELECT * FROM Usuarios WHERE id_Usuario = @Id", new { Id = id });
-    if (data == null) return Results.NotFound("Usuário não encontrado.");
-
-    return Results.Ok(data);
+    return Results.Ok(user);
   }
 }
+

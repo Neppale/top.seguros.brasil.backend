@@ -1,10 +1,8 @@
 static class UpdateUserService
 {
   /** <summary> Esta função altera um Usuario no banco de dados. </summary>**/
-  public static IResult Update(int id, Usuario usuario, string dbConnectionString)
+  public static IResult Update(int id, Usuario usuario, SqlConnection connectionString)
   {
-    SqlConnection connectionString = new SqlConnection(dbConnectionString);
-
     // Verificando se alguma das propriedades do Usuario é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(usuario);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");

@@ -12,7 +12,7 @@ app.MapHealthChecks("/healthcheck/");
 ClientController.ActivateEndpoints(app: app, connectionString: connectionString, builder: builder);
 
 // APOLICES 
-PolicyController.ActivateEndpoints(app: app, dbConnectionString: dbConnectionString);
+PolicyController.ActivateEndpoints(app: app, connectionString: dbConnectionString);
 
 // COBERTURAS
 CoverageController.ActivateEndpoints(app: app, connectionString: connectionString);
