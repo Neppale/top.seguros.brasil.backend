@@ -33,13 +33,9 @@ static class UpdateClientService
     bool cepIsValid = await CepValidator.Validate(cliente.cep);
     if (!cepIsValid) return Results.BadRequest("O CEP informado é inválido.");
 
-    // Verificando se CNH já existe em outra conta no banco de dados.
-    bool cnhAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT cnh FROM Clientes WHERE cnh = @Cnh AND id_cliente != @Id) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Cnh = cliente.cnh, Id = id });
-    if (cnhAlreadyExists) return Results.BadRequest("A CNH informada já está sendo utilizada em outra conta.");
-
-    // Verificando se o e-mail já existe em outra conta no banco de dados.
-    bool emailAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT email FROM Clientes WHERE email = @Email AND id_cliente != @Id) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Email = cliente.email, Id = id });
-    if (emailAlreadyExists) return Results.BadRequest("O e-mail informado já está sendo utilizado em outra conta.");
+    // Verificando se CNH ou e-mail já existe em outra conta no banco de dados.
+    bool clientIsValid = ClientAlreadyExistsValidator.Validate(id: id, cliente: cliente, connectionString: connectionString);
+    if (!clientIsValid) return Results.BadRequest("O CNH ou e-mail informado já está sendo utilizado em outra conta.");
 
     // Criptografando a senha do cliente.
     cliente.senha = PasswordHasher.HashPassword(cliente.senha);

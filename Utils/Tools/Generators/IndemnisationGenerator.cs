@@ -4,10 +4,11 @@ static class IndemnisationGenerator
   public static decimal Generate(int id_cobertura, decimal vehicleValue, SqlConnection connectionString)
   {
     // Recuperar taxa de indenização da cobertura.
-    decimal taxa_indenizacao = connectionString.QueryFirstOrDefault<decimal>("SELECT taxa_indenizacao FROM Coberturas WHERE id_cobertura = @IdCobertura", new { IdCobertura = id_cobertura });
+    var coverage = GetOneCoverageRepository.Get(id: id_cobertura, connectionString: connectionString);
+    decimal indemnisationTax = Decimal.Parse(coverage.taxa_indenizacao.ToString()) / 100;
 
     // Calcular valor de indenização. Porcentagem da taxa de indenização em comparação com o valor do veículo.
-    decimal indemnisationValue = vehicleValue * (taxa_indenizacao / 100);
+    decimal indemnisationValue = vehicleValue * indemnisationTax;
 
     // Deixar o valor de indenização sempre com apenas duas casas decimais.
     indemnisationValue = Math.Round(indemnisationValue, 2);

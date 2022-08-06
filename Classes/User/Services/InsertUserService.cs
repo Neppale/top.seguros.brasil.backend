@@ -1,7 +1,7 @@
 static class InsertUserService
 {
   /** <summary> Esta função insere um Usuario no banco de dados. </summary>**/
-  public static IResult Insert(Usuario usuario, SqlConnection connectionString)
+  public static IResult Insert(dynamic usuario, SqlConnection connectionString)
   {
     // Verificando se alguma das propriedades do Usuario é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(usuario);
@@ -11,8 +11,8 @@ static class InsertUserService
     usuario.status = true;
 
     // Verificando se e-mail já existe em outra conta no banco de dados.
-    bool emailAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT email FROM Usuarios WHERE email = @Email) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Email = usuario.email });
-    if (emailAlreadyExists) return Results.BadRequest("O e-mail informado já está sendo utilizado em outra conta.");
+    bool userIsValid = UserAlreadyExistsValidator.Validate(email: usuario.email, connectionString: connectionString);
+    if (!userIsValid) return Results.BadRequest("O e-mail informado já está sendo utilizado em outra conta.");
 
     // Criptografando a senha do usuário.
     usuario.senha = PasswordHasher.HashPassword(usuario.senha);

@@ -44,7 +44,7 @@ static class InsertIncidentService
     if (!veiculoIsValid) return Results.BadRequest("Veículo não pertence ao cliente.");
 
     var result = InsertIncidentRepository.Insert(incident: ocorrencia, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest("Ocorreu um erro ao inserir a ocorrência.");
+    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
 
     return Results.Created($"/ocorrencia/{result}", new { id_ocorrencia = result });
   }

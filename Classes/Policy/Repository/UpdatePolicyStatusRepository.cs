@@ -4,7 +4,7 @@ static class UpdatePolicyStatusRepository
   {
     try
     {
-      connectionString.Query<Apolice>("UPDATE Apolices SET status = @Status WHERE id_apolice = @Id", new { Id = id, Status = status });
+      connectionString.Query("UPDATE Apolices SET status = @Status WHERE id_apolice = @Id", new { Id = id, Status = status });
       return 1;
     }
     catch (SystemException)

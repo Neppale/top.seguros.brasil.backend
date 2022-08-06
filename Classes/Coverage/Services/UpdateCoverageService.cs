@@ -12,8 +12,8 @@ public static class UpdateCoverageService
     if (coverage == null) return Results.NotFound("Cobertura não encontrada.");
 
     // Verificando se o nome da cobertura já existe em outra cobertura no banco de dados.
-    bool nomeAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT nome FROM Coberturas WHERE nome = @Nome AND status = 'true' AND id_cobertura != @Id) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Nome = cobertura.nome, Id = id });
-    if (nomeAlreadyExists) return Results.BadRequest("O nome da cobertura já está sendo utiizado por outra cobertura ativa.");
+    bool nameIsValid = CoverageAlreadyExistsValidator.Validate(id: id, name: cobertura.nome, connectionString: connectionString);
+    if (!nameIsValid) return Results.BadRequest("O nome da cobertura já está sendo utiizado por outra cobertura ativa.");
 
     var result = UpdateCoverageRepository.Update(id: id, cobertura: cobertura, connectionString: connectionString);
     if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");

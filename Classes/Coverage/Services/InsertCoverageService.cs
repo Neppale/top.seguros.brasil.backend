@@ -14,8 +14,8 @@ public static class InsertCoverageService
     cobertura.status = true;
 
     // Verificando se o nome da cobertura já existe em outra cobertura no banco de dados.
-    bool nameAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT nome FROM Coberturas WHERE nome = @Nome AND status = 'true') THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Nome = cobertura.nome });
-    if (nameAlreadyExists) return Results.Conflict("O nome da cobertura já está sendo utiizado por outra cobertura ativa.");
+    bool nameIsValid = CoverageAlreadyExistsValidator.Validate(name: cobertura.nome, connectionString: connectionString);
+    if (!nameIsValid) return Results.Conflict("O nome da cobertura já está sendo utiizado por outra cobertura ativa.");
 
     var result = InsertCoverageRepository.Insert(cobertura: cobertura, connectionString: connectionString);
     if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");

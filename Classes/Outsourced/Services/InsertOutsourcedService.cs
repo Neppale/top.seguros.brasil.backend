@@ -19,13 +19,9 @@ public static class InsertOutsourcedService
     bool telefoneIsValid = StringFormatValidator.ValidateTelefone(terceirizado.telefone);
     if (!telefoneIsValid) return Results.BadRequest("O telefone informado está mal formatado. Lembre-se de que o telefone deve estar no formato: (99) 99999-9999.");
 
-    // Verificando se o CNPJ já existe no banco de dados.
-    bool cnpjExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT cnpj FROM Terceirizados WHERE cnpj = @Cnpj) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Cnpj = terceirizado.cnpj });
-    if (cnpjExists) return Results.Conflict("O CNPJ informado já está sendo utilizado por outro terceirizado.");
-
-    // Verificando se o telefone já existe no banco de dados.
-    bool telefoneExists = connectionString.QueryFirstOrDefault<bool>("SELECT telefone FROM Terceirizados WHERE telefone = @Telefone", new { Telefone = terceirizado.telefone });
-    if (telefoneExists) return Results.Conflict("O telefone informado já está sendo utilizado por outro terceirizado.");
+    // Verificando se o CNPJ ou telefone já existe no banco de dados.
+    bool terceirizadoIsValid = OutsourcedAlreadyExistsValidator.Validate(terceirizado, connectionString);
+    if (!terceirizadoIsValid) return Results.Conflict("Os dados deste terceirizado já estão cadastrados no banco de dados.");
 
     var result = InsertOutsourcedRepository.Insert(outsourced: terceirizado, connectionString: connectionString);
     if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");

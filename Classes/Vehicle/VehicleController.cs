@@ -22,13 +22,13 @@ public static class VehicleController
 
     app.MapPost("/veiculo/", [Authorize] (Veiculo veiculo) =>
     {
-      return InsertVehicleService.Insert(veiculo: veiculo, connectionString: connectionString);
+      return InsertVehicleService.Insert(vehicle: veiculo, connectionString: connectionString);
     })
     .WithName("Inserir veículo");
 
     app.MapPut("/veiculo/{id:int}", [Authorize] (int id, Veiculo veiculo) =>
     {
-      return UpdateVehicleService.Update(id: id, veiculo: veiculo, connectionString: connectionString);
+      return UpdateVehicleService.Update(id: id, vehicle: veiculo, connectionString: connectionString);
     })
     .WithName("Alterar veículo específico");
 

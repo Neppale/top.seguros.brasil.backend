@@ -1,6 +1,6 @@
 static class UpdateUserRepository
 {
-  public static int Update(int id, Usuario usuario, SqlConnection connectionString)
+  public static int Update(int id, dynamic usuario, SqlConnection connectionString)
   {
     try
     {

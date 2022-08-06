@@ -1,9 +1,7 @@
 static class GetOneUserRepository
 {
-  public static Usuario Get(int id, SqlConnection connectionString)
+  public static dynamic Get(int id, SqlConnection connectionString)
   {
-    var user = connectionString.QueryFirstOrDefault<Usuario>("SELECT * FROM Usuarios WHERE id_Usuario = @Id", new { Id = id });
-
-    return user;
+    return connectionString.QueryFirstOrDefault<Usuario>("SELECT id_usuario, nome_completo, email, tipo, status FROM Usuarios WHERE id_Usuario = @Id", new { Id = id });
   }
 }

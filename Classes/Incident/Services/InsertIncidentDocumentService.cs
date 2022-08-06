@@ -18,7 +18,7 @@ static class InsertIncidentDocumentService
     string fileBase64 = DocumentConverter.Encode(fileReader);
 
     // Verificando se ocorrência existe.
-    Ocorrencia incident = GetOneIncidentRepository.Get(id, connectionString);
+    var incident = GetOneIncidentRepository.Get(id, connectionString);
     if (incident == null) return Results.NotFound("Ocorrência não encontrada.");
 
     var result = InsertIncidentDocumentRepository.Insert(id: id, fileType: formFile.ContentType, fileBase64: fileBase64, connectionString: connectionString);
