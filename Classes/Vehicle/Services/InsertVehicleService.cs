@@ -34,22 +34,12 @@ public static class InsertVehicleService
     if (placaAlreadyExists) return Results.Conflict("A placa informada já está sendo utilizada por outro veiculo.");
 
     // Verificando se o cliente existe.
-    bool clienteIsValid = connectionString.QueryFirstOrDefault<bool>("SELECT id_cliente from Clientes WHERE id_cliente = @Id", new { Id = veiculo.id_cliente });
-    if (!clienteIsValid) return Results.BadRequest("Cliente não encontrado.");
+    var client = GetOneClientService.Get(id: veiculo.id_cliente, connectionString: connectionString);
+    if (client == null) return Results.NotFound("Cliente não encontrado.");
 
-    try
-    {
-      connectionString.Query<Veiculo>("INSERT INTO Veiculos (marca, modelo, ano, uso, placa, renavam, sinistrado, id_cliente) VALUES (@Marca, @Modelo, @Ano, @Uso, @Placa, @Renavam, @Sinistrado, @IdCliente)", new { Marca = veiculo.marca, Modelo = veiculo.modelo, Ano = veiculo.ano, Uso = veiculo.uso, Placa = veiculo.placa, Renavam = veiculo.renavam, Sinistrado = veiculo.sinistrado, IdCliente = veiculo.id_cliente });
+    var result = InsertVehicleRepository.Insert(veiculo: veiculo, connectionString: connectionString);
+    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
 
-      // Retornando o id do veículo criado.
-      int createdVeiculoId = connectionString.QueryFirstOrDefault<int>("SELECT id_veiculo FROM Veiculos WHERE renavam = @Renavam", new { Renavam = veiculo.renavam });
-
-      return Results.Created($"/veiculo/{createdVeiculoId}", new { id_veiculo = createdVeiculoId });
-    }
-    catch (SystemException)
-    {
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
-    }
-
+    return Results.Created($"/veiculo/{result}", new { id_veiculo = result });
   }
 }

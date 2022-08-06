@@ -8,8 +8,8 @@ public static class UpdateCoverageService
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
     // Verificando se a cobertura existe.
-    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_cobertura from Coberturas WHERE id_cobertura = @Id", new { Id = id });
-    if (!Exists) return Results.NotFound("Cobertura não encontrada.");
+    var coverage = GetOneCoverageService.Get(id: id, connectionString: connectionString);
+    if (coverage == null) return Results.NotFound("Cobertura não encontrada.");
 
     // Verificando se o nome da cobertura já existe em outra cobertura no banco de dados.
     bool nomeAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT nome FROM Coberturas WHERE nome = @Nome AND status = 'true' AND id_cobertura != @Id) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Nome = cobertura.nome, Id = id });

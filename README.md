@@ -29,11 +29,7 @@ Para executar o projeto, basta utilizar o comando:
 
     npm install -g newman
 
-Este comando irá instalar o pacote Newman, e em seguida, é possível executar os testes:
-
-    newman run Tests/Postman/PostmanCollection.json -e Tests/Postman/PostmanEnvironment.json -k --bail
-
-Lembre-se que o servidor deve estar ligado para que os testes funcionem. Os testes incluem a criação, alteração, exclusão e consulta de usuários, coberturas, terceirizados, clientes, veículos, apólices e ocorrências.
+Este comando irá instalar o pacote Newman, e em seguida, é possível executar os testes através do arquivo Testing.cmd na pasta Tests. O assistente que abrirá automatiza os testes de integração, criando um novo banco de dados e o apagando ao fim dos testes. É necessária a utilização de um banco de dados com o servidor em "localhost" e a senha "Password1234!". Os testes incluem a criação, alteração, exclusão e consulta de usuários, coberturas, terceirizados, clientes, veículos, apólices e ocorrências.
 
 ## Endpoints
 

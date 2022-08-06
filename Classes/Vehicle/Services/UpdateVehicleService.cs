@@ -4,8 +4,8 @@ public static class UpdateVehicleService
   public static async Task<IResult> Update(int id, Veiculo veiculo, SqlConnection connectionString)
   {
     // Verificando se veículo existe.
-    bool veiculoExists = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo from Veiculos WHERE id_Veiculo = @Id", new { Id = id });
-    if (!veiculoExists) return Results.NotFound("Veículo não encontrado.");
+    var vehicle = GetOneVehicleRepository.Get(id: id, connectionString: connectionString);
+    if (vehicle == null) return Results.NotFound("Veículo não encontrado.");
 
     // Verificando se alguma das propriedades do veiculo é nula ou vazia.
     bool hasValidProperties = NullPropertyValidator.Validate(veiculo);
@@ -30,16 +30,9 @@ public static class UpdateVehicleService
     bool placaAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT placa FROM Veiculos WHERE placa = @Placa AND id_veiculo != @Id) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Placa = veiculo.placa, Id = id });
     if (placaAlreadyExists) return Results.Conflict("A placa informada já está sendo utilizada por outro veiculo.");
 
-    try
-    {
-      connectionString.Query("UPDATE Veiculos SET marca = @Marca, modelo = @Modelo, ano = @Ano, uso = @Uso, placa = @Placa, renavam = @Renavam, sinistrado = @Sinistrado, id_cliente = @IdCliente WHERE id_Veiculo = @Id", new { Marca = veiculo.marca, Modelo = veiculo.modelo, Ano = veiculo.ano, Uso = veiculo.uso, Placa = veiculo.placa, Renavam = veiculo.renavam, Sinistrado = veiculo.sinistrado, IdCliente = veiculo.id_cliente, Id = id });
+    var result = UpdateVehicleRepository.Update(id: id, veiculo: veiculo, connectionString: connectionString);
+    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
 
-      return Results.Ok();
-    }
-    catch (SystemException)
-    {
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
-    }
-
+    return Results.Ok("Veículo alterado com sucesso.");
   }
 }

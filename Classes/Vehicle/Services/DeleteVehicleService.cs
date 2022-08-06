@@ -4,19 +4,12 @@ public static class DeleteVehicleService
   public static IResult Delete(int id, SqlConnection connectionString)
   {
     // Verificando se veículo existe.
-    bool Exists = connectionString.QueryFirstOrDefault<bool>("SELECT id_veiculo from Veiculos WHERE id_Veiculo = @Id", new { Id = id });
-    if (!Exists) return Results.NotFound("Veículo não encontrado.");
+    var vehicle = GetOneVehicleRepository.Get(id: id, connectionString: connectionString);
+    if (vehicle == null) return Results.NotFound("Veículo não encontrado.");
 
-    try
-    {
-      connectionString.Query("UPDATE Veiculos SET status = 'false' WHERE id_veiculo = @Id", new { Id = id });
+    var result = DeleteVehicleRepository.Delete(id: id, connectionString: connectionString);
+    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
 
-      return Results.NoContent();
-    }
-    catch (SystemException)
-    {
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
-    }
-
+    return Results.NoContent();
   }
 }
