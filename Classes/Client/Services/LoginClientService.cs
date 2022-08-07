@@ -12,6 +12,8 @@ static class LoginClientService
       bool isValid = PasswordHasher.Verify(hashPassword, password);
       if (!isValid) return Results.BadRequest("E-mail ou senha inválidos.");
 
+      var client = GetClientByEmailRepository.Get(email: email, connectionString: connectionString);
+
       // Gerando token.
       var issuer = builder.Configuration["Jwt:Issuer"];
       var audience = builder.Configuration["Jwt:Audience"];
@@ -23,7 +25,7 @@ static class LoginClientService
       var tokenHandler = new JwtSecurityTokenHandler();
       var stringToken = tokenHandler.WriteToken(token);
 
-      return Results.Ok(stringToken);
+      return Results.Ok(new { client = client, token = stringToken });
 
     }
     catch (SystemException)
