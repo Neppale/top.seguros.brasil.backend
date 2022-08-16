@@ -27,6 +27,9 @@ static class UpdateIncidentService
     // Verifica se o status passado é válido.
     if (!validStatuses.Contains(ocorrencia.status)) return Results.BadRequest("Status inválido. Status permitidos: " + string.Join(", ", validStatuses));
 
+    // Alterando data para formato SQL Server.
+    ocorrencia.data = SqlDateConverter.Convert(ocorrencia.data);
+
     // Verificando se ocorrência existe no banco de dados.
     var incident = GetOneIncidentRepository.Get(id: id, connectionString: connectionString);
     if (incident == null) return Results.NotFound("Ocorrência não encontrada.");

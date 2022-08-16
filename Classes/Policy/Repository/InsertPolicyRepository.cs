@@ -23,7 +23,7 @@ static class InsertPolicyRepository
       // Inserindo documento da apólice no banco de dados.
       connectionString.Query("UPDATE Apolices SET documento = @Documento WHERE id_apolice = @IdApolice", new { Documento = document, IdApolice = createdApoliceId });
 
-      return 1;
+      return createdApoliceId;
     }
     catch (SystemException)
     {

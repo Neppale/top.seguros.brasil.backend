@@ -25,8 +25,8 @@ static class GeneratePolicyService
     try
     {
       Apolice generatedApolice = new(
-        data_inicio: DateTime.Now.AddDays(5).ToString("MM-dd-yyyy").Substring(0, 10),
-        data_fim: DateTime.Now.AddDays(5).AddYears(1).ToString("MM-dd-yyyy").Substring(0, 10),
+        data_inicio: SqlDateConverter.Convert(DateTime.Now.AddDays(5).ToString("dd/MM/yyyy")),
+        data_fim: SqlDateConverter.Convert(DateTime.Now.AddDays(5).AddYears(1).ToString("dd/MM/yyyy")),
         premio: PremiumGenerator.Generate(vehicleValue: vehicleValue, id_cobertura: id_cobertura, connectionString: connectionString),
         indenizacao: IndemnisationGenerator.Generate(id_cobertura: id_cobertura, vehicleValue: vehicleValue, connectionString: connectionString),
         documento: "-",

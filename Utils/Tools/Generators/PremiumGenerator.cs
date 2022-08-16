@@ -7,9 +7,9 @@ static class PremiumGenerator
     var coverage = GetOneCoverageRepository.Get(id: id_cobertura, connectionString: connectionString);
     var coverageValue = Decimal.Parse(coverage.valor) / 100;
 
-    // O prêmio consiste em apenas 1% do valor do veículo + valor da cobertura.
-    decimal premiumValue = vehicleValue * 0.01m;
-    premiumValue = Math.Round(premiumValue, 2) + coverageValue;
+    // O prêmio consiste em apenas 0.5% do valor do veículo + valor da cobertura dividido por 2.
+    decimal premiumValue = ((vehicleValue * 0.005m) + coverageValue) / 2;
+    premiumValue = Math.Round(premiumValue, 2);
 
     return premiumValue;
   }

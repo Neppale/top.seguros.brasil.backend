@@ -22,6 +22,9 @@ static class InsertIncidentService
     bool hasValidProperties = NullPropertyValidator.Validate(ocorrencia);
     if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
 
+    // Alterando data para formato SQL Server.
+    ocorrencia.data = SqlDateConverter.Convert(ocorrencia.data);
+
     // Voltando terceirizado para o valor original.
     ocorrencia.id_terceirizado = originalId_Terceirizado;
 
