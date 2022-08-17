@@ -2,7 +2,6 @@ static class GetPolicyByUserService
 {
   public static IResult Get(int id_usuario, int? pageNumber, SqlConnection connectionString)
   {
-    // Se pageNumber for nulo, então a página atual é a primeira.
     if (pageNumber == null) pageNumber = 1;
 
     var data = GetPolicyByUserRepository.Get(id: id_usuario, connectionString: connectionString, pageNumber: pageNumber);

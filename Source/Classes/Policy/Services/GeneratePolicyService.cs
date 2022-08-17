@@ -3,22 +3,17 @@ static class GeneratePolicyService
 
   public static async Task<IResult> Generate(int id_cliente, int id_veiculo, int id_cobertura, SqlConnection connectionString)
   {
-    // Verificando se cliente existe e está ativo.
     var client = GetOneClientRepository.Get(id_cliente, connectionString);
     if (client == null) return Results.BadRequest("Cliente não encontrado.");
 
-    // Verificando se veiculo existe e está ativo.
     var vehicle = GetOneVehicleRepository.Get(id_veiculo, connectionString);
     if (vehicle == null) return Results.BadRequest("Veiculo não encontrado.");
 
-    // Recuperando valor do veículo na tabela FIPE.
     decimal vehicleValue = await VehiclePriceFinder.Find(vehicle.marca, vehicle.modelo, vehicle.ano);
 
-    // Verificando se cobertura existe e está ativa.
     var coverage = GetOneCoverageRepository.Get(id_cobertura, connectionString);
     if (coverage == null) return Results.BadRequest("Cobertura não encontrada.");
 
-    // Verificando se o veículo realmente pertence ao cliente.
     bool vehicleBelongsToClient = ClientVehicleValidator.Validate(id_cliente, id_veiculo, connectionString);
     if (!vehicleBelongsToClient) return Results.BadRequest("Veículo não pertence ao cliente.");
 
@@ -43,6 +38,5 @@ static class GeneratePolicyService
     {
       return Results.BadRequest("Erro ao gerar apólice. Tente novamente mais tarde.");
     }
-
   }
 }

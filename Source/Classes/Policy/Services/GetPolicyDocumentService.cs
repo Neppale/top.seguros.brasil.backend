@@ -2,7 +2,6 @@ static class GetPolicyDocumentService
 {
   public static IResult Get(int id, SqlConnection connectionString)
   {
-    // Verificando se a apólice existe.
     var policy = GetOnePolicyRepository.Get(id: id, connectionString: connectionString);
     if (policy == null) return Results.NotFound("Apólice não encontrada.");
 
