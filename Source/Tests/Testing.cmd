@@ -43,7 +43,7 @@ taskkill /IM Ssms.exe /F
 sqlcmd -S localhost -U sa -P Password1234! -i "../Scripts/CreateDatabase.sql"
 echo ----------------------------------------------------------------
 echo Banco de dados reiniciado.
-START dotnet run --project ../
+START dotnet run --project ../../
 
 :TESTING
 echo Executando bateria de testes...
@@ -78,7 +78,7 @@ exit /b 0
 taskkill /IM tsb.mininal.policy.engine.exe /F
 sqlcmd -S DESKTOP-ELHKR4F\SQLEXPRESS -i "../Scripts/DropDatabase.sql"
 sqlcmd -S localhost -U sa -P Password1234! -i "../Scripts/CreateDatabase.sql"
-cd ../Temp
+cd ../../Temp
 del *.pdf /q
 del *.png -/q
 echo Testes finalizados com falhas. Por favor, verifique o log e tente novamente.
