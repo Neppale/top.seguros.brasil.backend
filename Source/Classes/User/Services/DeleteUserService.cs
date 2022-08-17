@@ -2,7 +2,6 @@ static class DeleteUserService
 {
   public static IResult Delete(int id, SqlConnection connectionString)
   {
-    // Verificando se o usuário existe.
     var user = GetOneUserRepository.Get(id: id, connectionString: connectionString);
     if (user == null) return Results.NotFound("Usuário não encontrado.");
 
