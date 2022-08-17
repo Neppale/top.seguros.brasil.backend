@@ -18,7 +18,7 @@ static class InsertClientService
     cliente.status = true;
 
     // Verificando idade do cliente. Padrão de idade é mês/dia/ano.
-    int age = AgeValidator.Validate(cliente.data_nascimento);
+    int age = AgeCalculator.Calculate(cliente.data_nascimento);
     if (age < 18) return Results.BadRequest("Cliente não pode ser menor de idade.");
 
     // Convertendo idade para SQL Server.

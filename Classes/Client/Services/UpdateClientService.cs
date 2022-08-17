@@ -18,6 +18,13 @@ static class UpdateClientService
     // Voltando telefone2 para o valor original.
     cliente.telefone2 = originalTelefone2;
 
+    // Verificando idade do cliente. Padrão de idade é mês/dia/ano.
+    int age = AgeCalculator.Calculate(cliente.data_nascimento);
+    if (age < 18) return Results.BadRequest("Cliente não pode ser menor de idade.");
+
+    // Convertendo idade para SQL Server.
+    cliente.data_nascimento = SqlDateConverter.Convert(cliente.data_nascimento);
+
     // Verificando formatação dos telefones.
     bool telefone1IsValid = StringFormatValidator.ValidateTelefone(cliente.telefone1);
     if (!telefone1IsValid) return Results.BadRequest("Telefone 1 inválido.");
