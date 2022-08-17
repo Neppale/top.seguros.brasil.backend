@@ -3,8 +3,6 @@ public static class DeleteCoverageService
   /** <summary> Esta função desativa uma cobertura no banco de dados. </summary>**/
   public static IResult Delete(int id, SqlConnection connectionString)
   {
-
-    // Verificando se a cobertura existe.
     var coverage = GetOneCoverageRepository.Get(id: id, connectionString: connectionString);
     if (coverage == null) return Results.NotFound("Cobertura não encontrada.");
 
