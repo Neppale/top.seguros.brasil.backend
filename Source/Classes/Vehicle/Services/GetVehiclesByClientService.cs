@@ -3,7 +3,6 @@ static class GetVehiclesByClient
   /** <summary>Esta função retorna todos os veículos do cliente.</summary> **/
   public static IResult Get(int id_cliente, int? pageNumber, SqlConnection connectionString)
   {
-    // Se pageNumber for nulo, então a página atual é a primeira.
     if (pageNumber == null) pageNumber = 1;
 
     var client = GetOneClientRepository.Get(id: id_cliente, connectionString: connectionString);
@@ -11,7 +10,6 @@ static class GetVehiclesByClient
 
     var results = GetVehiclesByClientRepository.Get(id: id_cliente, connectionString: connectionString, pageNumber: pageNumber);
 
-    // Removendo caracteres especiais da exibição do modelo dos veículos da lista.
     foreach (var item in results)
     {
       item.modelo = VehicleModelUnformatter.Unformat(item.modelo);
