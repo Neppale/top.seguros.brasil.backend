@@ -12,8 +12,8 @@ public static class InsertOutsourcedService
 
     // Validando CNPJ
     bool cnpjIsValid = CnpjValidation.Validate(terceirizado.cnpj);
-    cnpjIsValid = StringFormatValidator.ValidateCNPJ(terceirizado.cnpj);
-    if (!cnpjIsValid) return Results.BadRequest("O CNPJ informado é inválido ou está mal formatado. Lembre-se de que o CNPJ deve estar no formato: 99.999.999/9999-99.");
+    bool cnpjFormatIsValid = StringFormatValidator.ValidateCNPJ(terceirizado.cnpj);
+    if (!cnpjIsValid || !cnpjFormatIsValid) return Results.BadRequest("O CNPJ informado é inválido ou está mal formatado. Lembre-se de que o CNPJ deve estar no formato: 99.999.999/9999-99.");
 
     // Verificando se o telefone está formatado corretamente.
     bool telefoneIsValid = StringFormatValidator.ValidateTelefone(terceirizado.telefone);

@@ -25,12 +25,16 @@ static class UpdateClientService
     // Convertendo idade para SQL Server.
     cliente.data_nascimento = SqlDateConverter.Convert(cliente.data_nascimento);
 
+    // Verificação de senha
+    bool passwordIsValid = PasswordValidator.Validate(cliente.senha);
+    if (!passwordIsValid) return Results.BadRequest("A senha informada não corresponde aos requisitos de segurança.");
+
     // Verificando formatação dos telefones.
     bool telefone1IsValid = StringFormatValidator.ValidateTelefone(cliente.telefone1);
-    if (!telefone1IsValid) return Results.BadRequest("Telefone 1 inválido.");
+    if (!telefone1IsValid) return Results.BadRequest("O telefone 1 informado está mal formatado. Lembre-se de que o telefone deve estar no formato: (99) 99999-9999.");
 
     bool telefone2IsValid = StringFormatValidator.ValidateTelefone(cliente.telefone2);
-    if (!telefone2IsValid) return Results.BadRequest("Telefone 2 inválido.");
+    if (!telefone2IsValid) return Results.BadRequest("O telefone 2 informado está mal formatado. Lembre-se de que o telefone deve estar no formato: (99) 99999-9999.");
 
     // Verificação de CNH
     bool cnhIsValid = CnhValidation.Validate(cliente.cnh);

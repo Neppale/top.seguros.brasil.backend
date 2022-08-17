@@ -14,6 +14,10 @@ static class InsertUserService
     bool userIsValid = UserAlreadyExistsValidator.Validate(email: usuario.email, connectionString: connectionString);
     if (!userIsValid) return Results.BadRequest("O e-mail informado já está sendo utilizado em outra conta.");
 
+    // Verificando senha.
+    bool passwordIsValid = PasswordValidator.Validate(usuario.senha);
+    if (!passwordIsValid) return Results.BadRequest("A senha informada não corresponde aos requisitos de segurança.");
+
     // Criptografando a senha do usuário.
     usuario.senha = PasswordHasher.HashPassword(usuario.senha);
 

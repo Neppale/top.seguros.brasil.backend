@@ -24,10 +24,14 @@ static class InsertClientService
     // Convertendo idade para SQL Server.
     cliente.data_nascimento = SqlDateConverter.Convert(cliente.data_nascimento);
 
+    // Verificação de senha
+    bool isValidPassword = PasswordValidator.Validate(cliente.senha);
+    if (!isValidPassword) return Results.BadRequest("A senha informada não corresponde aos requisitos de segurança.");
+
     // Verificação de CPF
     bool cpfIsValid = CpfValidation.Validate(cliente.cpf);
-    cpfIsValid = StringFormatValidator.ValidateCPF(cliente.cpf);
-    if (!cpfIsValid) return Results.BadRequest("O CPF informado é inválido ou está mal formatado. Lembre-se que o CPF deve estar no formato: 000.000.000-00.");
+    bool cpfFormatIsValid = StringFormatValidator.ValidateCPF(cliente.cpf);
+    if (!cpfIsValid || !cpfFormatIsValid) return Results.BadRequest("O CPF informado é inválido ou está mal formatado. Lembre-se que o CPF deve estar no formato: 000.000.000-00.");
 
     // Verificação de CNH
     bool cnhIsValid = CnhValidation.Validate(cliente.cnh);
