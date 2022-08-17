@@ -11,7 +11,7 @@ static class PolicyDocumentGenerator
     string localizationString = await localizationResponse.ReadAsStringAsync();
     decimal veiculoPreco = await VehiclePriceFinder.Find(vehicle.marca, vehicle.modelo, vehicle.ano);
 
-    string documentoHTML = await File.ReadAllTextAsync("Source/Utils/Tools/Generators/Files/PolicyDocument.html");
+    string documentoHTML = await File.ReadAllTextAsync("Source/Utils/Tools/Files/PolicyDocument.html");
 
     // Alterando dados da apólice no documento.
     documentoHTML = documentoHTML.Replace("{{DATAHOJE}}", DateTime.Now.ToString("dd/MM/yyyy"));
