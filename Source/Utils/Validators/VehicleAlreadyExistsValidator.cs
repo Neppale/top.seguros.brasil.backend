@@ -11,7 +11,7 @@ static class VehicleAlreadyExistsValidator
     return true;
   }
 
-  public static bool Validate(int id, dynamic vehicle, SqlConnection connectionString)
+  public static bool Validate(int id, Veiculo vehicle, SqlConnection connectionString)
   {
     bool plateAlreadyExists = connectionString.QueryFirstOrDefault<bool>("SELECT CASE WHEN EXISTS (SELECT placa FROM Veiculos WHERE placa = @Placa AND status = 'true' AND id_veiculo != @Id) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END", new { Placa = vehicle.placa, Id = id });
     if (plateAlreadyExists) return false;
