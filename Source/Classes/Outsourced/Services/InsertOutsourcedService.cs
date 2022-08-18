@@ -10,18 +10,18 @@ public static class InsertOutsourcedService
 
     bool cnpjIsValid = CnpjValidation.Validate(terceirizado.cnpj);
     bool cnpjFormatIsValid = StringFormatValidator.ValidateCNPJ(terceirizado.cnpj);
-    if (!cnpjIsValid || !cnpjFormatIsValid) return Results.BadRequest("O CNPJ informado é inválido ou está mal formatado. Lembre-se de que o CNPJ deve estar no formato: 99.999.999/9999-99.");
+    if (!cnpjIsValid || !cnpjFormatIsValid) return Results.BadRequest(new { message = "O CNPJ informado é inválido ou está mal formatado. Lembre-se de que o CNPJ deve estar no formato: 99.999.999/9999-99." });
 
     bool telefoneIsValid = StringFormatValidator.ValidateTelefone(terceirizado.telefone);
-    if (!telefoneIsValid) return Results.BadRequest("O telefone informado está mal formatado. Lembre-se de que o telefone deve estar no formato: (99) 99999-9999.");
+    if (!telefoneIsValid) return Results.BadRequest(new { message = "O telefone informado está mal formatado. Lembre-se de que o telefone deve estar no formato: (99) 99999-9999." });
 
     bool terceirizadoIsValid = OutsourcedAlreadyExistsValidator.Validate(terceirizado, connectionString);
-    if (!terceirizadoIsValid) return Results.Conflict("Os dados deste terceirizado já estão cadastrados no banco de dados.");
+    if (!terceirizadoIsValid) return Results.Conflict(new { message = "Os dados deste terceirizado já estão cadastrados no banco de dados." });
 
-    var result = InsertOutsourcedRepository.Insert(outsourced: terceirizado, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
+    var createdOutsourced = InsertOutsourcedRepository.Insert(outsourced: terceirizado, connectionString: connectionString);
+    if (createdOutsourced == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
-    return Results.Created($"/cliente/{result}", new { id_terceirizado = result });
+    return Results.Created($"/terceirizado/{createdOutsourced.id_terceirizado}", new { message = "Terceirizado criado com sucesso.", outsourced = createdOutsourced });
   }
 }
 

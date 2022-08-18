@@ -4,7 +4,7 @@ public static class GetOneOutsourcedService
   public static IResult Get(int id, SqlConnection connectionString)
   {
     var outsourced = GetOneOutsourcedRepository.Get(id: id, connectionString: connectionString);
-    if (outsourced == null) return Results.NotFound("Terceirizado não encontrado.");
+    if (outsourced == null) return Results.NotFound(new { message = "Terceirizado não encontrado." });
 
     return Results.Ok(outsourced);
   }
