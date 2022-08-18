@@ -19,7 +19,7 @@ static class InsertIncidentService
     if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
     bool dateIsValid = IncidentDateValidator.Validate(ocorrencia.data);
-    if (!dateIsValid) return Results.BadRequest("A data da ocorrência não pode ser maior que a data atual.");
+    if (!dateIsValid) return Results.BadRequest(new { message = "A data da ocorrência não pode ser maior que a data atual." });
 
     ocorrencia.data = SqlDateConverter.Convert(ocorrencia.data);
     ocorrencia.id_terceirizado = originalId_Terceirizado;
@@ -30,14 +30,14 @@ static class InsertIncidentService
     if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
     var vehicle = GetOneVehicleRepository.Get(id: ocorrencia.id_veiculo, connectionString);
-    if (vehicle == null) return Results.NotFound("Veículo não encontrado.");
+    if (vehicle == null) return Results.NotFound(new { message = "Veículo não encontrado." });
 
     bool vehicleIsValid = ClientVehicleValidator.Validate(id_cliente: ocorrencia.id_cliente, id_veiculo: ocorrencia.id_veiculo, connectionString: connectionString);
-    if (!vehicleIsValid) return Results.BadRequest("Veículo não pertence ao cliente.");
+    if (!vehicleIsValid) return Results.BadRequest(new { message = "Veículo não pertence ao cliente." });
 
-    var result = InsertIncidentRepository.Insert(incident: ocorrencia, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
+    var createdIncident = InsertIncidentRepository.Insert(incident: ocorrencia, connectionString: connectionString);
+    if (createdIncident == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
-    return Results.Created($"/ocorrencia/{result}", new { id_ocorrencia = result });
+    return Results.Created($"/ocorrencia/{createdIncident}", new { incident = createdIncident });
   }
 }

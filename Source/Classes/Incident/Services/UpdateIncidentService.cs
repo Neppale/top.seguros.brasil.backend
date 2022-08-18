@@ -29,23 +29,23 @@ static class UpdateIncidentService
     if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
     var vehicle = GetOneVehicleRepository.Get(id: ocorrencia.id_veiculo, connectionString: connectionString);
-    if (vehicle == null) return Results.NotFound("Veículo não encontrado.");
+    if (vehicle == null) return Results.NotFound(new { message = "Veículo não encontrado." });
 
     bool veiculoIsValid = ClientVehicleValidator.Validate(id_cliente: ocorrencia.id_cliente, id_veiculo: ocorrencia.id_veiculo, connectionString: connectionString);
-    if (!veiculoIsValid) return Results.BadRequest("Veículo não pertence ao cliente.");
+    if (!veiculoIsValid) return Results.BadRequest(new { message = "Veículo não pertence ao cliente." });
 
     if (ocorrencia.id_terceirizado != null)
     {
       var outsourced = GetOneOutsourcedRepository.Get(id: (int)ocorrencia.id_terceirizado, connectionString: connectionString);
-      if (outsourced == null) return Results.NotFound("Terceirizado não encontrado.");
+      if (outsourced == null) return Results.NotFound(new { message = "Terceirizado não encontrado." });
     }
 
     var storedDocument = GetIncidentDocumentRepository.Get(id: id, connectionString: connectionString);
-    if (ocorrencia.status == "Concluida" && storedDocument.documento == null) return Results.BadRequest("Não é possível alterar o status de uma ocorrência para Concluída sem um documento.");
+    if (ocorrencia.status == "Concluida" && storedDocument.documento == null) return Results.BadRequest(new { message = "Não é possível alterar o status de uma ocorrência para Concluída sem um documento." });
 
-    var result = UpdateIncidentRepository.Update(incident: ocorrencia, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
+    var updatedIncident = UpdateIncidentRepository.Update(id: id, incident: ocorrencia, connectionString: connectionString);
+    if (updatedIncident == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
-    return Results.Ok("Ocorrência atualizada com sucesso.");
+    return Results.Ok(new { message = "Ocorrência atualizada com sucesso.", incident = updatedIncident });
   }
 }

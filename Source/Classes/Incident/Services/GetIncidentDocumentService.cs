@@ -4,7 +4,7 @@ static class GetIncidentDocumentService
   public static IResult Get(int id, SqlConnection connectionString)
   {
     var document = GetIncidentDocumentRepository.Get(id: id, connectionString: connectionString);
-    if (document == null) return Results.NotFound("Documento não encontrado.");
+    if (document == null) return Results.NotFound(new { message = "Documento não encontrado." });
 
     string fileName = DocumentConverter.Decode(document.documento, document.tipoDocumento);
 
