@@ -4,7 +4,7 @@ static class GetOneClientService
   public static IResult Get(int id, SqlConnection connectionString)
   {
     var client = GetOneClientRepository.Get(id: id, connectionString: connectionString);
-    if (client == null) return Results.NotFound("Cliente não encontrado.");
+    if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
     return Results.Ok(client);
   }

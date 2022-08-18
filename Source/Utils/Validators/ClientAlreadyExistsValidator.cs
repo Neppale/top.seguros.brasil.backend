@@ -4,7 +4,7 @@ static class ClientAlreadyExistsValidator
   public static bool Validate(Cliente cliente, SqlConnection connectionString)
   {
     // Verificando se o CPF já existe no banco de dados.
-    string storedCpf = connectionString.QueryFirstOrDefault<string>("SELECT cpf FROM Clientes WHERE cpf = @Cpf", new { Cpf = cliente.cpf });
+    string storedCpf = connectionString.QueryFirstOrDefault<string>("SELECT cpf FROM Clientes WHERE cpf = @Cpf", new { Cpf = cliente.cpf }); // TODO: Status deve ser verificado.
     if (storedCpf == cliente.cpf) return false;
 
     // Verificando se o e-mail já existe no banco de dados.

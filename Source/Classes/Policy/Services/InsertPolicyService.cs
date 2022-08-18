@@ -12,7 +12,7 @@ static class InsertPolicyService
     if (apolice.premio <= 0) return Results.BadRequest("Valor de prêmio não pode ser menor ou igual a zero.");
 
     var cliente = GetOneClientRepository.Get(id: apolice.id_cliente, connectionString: connectionString);
-    if (cliente == null) return Results.NotFound("Cliente não encontrado.");
+    if (cliente == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
     var vehicle = GetOneVehicleRepository.Get(id: apolice.id_veiculo, connectionString: connectionString);
     if (vehicle == null) return Results.NotFound("Veículo não encontrado.");

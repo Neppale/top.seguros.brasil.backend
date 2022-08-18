@@ -23,7 +23,7 @@ public static class InsertVehicleService
     if (!plateOrRenavamIsValid) return Results.BadRequest("A placa ou o RENAVAM informado já está sendo utilizado em outro veículo.");
 
     var client = GetOneClientService.Get(id: vehicle.id_cliente, connectionString: connectionString);
-    if (client == null) return Results.NotFound("Cliente não encontrado.");
+    if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
     var result = InsertVehicleRepository.Insert(veiculo: vehicle, connectionString: connectionString);
     if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });

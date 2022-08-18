@@ -26,7 +26,7 @@ static class UpdateIncidentService
     if (incident == null) return Results.NotFound("Ocorrência não encontrada.");
 
     var client = GetOneClientRepository.Get(id: ocorrencia.id_cliente, connectionString: connectionString);
-    if (client == null) return Results.NotFound("Cliente não encontrado.");
+    if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
     var vehicle = GetOneVehicleRepository.Get(id: ocorrencia.id_veiculo, connectionString: connectionString);
     if (vehicle == null) return Results.NotFound("Veículo não encontrado.");

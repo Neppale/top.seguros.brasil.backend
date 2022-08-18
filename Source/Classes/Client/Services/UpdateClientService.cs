@@ -5,7 +5,7 @@ static class UpdateClientService
   {
 
     var client = GetOneClientRepository.Get(id: id, connectionString: connectionString);
-    if (client == null) return Results.NotFound("Cliente não encontrado.");
+    if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
     string? originalTelefone2 = cliente.telefone2;
     cliente.telefone2 = "-";
@@ -40,9 +40,9 @@ static class UpdateClientService
 
     cliente.senha = PasswordHasher.HashPassword(cliente.senha);
 
-    var result = UpdateClientRepository.Update(id: id, cliente: cliente, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
+    var updatedClient = UpdateClientRepository.Update(id: id, cliente: cliente, connectionString: connectionString);
+    if (updatedClient == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
-    return Results.Ok("Cliente atualizado com sucesso.");
+    return Results.Ok(new { message = "Cliente atualizado com sucesso.", client = updatedClient });
   }
 }
