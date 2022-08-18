@@ -32,7 +32,9 @@ static class GeneratePolicyService
         status: "Em Análise"
       );
 
-      return Results.Ok(new { message = "Modelo de apólice gerado com sucesso.", policy = generatedApolice });
+      var enrichedPolicy = PolicyEnrichment.Enrich(generatedApolice, connectionString);
+
+      return Results.Ok(new { message = "Modelo de apólice gerado com sucesso.", policy = generatedApolice, enrichedPolicy = enrichedPolicy });
     }
     catch (SystemException)
     {
