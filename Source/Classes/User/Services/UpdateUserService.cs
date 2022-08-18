@@ -7,17 +7,17 @@ static class UpdateUserService
     if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
     var user = GetOneUserRepository.Get(id: id, connectionString: connectionString);
-    if (user == null) return Results.NotFound("Usuário não encontrado.");
+    if (user == null) return Results.NotFound(new { message = "Usuário não encontrado." });
 
     bool userIsValid = UserAlreadyExistsValidator.Validate(id: id, email: usuario.email, connectionString: connectionString);
-    if (!userIsValid) return Results.BadRequest("O e-mail informado já está sendo utilizado em outra conta.");
+    if (!userIsValid) return Results.BadRequest(new { message = "O e-mail informado já está sendo utilizado em outra conta." });
 
     usuario.senha = PasswordHasher.HashPassword(usuario.senha);
 
-    var result = UpdateUserRepository.Update(id: id, usuario: usuario, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
+    var updatedUser = UpdateUserRepository.Update(id: id, usuario: usuario, connectionString: connectionString);
+    if (updatedUser == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
-    return Results.Ok("Usuário alterado com sucesso.");
+    return Results.Ok(new { message = "Usuário alterado com sucesso.", user = updatedUser });
   }
 }
 

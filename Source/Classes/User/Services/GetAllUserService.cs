@@ -6,8 +6,6 @@ static class GetAllUserService
     if (pageNumber == null) pageNumber = 1;
 
     var data = GetAllUserRepository.Get(connectionString: connectionString, pageNumber: pageNumber);
-    if (data.Count() == 0) return Results.NotFound("Nenhum usuário encontrado.");
-
     return Results.Ok(data);
   }
 }

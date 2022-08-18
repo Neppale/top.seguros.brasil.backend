@@ -4,10 +4,10 @@ static class LoginUserService
   public static IResult Login(string email, string password, SqlConnection connectionString, WebApplicationBuilder builder)
   {
     string hashPassword = GetUserHashPasswordByEmailRepository.Get(email: email, connectionString: connectionString);
-    if (hashPassword == null) return Results.BadRequest("E-mail ou senha inválidos.");
+    if (hashPassword == null) return Results.BadRequest(new { message = "E-mail ou senha inválidos." });
 
     bool isValid = PasswordHasher.Verify(hashPassword, password);
-    if (!isValid) return Results.BadRequest("E-mail ou senha inválidos.");
+    if (!isValid) return Results.BadRequest(new { message = "E-mail ou senha inválidos." });
 
     var user = GetUserByEmailRepository.Get(email: email, connectionString: connectionString);
 

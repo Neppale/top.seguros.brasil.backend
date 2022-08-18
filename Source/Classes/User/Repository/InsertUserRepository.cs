@@ -1,19 +1,17 @@
 static class InsertUserRepository
 {
-  public static int Insert(Usuario user, SqlConnection connectionString)
+  public static GetUserDto? Insert(Usuario user, SqlConnection connectionString)
   {
     try
     {
       connectionString.Query("INSERT INTO Usuarios (nome_completo, email, senha, tipo, status) VALUES (@Nome, @Email, @Senha, @Tipo, @Status)", new { Nome = user.nome_completo, Email = user.email, Senha = user.senha, Tipo = user.tipo, Status = user.status });
 
-      // Pegando o ID do usuário que acabou de ser inserido.
-      int createdUsuarioId = connectionString.QueryFirstOrDefault<int>("SELECT id_usuario FROM Usuarios WHERE email = @Email", new { Email = user.email });
-
-      return createdUsuarioId;
+      var createdUser = connectionString.QueryFirstOrDefault<GetUserDto>("SELECT id_usuario, nome_completo, email, tipo, status FROM Usuarios WHERE email = @Email", new { Email = user.email });
+      return createdUser;
     }
     catch (SystemException)
     {
-      return 0;
+      return null;
     }
   }
 }

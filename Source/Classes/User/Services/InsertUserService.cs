@@ -1,7 +1,7 @@
 static class InsertUserService
 {
   /** <summary> Esta função insere um Usuario no banco de dados. </summary>**/
-  public static IResult Insert(dynamic usuario, SqlConnection connectionString)
+  public static IResult Insert(Usuario usuario, SqlConnection connectionString)
   {
     bool hasValidProperties = NullPropertyValidator.Validate(usuario);
     if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
@@ -9,16 +9,16 @@ static class InsertUserService
     usuario.status = true;
 
     bool userIsValid = UserAlreadyExistsValidator.Validate(email: usuario.email, connectionString: connectionString);
-    if (!userIsValid) return Results.BadRequest("O e-mail informado já está sendo utilizado em outra conta.");
+    if (!userIsValid) return Results.BadRequest(new { message = "O e-mail informado já está sendo utilizado em outra conta." });
 
     bool passwordIsValid = PasswordValidator.Validate(usuario.senha);
-    if (!passwordIsValid) return Results.BadRequest("A senha informada não corresponde aos requisitos de segurança.");
+    if (!passwordIsValid) return Results.BadRequest(new { message = "A senha informada não corresponde aos requisitos de segurança." });
 
     usuario.senha = PasswordHasher.HashPassword(usuario.senha);
 
-    var result = InsertUserRepository.Insert(user: usuario, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
+    var createdUser = InsertUserRepository.Insert(user: usuario, connectionString: connectionString);
+    if (createdUser == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
-    return Results.Created($"/usuario/{result}", new { id_usuario = result });
+    return Results.Created($"/usuario/{createdUser.id_usuario}", new { message = "Usuário criado com sucesso.", user = createdUser });
   }
 }

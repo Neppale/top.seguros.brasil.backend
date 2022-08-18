@@ -4,7 +4,7 @@ static class GetOneUserService
   public static IResult Get(int id, SqlConnection connectionString)
   {
     var user = GetOneUserRepository.Get(id: id, connectionString: connectionString);
-    if (user == null) return Results.NotFound("Usuário não encontrado.");
+    if (user == null) return Results.NotFound(new { message = "Usuário não encontrado." });
 
     return Results.Ok(user);
   }

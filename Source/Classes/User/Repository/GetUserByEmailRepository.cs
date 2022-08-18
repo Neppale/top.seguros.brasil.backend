@@ -1,8 +1,7 @@
 static class GetUserByEmailRepository
 {
-  public static dynamic Get(string email, SqlConnection connectionString)
+  public static GetUserDto Get(string email, SqlConnection connectionString)
   {
-    var user = connectionString.QueryFirstOrDefault("SELECT id_usuario, nome_completo, email, tipo FROM Usuarios WHERE email = @Email", new { Email = email });
-    return user;
+    return connectionString.QueryFirstOrDefault<GetUserDto>("SELECT id_usuario, nome_completo, email, tipo, status FROM Usuarios WHERE email = @Email", new { Email = email });
   }
 }
