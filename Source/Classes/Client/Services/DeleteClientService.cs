@@ -6,7 +6,7 @@ static class DeleteClientService
     if (client == null) return Results.NotFound("Cliente não encontrado.");
 
     var result = DeleteClientRepository.Delete(id: id, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.NoContent();
   }

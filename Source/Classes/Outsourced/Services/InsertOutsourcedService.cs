@@ -4,7 +4,7 @@ public static class InsertOutsourcedService
   public static IResult Insert(Terceirizado terceirizado, SqlConnection connectionString)
   {
     bool hasValidProperties = NullPropertyValidator.Validate(terceirizado);
-    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
     terceirizado.status = true;
 
@@ -19,7 +19,7 @@ public static class InsertOutsourcedService
     if (!terceirizadoIsValid) return Results.Conflict("Os dados deste terceirizado já estão cadastrados no banco de dados.");
 
     var result = InsertOutsourcedRepository.Insert(outsourced: terceirizado, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Created($"/cliente/{result}", new { id_terceirizado = result });
   }

@@ -4,7 +4,7 @@ static class InsertPolicyService
   public static async Task<IResult> Insert(Apolice apolice, SqlConnection connectionString)
   {
     bool hasValidProperties = NullPropertyValidator.Validate(apolice);
-    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
     apolice.status = "Em Análise";
 
@@ -27,7 +27,7 @@ static class InsertPolicyService
     if (user == null) return Results.NotFound("Usuário não encontrado.");
 
     var result = await InsertPolicyRepository.Insert(apolice: apolice, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Created($"/apolice/{result}", new { id_apolice = result });
   }

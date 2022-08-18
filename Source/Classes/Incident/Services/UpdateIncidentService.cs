@@ -12,7 +12,7 @@ static class UpdateIncidentService
     ocorrencia.tipoDocumento = "-";
 
     bool hasValidProperties = NullPropertyValidator.Validate(ocorrencia);
-    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
     ocorrencia.id_terceirizado = originalTerceirizado;
 
@@ -44,7 +44,7 @@ static class UpdateIncidentService
     if (ocorrencia.status == "Concluida" && storedDocument.documento == null) return Results.BadRequest("Não é possível alterar o status de uma ocorrência para Concluída sem um documento.");
 
     var result = UpdateIncidentRepository.Update(incident: ocorrencia, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Ok("Ocorrência atualizada com sucesso.");
   }

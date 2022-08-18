@@ -4,7 +4,7 @@ public static class UpdateOutsourcedService
   public static IResult Update(int id, Terceirizado terceirizado, SqlConnection connectionString)
   {
     bool hasValidProperties = NullPropertyValidator.Validate(terceirizado);
-    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
     bool cnpjIsValid = CnpjValidation.Validate(terceirizado.cnpj);
     cnpjIsValid = StringFormatValidator.ValidateCNPJ(terceirizado.cnpj);
@@ -15,12 +15,12 @@ public static class UpdateOutsourcedService
 
     var outsourced = GetOneOutsourcedRepository.Get(id: id, connectionString: connectionString);
     if (outsourced == null) return Results.NotFound("Terceirizado não encontrado");
-    
+
     bool terceirizadoIsValid = OutsourcedAlreadyExistsValidator.Validate(id: id, outsourced: terceirizado, connectionString: connectionString);
     if (!terceirizadoIsValid) return Results.Conflict("Os dados deste terceirizado já estão cadastrados no banco de dados.");
 
     var result = UpdateOutsourcedRepository.Update(id: id, outsourced: terceirizado, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Ok("Terceirizado alterado com sucesso.");
   }

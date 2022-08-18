@@ -4,7 +4,7 @@ static class UpdateUserService
   public static IResult Update(int id, Usuario usuario, SqlConnection connectionString)
   {
     bool hasValidProperties = NullPropertyValidator.Validate(usuario);
-    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
     var user = GetOneUserRepository.Get(id: id, connectionString: connectionString);
     if (user == null) return Results.NotFound("Usuário não encontrado.");
@@ -15,7 +15,7 @@ static class UpdateUserService
     usuario.senha = PasswordHasher.HashPassword(usuario.senha);
 
     var result = UpdateUserRepository.Update(id: id, usuario: usuario, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Ok("Usuário alterado com sucesso.");
   }

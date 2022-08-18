@@ -7,7 +7,7 @@ public static class UpdateVehicleService
     if (vehicleExists == null) return Results.NotFound("Veículo não encontrado.");
 
     bool hasValidProperties = NullPropertyValidator.Validate(vehicle);
-    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
     bool renavamIsValid = RenavamValidator.Validate(vehicle.renavam);
     if (!renavamIsValid) return Results.BadRequest("O RENAVAM informado é inválido.");
@@ -21,7 +21,7 @@ public static class UpdateVehicleService
     if (!plateOrRenavamAlreadyExists) return Results.BadRequest("A placa ou o RENAVAM informado já está sendo utilizado em outro veículo.");
 
     var result = UpdateVehicleRepository.Update(id: id, veiculo: vehicle, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Ok("Veículo alterado com sucesso.");
   }

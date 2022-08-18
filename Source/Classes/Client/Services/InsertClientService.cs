@@ -7,7 +7,7 @@ static class InsertClientService
     if (cliente.telefone2 == "" || cliente.telefone2 == null) cliente.telefone2 = "-";
 
     bool hasValidProperties = NullPropertyValidator.Validate(cliente);
-    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
     cliente.telefone2 = originalTelefone2;
 
@@ -43,7 +43,7 @@ static class InsertClientService
     cliente.senha = PasswordHasher.HashPassword(cliente.senha);
 
     var createdClientId = InsertClientRepository.Insert(cliente: cliente, connectionString: connectionString);
-    if (createdClientId == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+    if (createdClientId == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Created($"/cliente/{createdClientId}", new { id_cliente = createdClientId });
   }

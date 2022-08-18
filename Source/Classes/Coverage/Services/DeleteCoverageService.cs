@@ -7,7 +7,7 @@ public static class DeleteCoverageService
     if (coverage == null) return Results.NotFound("Cobertura não encontrada.");
 
     var result = DeleteCoverageRepository.Delete(id: id, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.NoContent();
   }

@@ -16,7 +16,7 @@ static class InsertIncidentService
     if (ocorrencia.status == null) ocorrencia.status = "Andamento";
 
     bool hasValidProperties = NullPropertyValidator.Validate(ocorrencia);
-    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
     bool dateIsValid = IncidentDateValidator.Validate(ocorrencia.data);
     if (!dateIsValid) return Results.BadRequest("A data da ocorrência não pode ser maior que a data atual.");
@@ -36,7 +36,7 @@ static class InsertIncidentService
     if (!vehicleIsValid) return Results.BadRequest("Veículo não pertence ao cliente.");
 
     var result = InsertIncidentRepository.Insert(incident: ocorrencia, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Created($"/ocorrencia/{result}", new { id_ocorrencia = result });
   }

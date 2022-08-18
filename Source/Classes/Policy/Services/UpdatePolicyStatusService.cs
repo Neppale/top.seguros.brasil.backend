@@ -18,7 +18,7 @@ static class UpdatePolicyStatusService
     if (policy.status == "Rejeitada" || policy.status == "Inativa") return Results.Conflict($"O status desta apólice não pode ser alterado. Status atual: {policy.status}");
 
     var result = UpdatePolicyStatusRepository.Update(id: id, status: status, connectionString);
-    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Ok();
   }

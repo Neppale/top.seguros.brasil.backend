@@ -4,7 +4,7 @@ public static class UpdateCoverageService
   public static IResult Update(int id, Cobertura cobertura, SqlConnection connectionString)
   {
     bool hasValidProperties = NullPropertyValidator.Validate(cobertura);
-    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
     var coverage = GetOneCoverageService.Get(id: id, connectionString: connectionString);
     if (coverage == null) return Results.NotFound("Cobertura não encontrada.");
@@ -13,7 +13,7 @@ public static class UpdateCoverageService
     if (!nameIsValid) return Results.BadRequest("O nome da cobertura já está sendo utiizado por outra cobertura ativa.");
 
     var result = UpdateCoverageRepository.Update(id: id, cobertura: cobertura, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Ok("Cobertura alterada com sucesso.");
   }

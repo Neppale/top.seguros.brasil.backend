@@ -11,7 +11,7 @@ static class UpdateClientService
     cliente.telefone2 = "-";
 
     bool hasValidProperties = NullPropertyValidator.Validate(cliente);
-    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
     cliente.telefone2 = originalTelefone2;
 
@@ -41,7 +41,7 @@ static class UpdateClientService
     cliente.senha = PasswordHasher.HashPassword(cliente.senha);
 
     var result = UpdateClientRepository.Update(id: id, cliente: cliente, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Ok("Cliente atualizado com sucesso.");
   }

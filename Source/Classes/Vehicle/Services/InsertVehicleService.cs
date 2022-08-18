@@ -4,7 +4,7 @@ public static class InsertVehicleService
   public static async Task<IResult> Insert(Veiculo vehicle, SqlConnection connectionString)
   {
     bool hasValidProperties = NullPropertyValidator.Validate(vehicle);
-    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
     vehicle.status = true;
 
@@ -26,7 +26,7 @@ public static class InsertVehicleService
     if (client == null) return Results.NotFound("Cliente não encontrado.");
 
     var result = InsertVehicleRepository.Insert(veiculo: vehicle, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Created($"/veiculo/{result}", new { id_veiculo = result });
   }

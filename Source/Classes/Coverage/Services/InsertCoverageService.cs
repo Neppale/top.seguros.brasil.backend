@@ -4,7 +4,7 @@ public static class InsertCoverageService
   public static IResult Insert(Cobertura cobertura, SqlConnection connectionString)
   {
     bool hasValidProperties = NullPropertyValidator.Validate(cobertura);
-    if (!hasValidProperties) return Results.BadRequest("Há um campo inválido na sua requisição.");
+    if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
     cobertura.status = true;
 
@@ -14,7 +14,7 @@ public static class InsertCoverageService
     if (!nameIsValid) return Results.Conflict("O nome da cobertura já está sendo utilizado por outra cobertura ativa.");
 
     var result = InsertCoverageRepository.Insert(cobertura: cobertura, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Created($"/cobertura/{result}", new { id_cobertura = result });
   }

@@ -3,13 +3,13 @@ static class LoginUserService
   /** <summary> Esta função realiza o login do usuario. </summary>**/
   public static IResult Login(string email, string password, SqlConnection connectionString, WebApplicationBuilder builder)
   {
-      string hashPassword = GetUserHashPasswordByEmailRepository.Get(email: email, connectionString: connectionString);
-      if (hashPassword == null) return Results.BadRequest("E-mail ou senha inválidos.");
+    string hashPassword = GetUserHashPasswordByEmailRepository.Get(email: email, connectionString: connectionString);
+    if (hashPassword == null) return Results.BadRequest("E-mail ou senha inválidos.");
 
-      bool isValid = PasswordHasher.Verify(hashPassword, password);
-      if (!isValid) return Results.BadRequest("E-mail ou senha inválidos.");
+    bool isValid = PasswordHasher.Verify(hashPassword, password);
+    if (!isValid) return Results.BadRequest("E-mail ou senha inválidos.");
 
-      var user = GetUserByEmailRepository.Get(email: email, connectionString: connectionString);
+    var user = GetUserByEmailRepository.Get(email: email, connectionString: connectionString);
 
     try
     {
@@ -28,7 +28,7 @@ static class LoginUserService
     }
     catch (SystemException)
     {
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+      return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
     }
   }
 }

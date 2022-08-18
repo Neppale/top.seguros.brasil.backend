@@ -29,7 +29,7 @@ static class LoginClientService
     }
     catch (SystemException)
     {
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde.");
+      return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
     }
   }
 }
