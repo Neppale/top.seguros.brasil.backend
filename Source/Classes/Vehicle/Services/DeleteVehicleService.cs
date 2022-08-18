@@ -4,7 +4,7 @@ public static class DeleteVehicleService
   public static IResult Delete(int id, SqlConnection connectionString)
   {
     var vehicle = GetOneVehicleRepository.Get(id: id, connectionString: connectionString);
-    if (vehicle == null) return Results.NotFound("Veículo não encontrado.");
+    if (vehicle == null) return Results.NotFound(new { message = "Veículo não encontrado." });
 
     var result = DeleteVehicleRepository.Delete(id: id, connectionString: connectionString);
     if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });

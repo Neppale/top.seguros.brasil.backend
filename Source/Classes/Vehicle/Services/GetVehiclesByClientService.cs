@@ -8,23 +8,10 @@ static class GetVehiclesByClient
     var client = GetOneClientRepository.Get(id: id_cliente, connectionString: connectionString);
     if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
-    var results = GetVehiclesByClientRepository.Get(id: id_cliente, connectionString: connectionString, pageNumber: pageNumber);
+    var vehicles = GetVehiclesByClientRepository.Get(id: id_cliente, connectionString: connectionString, pageNumber: pageNumber);
 
-    foreach (var item in results)
-    {
-      item.modelo = VehicleModelUnformatter.Unformat(item.modelo);
-    }
+    foreach (var vehicle in vehicles) vehicle.modelo = VehicleModelUnformatter.Unformat(vehicle.modelo);
 
-    return Results.Ok(results);
-
-    // Exemplo de retorno, adaptada para o Management Stage: 
-    // [{ 
-    //   "id_veiculo": 1, 
-    //   "marca": "Fiat", 
-    //   "modelo": "Uno", 
-    //   "ano": "2020 Gasolina", 
-    //   "uso": "Trabalho", 
-    //   "placa": "ABC-1234" 
-    //   }]
+    return Results.Ok(vehicles);
   }
 }

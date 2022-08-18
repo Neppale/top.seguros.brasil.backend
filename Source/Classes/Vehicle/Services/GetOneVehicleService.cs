@@ -4,7 +4,7 @@ public static class GetOneVehicleService
   public static IResult Get(int id, SqlConnection connectionString)
   {
     var vehicle = GetOneVehicleRepository.Get(id: id, connectionString: connectionString);
-    if (vehicle == null) return Results.NotFound("Veículo não encontrado.");
+    if (vehicle == null) return Results.NotFound(new { message = "Veículo não encontrado." });
 
     vehicle.modelo = VehicleModelUnformatter.Unformat(vehicle.modelo);
 

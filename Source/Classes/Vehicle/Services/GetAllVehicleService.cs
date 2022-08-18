@@ -5,12 +5,9 @@ public static class GetAllVehicleService
   {
     if (pageNumber == null) pageNumber = 1;
 
-    var result = GetAllVehicleRepository.Get(connectionString: connectionString, pageNumber: pageNumber);
+    var vehicles = GetAllVehicleRepository.Get(connectionString: connectionString, pageNumber: pageNumber);
 
-    foreach (var item in result)
-    {
-      item.modelo = VehicleModelUnformatter.Unformat(item.modelo);
-    }
-    return Results.Ok(result);
+    foreach (var vehicle in vehicles) vehicle.modelo = VehicleModelUnformatter.Unformat(vehicle.modelo);
+    return Results.Ok(vehicles);
   }
 }

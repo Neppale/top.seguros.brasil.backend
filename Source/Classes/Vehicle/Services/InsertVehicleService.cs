@@ -9,25 +9,25 @@ public static class InsertVehicleService
     vehicle.status = true;
 
     bool isValidYear = VehicleYearValidator.Validate(vehicle.ano);
-    if (!isValidYear) return Results.BadRequest("O ano do veículo não segue o formato correto. O ano é composto de ano + combustível. Ex: 2019 Flex");
+    if (!isValidYear) return Results.BadRequest(new { message = "O ano do veículo não segue o formato correto. O ano é composto de ano + combustível. Ex: 2019 Flex" });
 
     bool RenavamIsValid = RenavamValidator.Validate(vehicle.renavam);
-    if (!RenavamIsValid) return Results.BadRequest("O RENAVAM informado é inválido.");
+    if (!RenavamIsValid) return Results.BadRequest(new { message = "O RENAVAM informado é inválido." });
 
     vehicle.modelo = VehicleModelFormatter.Format(vehicle.modelo);
 
     bool vehicleIsValid = await VehicleFIPEValidator.Validate(vehicle.marca, vehicle.modelo, vehicle.ano);
-    if (!vehicleIsValid) return Results.BadRequest("Este veículo não existe na tabela FIPE. Confira todos os campos e tente novamente.");
+    if (!vehicleIsValid) return Results.BadRequest(new { message = "Este veículo não existe na tabela FIPE. Confira todos os campos e tente novamente." });
 
     bool plateOrRenavamIsValid = VehicleAlreadyExistsValidator.Validate(vehicle: vehicle, connectionString: connectionString);
-    if (!plateOrRenavamIsValid) return Results.BadRequest("A placa ou o RENAVAM informado já está sendo utilizado em outro veículo.");
+    if (!plateOrRenavamIsValid) return Results.BadRequest(new { message = "A placa ou o RENAVAM informado já está sendo utilizado em outro veículo." });
 
     var client = GetOneClientService.Get(id: vehicle.id_cliente, connectionString: connectionString);
     if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
-    var result = InsertVehicleRepository.Insert(veiculo: vehicle, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
+    var createdVehicle = InsertVehicleRepository.Insert(vehicle: vehicle, connectionString: connectionString);
+    if (createdVehicle == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
-    return Results.Created($"/veiculo/{result}", new { id_veiculo = result });
+    return Results.Created($"/veiculo/{createdVehicle.id_veiculo}", new { message = "Veículo criado com sucesso.", vehicle = createdVehicle });
   }
 }
