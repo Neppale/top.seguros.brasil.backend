@@ -38,7 +38,7 @@ IF /I %CHOICE% NEQ S GOTO END
 echo ----------------------------------------------------------------
 echo Reiniciando banco de dados.
 echo ----------------------------------------------------------------
-taskkill /IM dotnet.exe /F
+taskkill /IM tsb.mininal.policy.engine.exe /F
 taskkill /IM Ssms.exe /F
 sqlcmd -S localhost -U sa -P Password1234! -i "../Scripts/CreateDatabase.sql"
 echo ----------------------------------------------------------------
@@ -65,7 +65,7 @@ sleep 5s
 taskkill /IM tsb.mininal.policy.engine.exe /F
 sqlcmd -S localhost -U sa -P Password1234! -i "../Scripts/DropDatabase.sql"
 sqlcmd -S localhost -U sa -P Password1234! -i "../Scripts/CreateDatabase.sql"
-cd ../Temp
+cd Temp
 del *.pdf /q
 del *.png -/q
 

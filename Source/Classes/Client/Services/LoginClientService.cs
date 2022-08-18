@@ -9,7 +9,7 @@ static class LoginClientService
     bool isValid = PasswordHasher.Verify(hashPassword, password);
     if (!isValid) return Results.BadRequest("E-mail ou senha inválidos.");
 
-    var client = GetClientByEmailRepository.Get(email: email, connectionString: connectionString);
+    var client = GetOneClientByEmailRepository.Get(email: email, connectionString: connectionString);
 
     try
     {
