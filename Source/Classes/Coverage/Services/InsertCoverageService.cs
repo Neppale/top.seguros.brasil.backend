@@ -8,14 +8,14 @@ public static class InsertCoverageService
 
     cobertura.status = true;
 
-    if (cobertura.taxa_indenizacao <= 0) return Results.BadRequest("Taxa de indenização não pode ser 0% ou menor.");
+    if (cobertura.taxa_indenizacao <= 0) return Results.BadRequest(new { message = "Taxa de indenização não pode ser 0% ou menor." });
 
     bool nameIsValid = CoverageAlreadyExistsValidator.Validate(name: cobertura.nome, connectionString: connectionString);
-    if (!nameIsValid) return Results.Conflict("O nome da cobertura já está sendo utilizado por outra cobertura ativa.");
+    if (!nameIsValid) return Results.Conflict(new { message = "O nome da cobertura já está sendo utilizado por outra cobertura ativa." });
 
-    var result = InsertCoverageRepository.Insert(cobertura: cobertura, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
+    var createdCoverage = InsertCoverageRepository.Insert(cobertura: cobertura, connectionString: connectionString);
+    if (createdCoverage == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
-    return Results.Created($"/cobertura/{result}", new { id_cobertura = result });
+    return Results.Created($"/cobertura/{createdCoverage}", new { message = "Cobertura criada com sucesso.", coverage = createdCoverage });
   }
 }

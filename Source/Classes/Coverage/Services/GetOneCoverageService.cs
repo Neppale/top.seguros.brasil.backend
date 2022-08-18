@@ -4,7 +4,7 @@ public static class GetOneCoverageService
   public static IResult Get(int id, SqlConnection connectionString)
   {
     var coverage = GetOneCoverageRepository.Get(id: id, connectionString: connectionString);
-    if (coverage == null) return Results.NotFound("Cobertura não encontrada.");
+    if (coverage == null) return Results.NotFound(new { message = "Cobertura não encontrada." });
 
     return Results.Ok(coverage);
   }

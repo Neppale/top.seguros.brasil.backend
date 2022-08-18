@@ -7,14 +7,14 @@ public static class UpdateCoverageService
     if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
     var coverage = GetOneCoverageService.Get(id: id, connectionString: connectionString);
-    if (coverage == null) return Results.NotFound("Cobertura não encontrada.");
+    if (coverage == null) return Results.NotFound(new { message = "Cobertura não encontrada." });
 
     bool nameIsValid = CoverageAlreadyExistsValidator.Validate(id: id, name: cobertura.nome, connectionString: connectionString);
-    if (!nameIsValid) return Results.BadRequest("O nome da cobertura já está sendo utiizado por outra cobertura ativa.");
+    if (!nameIsValid) return Results.BadRequest(new { message = "O nome da cobertura já está sendo utiizado por outra cobertura ativa." });
 
-    var result = UpdateCoverageRepository.Update(id: id, cobertura: cobertura, connectionString: connectionString);
-    if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
+    var updatedCoverage = UpdateCoverageRepository.Update(id: id, cobertura: cobertura, connectionString: connectionString);
+    if (updatedCoverage == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
-    return Results.Ok("Cobertura alterada com sucesso.");
+    return Results.Ok(new { message = "Cobertura alterada com sucesso.", coverage = updatedCoverage });
   }
 }
