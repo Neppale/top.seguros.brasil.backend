@@ -38,6 +38,6 @@ static class InsertIncidentService
     var createdIncident = InsertIncidentRepository.Insert(incident: ocorrencia, connectionString: connectionString);
     if (createdIncident == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
-    return Results.Created($"/ocorrencia/{createdIncident}", new { incident = createdIncident });
+    return Results.Created($"/ocorrencia/{createdIncident}", new { message = "Ocorrência criada com sucesso.", incident = createdIncident });
   }
 }

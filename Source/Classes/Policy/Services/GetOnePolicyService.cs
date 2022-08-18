@@ -4,7 +4,7 @@ static class GetOnePolicyService
   public static IResult Get(int id, SqlConnection connectionString)
   {
     var policy = GetOnePolicyRepository.Get(id, connectionString);
-    if (policy == null) return Results.NotFound("Apólice não encontrada.");
+    if (policy == null) return Results.NotFound(new { message = "Apólice não encontrada." });
 
     return Results.Ok(policy);
   }

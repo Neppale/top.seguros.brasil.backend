@@ -3,7 +3,7 @@ static class GetPolicyDocumentService
   public static IResult Get(int id, SqlConnection connectionString)
   {
     var policy = GetOnePolicyRepository.Get(id: id, connectionString: connectionString);
-    if (policy == null) return Results.NotFound("Apólice não encontrada.");
+    if (policy == null) return Results.NotFound(new { message = "Apólice não encontrada." });
 
     try
     {
@@ -15,7 +15,7 @@ static class GetPolicyDocumentService
     }
     catch (SystemException)
     {
-      return Results.BadRequest("Houve um erro ao processar sua requisição. Tente novamente mais tarde. ");
+      return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde. " });
     }
   }
 }

@@ -44,7 +44,7 @@ public static class PolicyController
     })
     .WithName("Alterar status de apólice específica");
 
-    app.MapPost("/apolice/gerar/", [Authorize] (GenerateApolice apolice) =>
+    app.MapPost("/apolice/gerar/", [Authorize] (GenerateApoliceDto apolice) =>
     {
       return GeneratePolicyService.Generate(id_veiculo: apolice.id_veiculo, id_cliente: apolice.id_cliente, id_cobertura: apolice.id_cobertura, connectionString: connectionString);
     })

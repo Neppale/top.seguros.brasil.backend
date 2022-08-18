@@ -4,18 +4,18 @@ static class GeneratePolicyService
   public static async Task<IResult> Generate(int id_cliente, int id_veiculo, int id_cobertura, SqlConnection connectionString)
   {
     var client = GetOneClientRepository.Get(id_cliente, connectionString);
-    if (client == null) return Results.BadRequest("Cliente não encontrado.");
+    if (client == null) return Results.BadRequest(new { message = "Cliente não encontrado." });
 
     var vehicle = GetOneVehicleRepository.Get(id_veiculo, connectionString);
-    if (vehicle == null) return Results.BadRequest("Veiculo não encontrado.");
+    if (vehicle == null) return Results.BadRequest(new { message = "Veículo não encontrado." });
 
     decimal vehicleValue = await VehiclePriceFinder.Find(vehicle.marca, vehicle.modelo, vehicle.ano);
 
     var coverage = GetOneCoverageRepository.Get(id_cobertura, connectionString);
-    if (coverage == null) return Results.BadRequest("Cobertura não encontrada.");
+    if (coverage == null) return Results.BadRequest(new { message = "Cobertura não encontrada." });
 
     bool vehicleBelongsToClient = ClientVehicleValidator.Validate(id_cliente, id_veiculo, connectionString);
-    if (!vehicleBelongsToClient) return Results.BadRequest("Veículo não pertence ao cliente.");
+    if (!vehicleBelongsToClient) return Results.BadRequest(new { message = "Veículo não pertence ao cliente." });
 
     try
     {
@@ -32,11 +32,11 @@ static class GeneratePolicyService
         status: "Em Análise"
       );
 
-      return Results.Ok(new { message = "Apólice gerada com sucesso.", warning = "Lembre-se de que a apólice não foi salva no banco de dados, apenas gerada, e por isso seu id é 0.", apolice = generatedApolice });
+      return Results.Ok(new { message = "Modelo de apólice gerado com sucesso.", policy = generatedApolice });
     }
     catch (SystemException)
     {
-      return Results.BadRequest("Erro ao gerar apólice. Tente novamente mais tarde.");
+      return Results.BadRequest(new { message = "Erro ao gerar apólice. Tente novamente mais tarde." });
     }
   }
 }
