@@ -23,7 +23,7 @@ abstract public class StringFormatValidator
   {
     Regex regex = new Regex(@"^\(\d\d\)\s\d\d\d\d\d-\d\d\d\d$");
 
-    if (telefone == null || telefone == "") return true; // Telefone não informado deve ser considerado válido.
+    if (telefone == null || telefone == "") return true;
 
     if (!regex.IsMatch(telefone)) return false;
     return true;

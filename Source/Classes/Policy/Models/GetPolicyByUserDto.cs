@@ -1,7 +1,7 @@
 class GetPolicyByUserDto
 {
 
-  // Esta classe é uma classe de modelo para o Management Stage.
+  // Adaptado para o Management Stage.
 
   public int id_apolice { get; set; }
   public string nome { get; set; }

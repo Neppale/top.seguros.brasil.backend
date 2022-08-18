@@ -67,7 +67,6 @@ static class APISetup
     app.UseHttpsRedirection();
     builder.Services.AddAuthorization();
 
-    // Criando diretório temporário para armazenar os arquivos de imagens e documentos.
     string temporaryDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
 
     return app;

@@ -1,6 +1,6 @@
 class GetVehicleByClientDto
 {
-  // Modelo adaptado para o Management Stage.
+  // Adaptado para o Management Stage.
 
   public int id_veiculo { get; set; }
   public string marca { get; set; }

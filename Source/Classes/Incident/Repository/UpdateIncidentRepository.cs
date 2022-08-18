@@ -1,6 +1,5 @@
 static class UpdateIncidentRepository
 {
-  // TODO: Alguns updates usam o id como parametro, outros usam o id_ocorrencia. Precisamos padronizar.
   public static GetOneIncidentDto? Update(int id, Ocorrencia incident, SqlConnection connectionString)
   {
     try
@@ -15,6 +14,5 @@ static class UpdateIncidentRepository
     {
       return null;
     }
-
   }
 }
