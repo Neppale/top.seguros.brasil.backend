@@ -22,7 +22,7 @@ public static class InsertVehicleService
     bool plateOrRenavamIsValid = VehicleAlreadyExistsValidator.Validate(vehicle: vehicle, connectionString: connectionString);
     if (!plateOrRenavamIsValid) return Results.BadRequest(new { message = "A placa ou o RENAVAM informado já está sendo utilizado em outro veículo." });
 
-    var client = GetOneClientService.Get(id: vehicle.id_cliente, connectionString: connectionString);
+    var client = GetOneClientRepository.Get(id: vehicle.id_cliente, connectionString: connectionString);
     if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
     var createdVehicle = InsertVehicleRepository.Insert(vehicle: vehicle, connectionString: connectionString);

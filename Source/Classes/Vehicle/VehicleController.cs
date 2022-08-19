@@ -16,7 +16,7 @@ public static class VehicleController
 
     app.MapGet("/veiculo/cliente/{id:int}", [Authorize] (int id, int? pageNumber) =>
     {
-      return GetVehiclesByClient.Get(id_cliente: id, pageNumber: pageNumber, connectionString: connectionString);
+      return GetVehiclesByClientService.Get(id_cliente: id, pageNumber: pageNumber, connectionString: connectionString);
     })
     .WithName("Selecionar veículo por cliente");
 
