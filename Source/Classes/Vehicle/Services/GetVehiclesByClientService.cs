@@ -5,7 +5,7 @@ static class GetVehiclesByClientService
   {
     if (pageNumber == null) pageNumber = 1;
 
-    var client = GetOneClientRepository.Get(id: id_cliente, connectionString: connectionString);
+    var client = GetClientByIdRepository.Get(id: id_cliente, connectionString: connectionString);
     if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
     var vehicles = GetVehiclesByClientRepository.Get(id: id_cliente, connectionString: connectionString, pageNumber: pageNumber);

@@ -10,7 +10,7 @@ public static class ClientController
 
     app.MapGet("/cliente/{id:int}", [Authorize] (int id) =>
     {
-      return GetOneClientService.Get(id: id, connectionString: connectionString);
+      return GetClientByIdService.Get(id: id, connectionString: connectionString);
     })
     .WithName("Selecionar cliente específico");
 

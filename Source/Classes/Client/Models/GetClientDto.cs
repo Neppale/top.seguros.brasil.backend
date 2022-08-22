@@ -1,4 +1,4 @@
-class GetOneClientDto
+class GetClientDto
 {
   public int id_cliente { get; set; }
   public string nome_completo { get; set; }
@@ -10,7 +10,7 @@ class GetOneClientDto
   public string telefone1 { get; set; }
   public string telefone2 { get; set; }
 
-  public GetOneClientDto(int id_cliente, string nome_completo, string email, string cpf, string cnh, string cep, string data_nascimento, string telefone1, string telefone2, bool status)
+  public GetClientDto(int id_cliente, string nome_completo, string email, string cpf, string cnh, string cep, string data_nascimento, string telefone1, string telefone2, bool status)
   {
     this.id_cliente = id_cliente;
     this.nome_completo = nome_completo;
@@ -23,7 +23,7 @@ class GetOneClientDto
     this.telefone2 = telefone2;
   }
 
-  public GetOneClientDto()
+  public GetClientDto()
   {
   }
 }

@@ -3,7 +3,7 @@ static class GetPolicyByClientService
   public static IResult Get(int id_cliente, int? pageNumber, SqlConnection connectionString)
   {
 
-    var client = GetOneClientRepository.Get(id: id_cliente, connectionString: connectionString);
+    var client = GetClientByIdRepository.Get(id: id_cliente, connectionString: connectionString);
     if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
     if (pageNumber == null) pageNumber = 1;

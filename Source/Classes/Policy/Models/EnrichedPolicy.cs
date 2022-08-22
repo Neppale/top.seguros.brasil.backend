@@ -8,7 +8,7 @@ class EnrichedPolicy
   public decimal indenizacao { get; set; }
   public Cobertura cobertura { get; set; }
   public GetUserDto usuario { get; set; }
-  public GetOneClientDto cliente { get; set; }
+  public GetClientDto cliente { get; set; }
   public Veiculo veiculo { get; set; }
   public string status { get; set; }
 

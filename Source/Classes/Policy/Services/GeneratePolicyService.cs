@@ -3,7 +3,7 @@ static class GeneratePolicyService
 
   public static async Task<IResult> Generate(int id_cliente, int id_veiculo, int id_cobertura, SqlConnection connectionString)
   {
-    var client = GetOneClientRepository.Get(id_cliente, connectionString);
+    var client = GetClientByIdRepository.Get(id_cliente, connectionString);
     if (client == null) return Results.BadRequest(new { message = "Cliente não encontrado." });
 
     var vehicle = GetOneVehicleRepository.Get(id_veiculo, connectionString);

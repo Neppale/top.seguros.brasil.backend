@@ -4,7 +4,7 @@ static class UpdateClientService
   public static async Task<IResult> Update(int id, Cliente cliente, SqlConnection connectionString)
   {
 
-    var client = GetOneClientRepository.Get(id: id, connectionString: connectionString);
+    var client = GetClientByIdRepository.Get(id: id, connectionString: connectionString);
     if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
     string? originalTelefone2 = cliente.telefone2;
