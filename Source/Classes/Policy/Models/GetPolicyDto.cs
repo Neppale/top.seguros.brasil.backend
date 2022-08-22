@@ -1,4 +1,4 @@
-public class GetOnePolicyDto
+public class GetPolicyDto
 {
   public int id_apolice { get; set; }
   public string data_inicio { get; set; }
@@ -11,7 +11,7 @@ public class GetOnePolicyDto
   public int id_veiculo { get; set; }
   public string status { get; set; }
 
-  public GetOnePolicyDto(string data_inicio, string data_fim, decimal premio, decimal indenizacao, int id_cobertura, int id_usuario, int id_cliente, int id_veiculo, string status)
+  public GetPolicyDto(string data_inicio, string data_fim, decimal premio, decimal indenizacao, int id_cobertura, int id_usuario, int id_cliente, int id_veiculo, string status)
   {
     this.data_inicio = data_inicio;
     this.data_fim = data_fim;
@@ -24,7 +24,7 @@ public class GetOnePolicyDto
     this.status = status;
   }
 
-  public GetOnePolicyDto()
+  public GetPolicyDto()
   {
   }
 }

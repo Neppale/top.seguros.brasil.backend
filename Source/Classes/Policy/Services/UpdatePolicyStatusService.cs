@@ -11,7 +11,7 @@ static class UpdatePolicyStatusService
 
     if (status == "Analise") status = "Em Análise";
 
-    var policy = GetOnePolicyRepository.Get(id: id, connectionString: connectionString);
+    var policy = GetPolicyByIdRepository.Get(id: id, connectionString: connectionString);
     if (policy == null) return Results.NotFound("Apólice não encontrada.");
 
     if (policy.status == status) return Results.Conflict(new { message = "O novo status da apólice não pode ser igual ao atual." });

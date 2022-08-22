@@ -10,7 +10,7 @@ public static class PolicyController
 
     app.MapGet("/apolice/{id:int}", [Authorize] (int id) =>
     {
-      return GetOnePolicyService.Get(id: id, connectionString: connectionString);
+      return GetPolicyByIdService.Get(id: id, connectionString: connectionString);
     })
     .WithName("Selecionar apólice específica");
 

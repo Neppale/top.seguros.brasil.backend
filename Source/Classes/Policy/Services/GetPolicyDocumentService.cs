@@ -2,7 +2,7 @@ static class GetPolicyDocumentService
 {
   public static IResult Get(int id, SqlConnection connectionString)
   {
-    var policy = GetOnePolicyRepository.Get(id: id, connectionString: connectionString);
+    var policy = GetPolicyByIdRepository.Get(id: id, connectionString: connectionString);
     if (policy == null) return Results.NotFound(new { message = "Apólice não encontrada." });
 
     try
