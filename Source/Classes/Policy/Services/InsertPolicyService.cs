@@ -20,7 +20,7 @@ static class InsertPolicyService
     bool vehicleBelongsToClient = ClientVehicleValidator.Validate(id_cliente: apolice.id_cliente, id_veiculo: apolice.id_veiculo, connectionString: connectionString);
     if (!vehicleBelongsToClient) return Results.BadRequest(new { message = "Veículo não pertence ao cliente." });
 
-    var coverage = GetOneCoverageRepository.Get(id: apolice.id_cobertura, connectionString: connectionString);
+    var coverage = GetCoverageByIdRepository.Get(id: apolice.id_cobertura, connectionString: connectionString);
     if (coverage == null) return Results.NotFound(new { message = "Cobertura não encontrada." });
 
     var user = GetOneUserRepository.Get(id: apolice.id_usuario, connectionString: connectionString);

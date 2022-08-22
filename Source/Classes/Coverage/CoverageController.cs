@@ -10,7 +10,7 @@ public static class CoverageController
 
     app.MapGet("/cobertura/{id:int}", [Authorize] (int id) =>
     {
-      return GetOneCoverageService.Get(id: id, connectionString: connectionString);
+      return GetCoverageByIdService.Get(id: id, connectionString: connectionString);
     })
     .WithName("Selecionar cobertura específica");
 

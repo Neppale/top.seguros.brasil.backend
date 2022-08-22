@@ -6,7 +6,7 @@ static class PolicyDocumentGenerator
     var user = GetOneUserRepository.Get(id: apolice.id_usuario, connectionString: connectionString);
     var client = GetClientByIdRepository.Get(id: apolice.id_cliente, connectionString: connectionString);
     var vehicle = GetOneVehicleRepository.Get(id: apolice.id_veiculo, connectionString: connectionString);
-    var coverage = GetOneCoverageRepository.Get(id: apolice.id_cobertura, connectionString: connectionString);
+    var coverage = GetCoverageByIdRepository.Get(id: apolice.id_cobertura, connectionString: connectionString);
     HttpContent localizationResponse = await GetCepInfo.Get(client.cep);
     string localizationString = await localizationResponse.ReadAsStringAsync();
     decimal veiculoPreco = await VehiclePriceFinder.Find(vehicle.marca, vehicle.modelo, vehicle.ano);

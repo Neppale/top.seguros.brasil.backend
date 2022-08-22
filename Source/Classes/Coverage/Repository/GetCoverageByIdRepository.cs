@@ -1,4 +1,4 @@
-static class GetOneCoverageRepository
+static class GetCoverageByIdRepository
 {
   public static Cobertura Get(int id, SqlConnection connectionString)
   {

@@ -13,7 +13,7 @@ public static class UpdateCoverageService
 
     if (coverageValue <= 0) return Results.BadRequest(new { message = "Valor da cobertura não pode ser 0 ou menor." });
 
-    var coverage = GetOneCoverageRepository.Get(id: id, connectionString: connectionString);
+    var coverage = GetCoverageByIdRepository.Get(id: id, connectionString: connectionString);
     if (coverage == null) return Results.NotFound(new { message = "Cobertura não encontrada." });
 
     bool nameIsValid = CoverageAlreadyExistsValidator.Validate(id: id, name: cobertura.nome, connectionString: connectionString);
