@@ -1,4 +1,4 @@
-class GetOneIncidentDto
+class GetIncidentByIdDto
 {
   public int id_ocorrencia { get; set; }
   public string data { get; set; }
@@ -12,7 +12,7 @@ class GetOneIncidentDto
   public int id_terceirizado { get; set; }
   public string status { get; set; }
 
-  public GetOneIncidentDto(int id_ocorrencia, string data, string local, string UF, string municipio, string descricao, string tipo, int id_veiculo, int id_cliente, int id_terceirizado, string status)
+  public GetIncidentByIdDto(int id_ocorrencia, string data, string local, string UF, string municipio, string descricao, string tipo, int id_veiculo, int id_cliente, int id_terceirizado, string status)
   {
     this.id_ocorrencia = id_ocorrencia;
     this.data = data;
@@ -27,7 +27,7 @@ class GetOneIncidentDto
     this.status = status;
   }
 
-  public GetOneIncidentDto()
+  public GetIncidentByIdDto()
   {
   }
 }

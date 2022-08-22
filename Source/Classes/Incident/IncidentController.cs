@@ -16,7 +16,7 @@ public static class IncidentController
 
     app.MapGet("/ocorrencia/{id:int}", [Authorize] (int id) =>
     {
-      return GetOneIncidentService.Get(id: id, connectionString: connectionString);
+      return GetIncidentByIdService.Get(id: id, connectionString: connectionString);
     })
     .WithName("Selecionar ocorrência específica");
 

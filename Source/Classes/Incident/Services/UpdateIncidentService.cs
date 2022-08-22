@@ -22,7 +22,7 @@ static class UpdateIncidentService
 
     ocorrencia.data = SqlDateConverter.Convert(ocorrencia.data);
 
-    var incident = GetOneIncidentRepository.Get(id: id, connectionString: connectionString);
+    var incident = GetIncidentByIdRepository.Get(id: id, connectionString: connectionString);
     if (incident == null) return Results.NotFound("Ocorrência não encontrada.");
 
     var client = GetClientByIdRepository.Get(id: ocorrencia.id_cliente, connectionString: connectionString);

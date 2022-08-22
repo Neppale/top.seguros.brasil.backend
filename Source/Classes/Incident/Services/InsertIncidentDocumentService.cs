@@ -13,7 +13,7 @@ static class InsertIncidentDocumentService
     Stream fileReader = formFile.OpenReadStream();
     string fileBase64 = DocumentConverter.Encode(fileReader);
 
-    var incident = GetOneIncidentRepository.Get(id, connectionString);
+    var incident = GetIncidentByIdRepository.Get(id, connectionString);
     if (incident == null) return Results.NotFound(new { message = "Ocorrência não encontrada." });
 
     var result = InsertIncidentDocumentRepository.Insert(id: id, fileType: formFile.ContentType, fileBase64: fileBase64, connectionString: connectionString);
