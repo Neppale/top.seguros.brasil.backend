@@ -6,7 +6,7 @@ static class UpdateUserService
     bool hasValidProperties = NullPropertyValidator.Validate(usuario);
     if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
-    var user = GetOneUserRepository.Get(id: id, connectionString: connectionString);
+    var user = GetUserByIdRepository.Get(id: id, connectionString: connectionString);
     if (user == null) return Results.NotFound(new { message = "Usuário não encontrado." });
 
     bool userIsValid = UserAlreadyExistsValidator.Validate(id: id, email: usuario.email, connectionString: connectionString);

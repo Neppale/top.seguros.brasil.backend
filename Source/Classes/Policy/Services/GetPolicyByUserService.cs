@@ -3,7 +3,7 @@ static class GetPolicyByUserService
   public static IResult Get(int id_usuario, int? pageNumber, SqlConnection connectionString)
   {
 
-    var user = GetOneUserRepository.Get(id: id_usuario, connectionString: connectionString);
+    var user = GetUserByIdRepository.Get(id: id_usuario, connectionString: connectionString);
     if (user == null) return Results.NotFound(new { message = "Usuário não encontrado." });
 
     if (pageNumber == null) pageNumber = 1;

@@ -23,7 +23,7 @@ static class InsertPolicyService
     var coverage = GetCoverageByIdRepository.Get(id: apolice.id_cobertura, connectionString: connectionString);
     if (coverage == null) return Results.NotFound(new { message = "Cobertura não encontrada." });
 
-    var user = GetOneUserRepository.Get(id: apolice.id_usuario, connectionString: connectionString);
+    var user = GetUserByIdRepository.Get(id: apolice.id_usuario, connectionString: connectionString);
     if (user == null) return Results.NotFound(new { message = "Usuário não encontrado." });
 
     var createdPolicy = await InsertPolicyRepository.Insert(apolice: apolice, connectionString: connectionString);

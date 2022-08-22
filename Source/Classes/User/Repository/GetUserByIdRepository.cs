@@ -1,4 +1,4 @@
-static class GetOneUserRepository
+static class GetUserByIdRepository
 {
   public static GetUserDto Get(int id, SqlConnection connectionString)
   {

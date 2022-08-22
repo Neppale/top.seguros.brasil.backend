@@ -10,7 +10,7 @@ public static class UserController
 
     app.MapGet("/usuario/{id:int}", [Authorize] (int id) =>
     {
-      return GetOneUserService.Get(id: id, connectionString: connectionString);
+      return GetUserByIdService.Get(id: id, connectionString: connectionString);
     })
     .WithName("Selecionar usuário específico");
 
