@@ -28,7 +28,7 @@ static class UpdateIncidentService
     var client = GetClientByIdRepository.Get(id: ocorrencia.id_cliente, connectionString: connectionString);
     if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
-    var vehicle = GetOneVehicleRepository.Get(id: ocorrencia.id_veiculo, connectionString: connectionString);
+    var vehicle = GetVehicleByIdRepository.Get(id: ocorrencia.id_veiculo, connectionString: connectionString);
     if (vehicle == null) return Results.NotFound(new { message = "Veículo não encontrado." });
 
     bool veiculoIsValid = ClientVehicleValidator.Validate(id_cliente: ocorrencia.id_cliente, id_veiculo: ocorrencia.id_veiculo, connectionString: connectionString);

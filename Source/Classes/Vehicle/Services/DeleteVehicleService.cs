@@ -3,7 +3,7 @@ public static class DeleteVehicleService
   /** <summary> Esta função deleta um Veículo no banco de dados. </summary>**/
   public static IResult Delete(int id, SqlConnection connectionString)
   {
-    var vehicle = GetOneVehicleRepository.Get(id: id, connectionString: connectionString);
+    var vehicle = GetVehicleByIdRepository.Get(id: id, connectionString: connectionString);
     if (vehicle == null) return Results.NotFound(new { message = "Veículo não encontrado." });
 
     var result = DeleteVehicleRepository.Delete(id: id, connectionString: connectionString);

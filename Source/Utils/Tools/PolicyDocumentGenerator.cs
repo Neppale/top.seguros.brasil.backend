@@ -5,7 +5,7 @@ static class PolicyDocumentGenerator
   {
     var user = GetUserByIdRepository.Get(id: apolice.id_usuario, connectionString: connectionString);
     var client = GetClientByIdRepository.Get(id: apolice.id_cliente, connectionString: connectionString);
-    var vehicle = GetOneVehicleRepository.Get(id: apolice.id_veiculo, connectionString: connectionString);
+    var vehicle = GetVehicleByIdRepository.Get(id: apolice.id_veiculo, connectionString: connectionString);
     var coverage = GetCoverageByIdRepository.Get(id: apolice.id_cobertura, connectionString: connectionString);
     HttpContent localizationResponse = await GetCepInfo.Get(client.cep);
     string localizationString = await localizationResponse.ReadAsStringAsync();

@@ -10,7 +10,7 @@ public static class VehicleController
 
     app.MapGet("/veiculo/{id:int}", [Authorize] (int id) =>
     {
-      return GetOneVehicleService.Get(id: id, connectionString: connectionString);
+      return GetVehicleByIdService.Get(id: id, connectionString: connectionString);
     })
     .WithName("Selecionar veículo específico");
 

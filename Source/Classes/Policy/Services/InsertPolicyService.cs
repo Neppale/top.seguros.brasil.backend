@@ -14,7 +14,7 @@ static class InsertPolicyService
     var cliente = GetClientByIdRepository.Get(id: apolice.id_cliente, connectionString: connectionString);
     if (cliente == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
-    var vehicle = GetOneVehicleRepository.Get(id: apolice.id_veiculo, connectionString: connectionString);
+    var vehicle = GetVehicleByIdRepository.Get(id: apolice.id_veiculo, connectionString: connectionString);
     if (vehicle == null) return Results.NotFound(new { message = "Veículo não encontrado." });
 
     bool vehicleBelongsToClient = ClientVehicleValidator.Validate(id_cliente: apolice.id_cliente, id_veiculo: apolice.id_veiculo, connectionString: connectionString);

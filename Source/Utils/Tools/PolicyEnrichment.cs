@@ -11,7 +11,7 @@ static class PolicyEnrichment
     enrichedPolicy.cobertura = GetCoverageByIdRepository.Get(policy.id_cobertura, connectionString);
     enrichedPolicy.usuario = GetUserByIdRepository.Get(policy.id_usuario, connectionString);
     enrichedPolicy.cliente = GetClientByIdRepository.Get(policy.id_cliente, connectionString);
-    enrichedPolicy.veiculo = GetOneVehicleRepository.Get(policy.id_veiculo, connectionString);
+    enrichedPolicy.veiculo = GetVehicleByIdRepository.Get(policy.id_veiculo, connectionString);
     enrichedPolicy.status = policy.status;
 
     return enrichedPolicy;

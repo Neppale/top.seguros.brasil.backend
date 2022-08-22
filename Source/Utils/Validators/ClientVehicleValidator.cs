@@ -4,7 +4,7 @@ static class ClientVehicleValidator
   public static bool Validate(int id_cliente, int id_veiculo, SqlConnection connectionString)
   {
 
-    var vehicle = GetOneVehicleRepository.Get(id: id_veiculo, connectionString);
+    var vehicle = GetVehicleByIdRepository.Get(id: id_veiculo, connectionString);
     if (vehicle == null) return false;
 
     if (vehicle.id_cliente != id_cliente) return false;

@@ -6,7 +6,7 @@ static class GeneratePolicyService
     var client = GetClientByIdRepository.Get(id_cliente, connectionString);
     if (client == null) return Results.BadRequest(new { message = "Cliente não encontrado." });
 
-    var vehicle = GetOneVehicleRepository.Get(id_veiculo, connectionString);
+    var vehicle = GetVehicleByIdRepository.Get(id_veiculo, connectionString);
     if (vehicle == null) return Results.BadRequest(new { message = "Veículo não encontrado." });
 
     decimal vehicleValue = await VehiclePriceFinder.Find(vehicle.marca, vehicle.modelo, vehicle.ano);

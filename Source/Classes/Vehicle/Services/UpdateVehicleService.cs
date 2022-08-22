@@ -3,7 +3,7 @@ public static class UpdateVehicleService
   /** <summary> Esta função altera um Veículo no banco de dados. </summary>**/
   public static async Task<IResult> Update(int id, Veiculo vehicle, SqlConnection connectionString)
   {
-    var vehicleExists = GetOneVehicleRepository.Get(id: id, connectionString: connectionString);
+    var vehicleExists = GetVehicleByIdRepository.Get(id: id, connectionString: connectionString);
     if (vehicleExists == null) return Results.NotFound(new { message = "Veículo não encontrado." });
 
     bool hasValidProperties = NullPropertyValidator.Validate(vehicle);

@@ -29,7 +29,7 @@ static class InsertIncidentService
     var client = GetClientByIdRepository.Get(id: ocorrencia.id_cliente, connectionString);
     if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
-    var vehicle = GetOneVehicleRepository.Get(id: ocorrencia.id_veiculo, connectionString);
+    var vehicle = GetVehicleByIdRepository.Get(id: ocorrencia.id_veiculo, connectionString);
     if (vehicle == null) return Results.NotFound(new { message = "Veículo não encontrado." });
 
     bool vehicleIsValid = ClientVehicleValidator.Validate(id_cliente: ocorrencia.id_cliente, id_veiculo: ocorrencia.id_veiculo, connectionString: connectionString);

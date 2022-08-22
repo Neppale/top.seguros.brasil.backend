@@ -1,4 +1,4 @@
-static class GetOneVehicleRepository
+static class GetVehicleByIdRepository
 {
   public static Veiculo Get(int id, SqlConnection connectionString)
   {
