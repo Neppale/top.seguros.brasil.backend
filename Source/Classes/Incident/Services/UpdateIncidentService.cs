@@ -36,7 +36,7 @@ static class UpdateIncidentService
 
     if (ocorrencia.id_terceirizado != null)
     {
-      var outsourced = GetOneOutsourcedRepository.Get(id: (int)ocorrencia.id_terceirizado, connectionString: connectionString);
+      var outsourced = GetOutsourcedByIdRepository.Get(id: (int)ocorrencia.id_terceirizado, connectionString: connectionString);
       if (outsourced == null) return Results.NotFound(new { message = "Terceirizado não encontrado." });
     }
 

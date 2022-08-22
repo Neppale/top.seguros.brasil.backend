@@ -1,4 +1,4 @@
-static class GetOneOutsourcedRepository
+static class GetOutsourcedByIdRepository
 {
   public static Terceirizado Get(int id, SqlConnection connectionString)
   {

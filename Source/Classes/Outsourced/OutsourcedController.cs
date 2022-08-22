@@ -10,7 +10,7 @@ public static class OutsourcedController
 
     app.MapGet("/terceirizado/{id:int}", [Authorize] (int id) =>
     {
-      return GetOneOutsourcedService.Get(id: id, connectionString: connectionString);
+      return GetOutsourcedByIdService.Get(id: id, connectionString: connectionString);
     })
     .WithName("Selecionar terceirizado específico");
 

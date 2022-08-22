@@ -13,7 +13,7 @@ public static class UpdateOutsourcedService
     bool telefoneIsValid = StringFormatValidator.ValidateTelefone(terceirizado.telefone);
     if (!telefoneIsValid) return Results.BadRequest(new { message = "O telefone informado está mal formatado. Lembre-se de que o telefone deve estar no formato (99) 99999-9999." });
 
-    var outsourced = GetOneOutsourcedRepository.Get(id: id, connectionString: connectionString);
+    var outsourced = GetOutsourcedByIdRepository.Get(id: id, connectionString: connectionString);
     if (outsourced == null) return Results.NotFound(new { message = "Terceirizado não encontrado" });
 
     bool terceirizadoIsValid = OutsourcedAlreadyExistsValidator.Validate(id: id, outsourced: terceirizado, connectionString: connectionString);

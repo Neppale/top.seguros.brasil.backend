@@ -3,7 +3,7 @@ public static class DeleteOutsourcedService
   /** <summary> Esta função altera um terceirizado no banco de dados. </summary>**/
   public static IResult Delete(int id, SqlConnection connectionString)
   {
-    var outsourced = GetOneOutsourcedRepository.Get(id: id, connectionString: connectionString);
+    var outsourced = GetOutsourcedByIdRepository.Get(id: id, connectionString: connectionString);
     if (outsourced == null) return Results.NotFound(new { message = "Terceirizado não encontrado" });
 
     var result = DeleteOutsourcedRepository.Delete(id: id, connectionString: connectionString);
