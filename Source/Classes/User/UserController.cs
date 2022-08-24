@@ -32,9 +32,9 @@ public static class UserController
     })
     .WithName("Desativar usuário específico");
 
-    app.MapPost("/usuario/login", [AllowAnonymous] (Usuario usuario) =>
+    app.MapPost("/usuario/login", [AllowAnonymous] (UserLoginDto login) =>
     {
-      return LoginUserService.Login(email: usuario.email, password: usuario.senha, connectionString: connectionString, builder: builder);
+      return LoginUserService.Login(login: login, connectionString: connectionString, builder: builder);
     })
     .WithName("Fazer login do usuário");
   }

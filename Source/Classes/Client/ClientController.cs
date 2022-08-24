@@ -32,9 +32,9 @@ public static class ClientController
     })
     .WithName("Desativar cliente específico");
 
-    app.MapPost("/cliente/login", [AllowAnonymous] (Cliente cliente) =>
+    app.MapPost("/cliente/login", [AllowAnonymous] (ClientLoginDto login) =>
     {
-      return LoginClientService.Login(email: cliente.email, password: cliente.senha, connectionString: connectionString, builder: builder);
+      return LoginClientService.Login(login: login, connectionString: connectionString, builder: builder);
     })
     .WithName("Fazer login do cliente");
   }
