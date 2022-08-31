@@ -28,7 +28,7 @@ static class GeneratePolicyService
         id_cliente: id_cliente,
         id_cobertura: id_cobertura,
         id_veiculo: id_veiculo,
-        id_usuario: UsuarioSelector.Select(connectionString),
+        id_usuario: UserSelector.Select(connectionString),
         status: "Em Análise"
       );
 
