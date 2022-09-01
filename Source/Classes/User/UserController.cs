@@ -2,9 +2,9 @@ public static class UserController
 {
   public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString, WebApplicationBuilder builder)
   {
-    app.MapGet("/usuario/", [Authorize] (int? pageNumber) =>
+    app.MapGet("/usuario/", [Authorize] (int? pageNumber, int? size) =>
     {
-      return GetAllUserService.Get(connectionString: connectionString, pageNumber: pageNumber);
+      return GetAllUserService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
     })
     .WithName("Selecionar todos os usuários");
 

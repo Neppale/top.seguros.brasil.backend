@@ -2,9 +2,9 @@ public static class VehicleController
 {
   public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString)
   {
-    app.MapGet("/veiculo/", [Authorize] (int? pageNumber) =>
+    app.MapGet("/veiculo/", [Authorize] (int? pageNumber, int? size) =>
     {
-      return GetAllVehicleService.Get(connectionString: connectionString, pageNumber: pageNumber);
+      return GetAllVehicleService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
     })
     .WithName("Selecionar todos os veículos");
 
@@ -14,9 +14,9 @@ public static class VehicleController
     })
     .WithName("Selecionar veículo específico");
 
-    app.MapGet("/veiculo/cliente/{id:int}", [Authorize] (int id, int? pageNumber) =>
+    app.MapGet("/veiculo/cliente/{id:int}", [Authorize] (int id, int? pageNumber, int? size) =>
     {
-      return GetVehiclesByClientService.Get(id_cliente: id, pageNumber: pageNumber, connectionString: connectionString);
+      return GetVehiclesByClientService.Get(id_cliente: id, pageNumber: pageNumber, connectionString: connectionString, size: size);
     })
     .WithName("Selecionar veículo por cliente");
 

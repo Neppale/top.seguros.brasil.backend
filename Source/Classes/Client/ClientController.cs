@@ -2,9 +2,9 @@ public static class ClientController
 {
   public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString, WebApplicationBuilder builder)
   {
-    app.MapGet("/cliente/", [Authorize] (int? pageNumber) =>
+    app.MapGet("/cliente/", [Authorize] (int? pageNumber, int? size) =>
     {
-      return GetAllClientService.Get(connectionString: connectionString, pageNumber: pageNumber);
+      return GetAllClientService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
     })
     .WithName("Selecionar todos os clientes");
 

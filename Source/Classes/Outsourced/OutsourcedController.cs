@@ -2,9 +2,9 @@ public static class OutsourcedController
 {
   public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString)
   {
-    app.MapGet("/terceirizado/", [Authorize] (int? pageNumber) =>
+    app.MapGet("/terceirizado/", [Authorize] (int? pageNumber, int? size) =>
     {
-      return GetAllOutsourcedService.Get(connectionString: connectionString, pageNumber: pageNumber);
+      return GetAllOutsourcedService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
     })
     .WithName("Selecionar todos os terceirizados");
 

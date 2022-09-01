@@ -2,15 +2,15 @@ public static class IncidentController
 {
   public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString)
   {
-    app.MapGet("/ocorrencia/", [Authorize] (int? pageNumber) =>
+    app.MapGet("/ocorrencia/", [Authorize] (int? pageNumber, int? size) =>
     {
-      return GetAllIncidentService.Get(connectionString: connectionString, pageNumber: pageNumber);
+      return GetAllIncidentService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
     })
     .WithName("Selecionar todas as ocorrências");
 
-    app.MapGet("/ocorrencia/cliente/{id:int}", [Authorize] (int id, int? pageNumber) =>
+    app.MapGet("/ocorrencia/cliente/{id:int}", [Authorize] (int id, int? pageNumber, int? size) =>
     {
-      return GetAllIncidentsByClientService.Get(id_cliente: id, connectionString: connectionString, pageNumber: pageNumber);
+      return GetAllIncidentsByClientService.Get(id_cliente: id, connectionString: connectionString, pageNumber: pageNumber, size: size);
     })
     .WithName("Selecionar todas as ocorrências por cliente");
 

@@ -2,9 +2,9 @@ public static class PolicyController
 {
   public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString)
   {
-    app.MapGet("/apolice/", [Authorize] (int? pageNumber) =>
+    app.MapGet("/apolice/", [Authorize] (int? pageNumber, int? size) =>
     {
-      return GetAllPolicyService.Get(connectionString: connectionString, pageNumber: pageNumber);
+      return GetAllPolicyService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
     })
     .WithName("Selecionar todas as apólices");
 
@@ -20,15 +20,15 @@ public static class PolicyController
     })
     .WithName("Selecionar documento de apólice específica");
 
-    app.MapGet("/apolice/usuario/{id:int}", [Authorize] (int id, int? pageNumber) =>
+    app.MapGet("/apolice/usuario/{id:int}", [Authorize] (int id, int? pageNumber, int? size) =>
     {
-      return GetPolicyByUserService.Get(id_usuario: id, pageNumber: pageNumber, connectionString: connectionString);
+      return GetPolicyByUserService.Get(id_usuario: id, pageNumber: pageNumber, connectionString: connectionString, size: size);
     })
     .WithName("Selecionar apólice por usuário");
 
-    app.MapGet("/apolice/cliente/{id:int}", [Authorize] (int id, int? pageNumber) =>
+    app.MapGet("/apolice/cliente/{id:int}", [Authorize] (int id, int? pageNumber, int? size) =>
     {
-      return GetPolicyByClientService.Get(id_cliente: id, pageNumber: pageNumber, connectionString: connectionString);
+      return GetPolicyByClientService.Get(id_cliente: id, pageNumber: pageNumber, connectionString: connectionString, size: size);
     })
     .WithName("Selecionar apólice por cliente");
 

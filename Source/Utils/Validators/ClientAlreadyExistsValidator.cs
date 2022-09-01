@@ -3,6 +3,7 @@ static class ClientAlreadyExistsValidator
   /** <summary> Esta função verifica se os dados do cliente já existem no banco de dados. </summary>**/
   public static bool Validate(Cliente cliente, SqlConnection connectionString)
   {
+    // TODO: Se usuário desativar conta, ao invés criar nova conta, devemos reativar a conta do usuário.
     string storedCpf = connectionString.QueryFirstOrDefault<string>("SELECT cpf FROM Clientes WHERE cpf = @Cpf AND status = 'true'", new { Cpf = cliente.cpf });
     if (storedCpf == cliente.cpf) return false;
 
