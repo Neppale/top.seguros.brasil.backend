@@ -9,7 +9,7 @@ static class UpdatePolicyStatusService
 
     if (!validStatuses.Contains(status)) return Results.BadRequest(new { message = "Status inválido. Status permitidos: " + string.Join(", ", validStatuses) });
 
-    if (status == "Analise") status = "Em Análise";
+    if (status == "Analise") status = "Em Analise";
 
     var policy = GetPolicyByIdRepository.Get(id: id, connectionString: connectionString);
     if (policy == null) return Results.NotFound("Apólice não encontrada.");

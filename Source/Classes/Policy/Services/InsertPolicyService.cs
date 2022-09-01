@@ -6,7 +6,7 @@ static class InsertPolicyService
     bool hasValidProperties = NullPropertyValidator.Validate(apolice);
     if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
-    apolice.status = "Em Análise";
+    apolice.status = "Em Analise";
 
     if (apolice.indenizacao <= 0) return Results.BadRequest(new { message = "Valor de indenização não pode ser menor ou igual a zero." });
     if (apolice.premio <= 0) return Results.BadRequest(new { message = "Valor de prêmio não pode ser menor ou igual a zero." });

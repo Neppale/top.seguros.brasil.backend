@@ -29,7 +29,7 @@ static class GeneratePolicyService
         id_cobertura: id_cobertura,
         id_veiculo: id_veiculo,
         id_usuario: UserSelector.Select(connectionString),
-        status: "Em Análise"
+        status: "Em Analise"
       );
 
       var enrichedPolicy = PolicyEnrichment.Enrich(generatedApolice, connectionString);

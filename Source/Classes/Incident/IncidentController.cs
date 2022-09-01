@@ -10,7 +10,7 @@ public static class IncidentController
 
     app.MapGet("/ocorrencia/cliente/{id:int}", [Authorize] (int id, int? pageNumber, int? size) =>
     {
-      return GetAllIncidentsByClientService.Get(id_cliente: id, connectionString: connectionString, pageNumber: pageNumber, size: size);
+      return GetIncidentByClientService.Get(id_cliente: id, connectionString: connectionString, pageNumber: pageNumber, size: size);
     })
     .WithName("Selecionar todas as ocorrências por cliente");
 

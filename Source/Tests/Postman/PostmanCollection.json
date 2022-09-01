@@ -1068,9 +1068,9 @@
               "raw": ""
             },
             "url": {
-              "raw": "{{ _.URL }}/apolice/1/ativa",
+              "raw": "{{ _.URL }}/apolice/1/rejeitada",
               "host": ["{{ _.URL }}"],
-              "path": ["apolice", "1", "ativa"]
+              "path": ["apolice", "1", "rejeitada"]
             }
           },
           "response": []
@@ -1409,32 +1409,6 @@
           "response": []
         },
         {
-          "name": "desativar cliente",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 204\", function () {\r",
-                  "    pm.response.to.have.status(204);\r",
-                  "});"
-                ],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{ _.URL }}/cliente/1",
-              "host": ["{{ _.URL }}"],
-              "path": ["cliente", "1"]
-            }
-          },
-          "response": []
-        },
-        {
           "name": "desativar veículo",
           "event": [
             {
@@ -1456,6 +1430,32 @@
               "raw": "{{ _.URL }}/veiculo/1",
               "host": ["{{ _.URL }}"],
               "path": ["veiculo", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "desativar cliente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {\r",
+                  "    pm.response.to.have.status(204);\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{ _.URL }}/cliente/1",
+              "host": ["{{ _.URL }}"],
+              "path": ["cliente", "1"]
             }
           },
           "response": []
