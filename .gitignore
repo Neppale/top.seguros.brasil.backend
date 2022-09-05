@@ -372,3 +372,7 @@ FodyWeavers.xsd
 
 # Temporary files
 /Temp
+
+# Environment variables
+appsettings.json
+appsettings.Development.json

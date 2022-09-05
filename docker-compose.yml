@@ -1,26 +1,31 @@
 services:
+  db:
+    container_name: database
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_USERNAME=sa
+      - SA_PASSWORD=Password1234!
+    ports:
+      - 1433:1433
+    expose:
+      - "1433/UDP"
+    volumes:
+      - ./sqlserver:/var/opt/mssql
+
+  # ///////////////////////////////////////////////
+
   api:
     container_name: tsb-api
     image: tsb_api
     environment:
-      - PORT=8000
+      - PORT=80
     ports:
-      - 8000:8000
-    build:
-      context: .
-      dockerfile: Dockerfile
-  sqlserver:
-    container_name: tsb-sqlserver
-    image: mcr.microsoft.com/mssql/server
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Password1234!
-    ports:
-      - 1433:1433
-    volumes:
-      - ./sqlserver:/var/opt/mssql
+      - 80:80
+    expose:
+      - "80/UDP"
     build:
       context: .
       dockerfile: Dockerfile
     depends_on:
-      - api
+      - db
