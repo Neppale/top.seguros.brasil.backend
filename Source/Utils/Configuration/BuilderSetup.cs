@@ -3,7 +3,7 @@
 static class APISetup
 {
   /** <summary> Esta função configura o Swagger para documentar a aplicação. </summary> */
-  public static WebApplication Setup(WebApplicationBuilder builder)
+  public static WebApplication Setup(WebApplicationBuilder builder, IDictionary<string, string> environmentVariables)
   {
     builder.Services.AddAuthentication();
     builder.Services.AddAuthorization();
@@ -51,10 +51,10 @@ static class APISetup
             ValidateAudience = true,
             ValidateLifetime = false,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ValidIssuer = environmentVariables["JWT_ISSUER"],
+            ValidAudience = environmentVariables["JWT_AUDIENCE"],
             IssuerSigningKey = new SymmetricSecurityKey
-            (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            (Encoding.UTF8.GetBytes(environmentVariables["JWT_KEY"]))
           };
         });
 
