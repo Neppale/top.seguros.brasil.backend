@@ -4,7 +4,6 @@ global using Dapper;
 global using System.Net;
 global using System.Text;
 global using iText.Html2pdf;
-global using dotenv.net;
 global using System.Text.Json;
 global using DocumentValidator;
 global using Microsoft.OpenApi.Models;
