@@ -374,5 +374,4 @@ FodyWeavers.xsd
 /Temp
 
 # Environment variables
-appsettings.json
 appsettings.Development.json
