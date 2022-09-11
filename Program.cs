@@ -1,6 +1,6 @@
 DotEnv.Load();
 var environmentVariables = DotEnv.Read();
-if (environmentVariables == null) throw new Exception("Não foi possível carregar as variáveis de ambiente. Verifique se o arquivo .env está presente na raiz do projeto.");
+if (environmentVariables.Count() == 0) throw new Exception("Não foi possível carregar as variáveis de ambiente. Verifique se o arquivo .env está presente na raiz do projeto.");
 
 var builder = WebApplication.CreateBuilder(args);
 var app = APISetup.Setup(builder, environmentVariables);

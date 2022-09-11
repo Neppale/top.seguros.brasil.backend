@@ -4,7 +4,6 @@ class GetUserDto
   public string nome_completo { get; set; }
   public string email { get; set; }
   public string tipo { get; set; }
-
   public bool status { get; set; }
 
   public GetUserDto()
