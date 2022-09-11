@@ -29,5 +29,8 @@ UserController.ActivateEndpoints(app: app, connectionString: connectionString, b
 // VEICULOS
 VehicleController.ActivateEndpoints(app: app, connectionString: connectionString);
 
+// FIPE API
+FipeController.ActivateEndpoints(app: app);
+
 app.Run();
 
