@@ -2,6 +2,8 @@
 
 [![Teste de Build .NET](https://github.com/Neppale/tsb.mininal.policy.engine/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Neppale/tsb.mininal.policy.engine/actions/workflows/dotnet.yml)
 
+[![Deploy Heroku](https://github.com/Neppale/tsb.mininal.policy.engine/actions/workflows/heroku.yml/badge.svg)](https://github.com/Neppale/tsb.mininal.policy.engine/actions/workflows/heroku.yml)
+
 ![Logotipo da Top Seguros Brasil](https://i.imgur.com/dEYYaYQ.png)
 
 Projeto Integrado Multidisciplinar do segundo semestre da Universidade Paulista, curso Análise e Desenvolvimento de Sistemas. Neste projeto, foi desenvolvido um sistema de gerenciamento de apólices de seguros para uma empresa. O sistema foi desenvolvido em linguagem de programação C#, utilizando o framework ASP.NET Core.
@@ -21,7 +23,13 @@ Para executar o projeto, basta utilizar o comando:
 
     dotnet run
 
-É importante lembrar que o arquivo _appsettings.json_ contém as configurações de conexão com o banco de dados. Caso o banco de dados não esteja disponível, o projeto não irá funcionar. O banco de dados utilizado é o Microsoft SQL Server, e o script de criação do banco de dados está disponível no diretório Scripts.
+É importante lembrar que há variáveis de ambiente que devem ser configuradas para que o projeto funcione corretamente. Para isso, basta criar um arquivo `.env` na raiz do projeto, com as seguintes variáveis:
+
+    CONNECTION_STRING=string de conexão com o banco de dados
+
+É recomendado que a instalação do banco de dados ocorra na plataforma Docker para evitar problemas de compatibilidade. Para isso, basta executar o seguinte comando:
+
+    docker run --name sqlserver -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Password1234!' -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
 
 ## Testes
 

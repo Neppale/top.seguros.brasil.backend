@@ -1,7 +1,11 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = APISetup.Setup(builder);
+DotEnv.Load();
+var environmentVariables = DotEnv.Read();
+if (environmentVariables == null) throw new Exception("Não foi possível carregar as variáveis de ambiente. Verifique se o arquivo .env está presente na raiz do projeto.");
 
-string dbConnectionString = builder.Configuration["connectionString"];
+var builder = WebApplication.CreateBuilder(args);
+var app = APISetup.Setup(builder, environmentVariables);
+
+string dbConnectionString = environmentVariables["CONNECTION_STRING"];
 SqlConnection connectionString = new SqlConnection(dbConnectionString);
 connectionString.Open();
 
@@ -9,7 +13,7 @@ connectionString.Open();
 app.MapHealthChecks("/healthcheck/");
 
 // CLIENTES 
-ClientController.ActivateEndpoints(app: app, connectionString: connectionString, builder: builder);
+ClientController.ActivateEndpoints(app: app, connectionString: connectionString, environmentVariables: environmentVariables);
 
 // APOLICES 
 PolicyController.ActivateEndpoints(app: app, connectionString: connectionString);
@@ -24,7 +28,7 @@ IncidentController.ActivateEndpoints(app: app, connectionString: connectionStrin
 OutsourcedController.ActivateEndpoints(app: app, connectionString: connectionString);
 
 // USUARIOS
-UserController.ActivateEndpoints(app: app, connectionString: connectionString, builder: builder);
+UserController.ActivateEndpoints(app: app, connectionString: connectionString, environmentVariables: environmentVariables);
 
 // VEICULOS
 VehicleController.ActivateEndpoints(app: app, connectionString: connectionString);

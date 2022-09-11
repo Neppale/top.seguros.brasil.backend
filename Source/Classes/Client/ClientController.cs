@@ -1,6 +1,6 @@
 public static class ClientController
 {
-  public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString, WebApplicationBuilder builder)
+  public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString, IDictionary<string, string> environmentVariables)
   {
     app.MapGet("/cliente/", [Authorize] (int? pageNumber, int? size) =>
     {
@@ -34,7 +34,7 @@ public static class ClientController
 
     app.MapPost("/cliente/login", [AllowAnonymous] (ClientLoginDto login) =>
     {
-      return LoginClientService.Login(login: login, connectionString: connectionString, builder: builder);
+      return LoginClientService.Login(login: login, connectionString: connectionString, environmentVariables: environmentVariables);
     })
     .WithName("Fazer login do cliente");
   }
