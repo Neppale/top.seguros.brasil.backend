@@ -1,4 +1,4 @@
-name: Build
+name: Build .NET
 
 # Controla quando esse workflow vai acontecer
 on:
