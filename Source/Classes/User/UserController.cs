@@ -1,6 +1,6 @@
 public static class UserController
 {
-  public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString, IDictionary<string, string> environmentVariables)
+  public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString, WebApplicationBuilder builder)
   {
     app.MapGet("/usuario/", [Authorize] (int? pageNumber, int? size) =>
     {
@@ -34,7 +34,7 @@ public static class UserController
 
     app.MapPost("/usuario/login", [AllowAnonymous] (UserLoginDto login) =>
     {
-      return LoginUserService.Login(login: login, connectionString: connectionString, environmentVariables: environmentVariables);
+      return LoginUserService.Login(login: login, connectionString: connectionString, builder: builder);
     })
     .WithName("Fazer login do usuário");
   }
