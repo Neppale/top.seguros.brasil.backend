@@ -10,6 +10,8 @@ static class ClientAlreadyExistsValidator
     string storedEmail = connectionString.QueryFirstOrDefault<string>("SELECT email FROM Clientes WHERE email = @Email AND status = 'true'", new { Email = cliente.email });
     if (storedEmail == cliente.email) return false;
 
+    //TODO: Se cliente estiver desativado, não deve permitir cadastro com o mesmo CPF, email ou CNH. O problema é que isso vai contra a Lei Geral de Proteção de Dados.
+    // Reativar cliente com conta limpa caso ele tenha sido desativado.
     string storedCnh = connectionString.QueryFirstOrDefault<string>("SELECT cnh FROM Clientes WHERE cnh = @Cnh AND status = 'true'", new { Cnh = cliente.cnh });
     if (storedCnh == cliente.cnh) return false;
 

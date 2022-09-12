@@ -34,7 +34,7 @@ static class VehiclePriceFinder
     string vehicleData = await vehicleDataResponse.Content.ReadAsStringAsync();
 
     var price = JsonSerializer.Deserialize<VehiclePrice>(vehicleData);
-    var priceString = price?.Valor.Replace("R$", "").Replace(".", "").Replace(",", ".");
+    var priceString = price?.Valor.Replace("R$", "").Replace(".", "");
     return decimal.Parse(priceString);
 
   }

@@ -68,6 +68,7 @@ static class APISetup
     builder.Services.AddAuthorization();
 
     string temporaryDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
+    Directory.CreateDirectory(temporaryDirectory);
 
     return app;
   }

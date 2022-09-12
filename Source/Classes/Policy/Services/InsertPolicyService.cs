@@ -3,6 +3,8 @@ static class InsertPolicyService
   /** <summary> Esta função insere uma apólice no banco de dados. </summary>**/
   public static async Task<IResult> Insert(Apolice apolice, SqlConnection connectionString)
   {
+    apolice.documento = "-";
+    
     bool hasValidProperties = NullPropertyValidator.Validate(apolice);
     if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 

@@ -34,6 +34,9 @@ static class InsertClientService
     bool clienteIsValid = ClientAlreadyExistsValidator.Validate(cliente, connectionString);
     if (!clienteIsValid) return Results.Conflict(new { message = "Os dados deste cliente já estão cadastrados no banco de dados." });
 
+    bool newAccount = ClientIsDeletedValidator.Validate(cliente.cpf, connectionString);
+    if (!newAccount) return Results.Conflict(new { message = "Não foi possível realizar o cadastro deste usuário." });
+
     bool telefone1IsValid = StringFormatValidator.ValidateTelefone(cliente.telefone1);
     if (!telefone1IsValid) return Results.BadRequest(new { message = "O telefone1 informado está mal formatado. Lembre-se de que o telefone deve estar no formato: (99) 99999-9999." });
 

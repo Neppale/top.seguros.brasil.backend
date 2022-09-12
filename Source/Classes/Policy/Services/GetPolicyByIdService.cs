@@ -6,7 +6,9 @@ static class GetPolicyByIdService
     var policy = GetPolicyByIdRepository.Get(id, connectionString);
     if (policy == null) return Results.NotFound(new { message = "Apólice não encontrada." });
 
-    return Results.Ok(policy);
+    var enrichedPolicy = PolicyEnrichment.Enrich(policy, connectionString);
+
+    return Results.Ok(enrichedPolicy);
   }
 }
 

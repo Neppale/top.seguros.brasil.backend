@@ -49,5 +49,6 @@ public static class PolicyController
       return GeneratePolicyService.Generate(id_veiculo: apolice.id_veiculo, id_cliente: apolice.id_cliente, id_cobertura: apolice.id_cobertura, connectionString: connectionString);
     })
     .WithName("Gerar apólice");
+    
   }
 }

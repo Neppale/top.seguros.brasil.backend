@@ -1,6 +1,6 @@
 static class PolicyEnrichment
 {
-  public static EnrichedPolicy Enrich(Apolice policy, SqlConnection connectionString)
+  public static EnrichedPolicy Enrich(GetPolicyDto policy, SqlConnection connectionString)
   {
     EnrichedPolicy enrichedPolicy = new EnrichedPolicy();
     enrichedPolicy.id_apolice = policy.id_apolice;
