@@ -4,7 +4,7 @@ static class InsertPolicyService
   public static async Task<IResult> Insert(Apolice apolice, SqlConnection connectionString)
   {
     apolice.documento = "-";
-    
+
     bool hasValidProperties = NullPropertyValidator.Validate(apolice);
     if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
@@ -30,6 +30,7 @@ static class InsertPolicyService
 
     var createdPolicy = await InsertPolicyRepository.Insert(apolice: apolice, connectionString: connectionString);
     if (createdPolicy == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
+    if (createdPolicy.id_apolice == 0) return Results.BadRequest(new { message = "Apólice criada com sucesso, mas não foi possível criar o documento. Tente novamente mais tarde." });
 
     return Results.Created($"/apolice/{createdPolicy.id_apolice}", new { message = "Apólice criada com sucesso.", policy = createdPolicy });
   }

@@ -11,7 +11,6 @@ static class InsertPolicyRepository
 
       // Gerando documento da apólice.
       string filePath = await PolicyDocumentGenerator.Generate(apolice: apolice, connectionString: connectionString);
-
       // Lendo documento no local específicado.
       Stream fileStream = File.OpenRead(filePath);
 
@@ -22,6 +21,11 @@ static class InsertPolicyRepository
       connectionString.Query("UPDATE Apolices SET documento = @Documento WHERE id_apolice = @IdApolice", new { Documento = document, IdApolice = createdPolicy.id_apolice });
 
       return createdPolicy;
+    }
+    catch (DirectoryNotFoundException)
+    {
+      Console.WriteLine("[ERRO] Diretório não encontrado, porém apólice foi criada.");
+      return new GetPolicyDto();
     }
     catch (SystemException)
     {
