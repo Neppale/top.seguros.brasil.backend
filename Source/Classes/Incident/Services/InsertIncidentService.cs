@@ -21,7 +21,6 @@ static class InsertIncidentService
     bool dateIsValid = IncidentDateValidator.Validate(ocorrencia.data);
     if (!dateIsValid) return Results.BadRequest(new { message = "A data da ocorrência não pode ser maior que a data atual." });
 
-    ocorrencia.data = SqlDateConverter.Convert(ocorrencia.data);
     ocorrencia.id_terceirizado = originalId_Terceirizado;
     ocorrencia.tipoDocumento = originalTipoDocumento;
     ocorrencia.documento = originalDocumento;

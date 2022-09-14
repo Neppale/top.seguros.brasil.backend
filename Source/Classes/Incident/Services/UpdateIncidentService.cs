@@ -20,8 +20,6 @@ static class UpdateIncidentService
 
     if (!validStatuses.Contains(ocorrencia.status)) return Results.BadRequest("Status inválido. Status permitidos: " + string.Join(", ", validStatuses));
 
-    ocorrencia.data = SqlDateConverter.Convert(ocorrencia.data);
-
     var incident = GetIncidentByIdRepository.Get(id: id, connectionString: connectionString);
     if (incident == null) return Results.NotFound("Ocorrência não encontrada.");
 
