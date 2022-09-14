@@ -6,8 +6,6 @@ public static class GetVehicleByIdService
     var vehicle = GetVehicleByIdRepository.Get(id: id, connectionString: connectionString);
     if (vehicle == null) return Results.NotFound(new { message = "Veículo não encontrado." });
 
-    vehicle.modelo = VehicleModelUnformatter.Unformat(vehicle.modelo);
-
     return Results.Ok(vehicle);
   }
 }
