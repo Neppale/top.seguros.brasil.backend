@@ -16,8 +16,8 @@ static class PolicyDocumentGenerator
     // Alterando dados da apólice no documento.
     documentoHTML = documentoHTML.Replace("{{DATAHOJE}}", DateTime.Now.ToString("dd/MM/yyyy"));
     documentoHTML = documentoHTML.Replace("{{IDAPOLICE}}", apolice.id_apolice.ToString());
-    documentoHTML = documentoHTML.Replace("{{DATAINICIAL}}", apolice.data_inicio.ToString().Substring(0, 10));
-    documentoHTML = documentoHTML.Replace("{{DATAFINAL}}", apolice.data_fim.Substring(0, 10));
+    documentoHTML = documentoHTML.Replace("{{DATAINICIAL}}", apolice.data_inicio.Substring(8, 2) + "/" + apolice.data_inicio.Substring(5, 2) + "/" + apolice.data_inicio.Substring(0, 4));
+    documentoHTML = documentoHTML.Replace("{{DATAFINAL}}", apolice.data_fim.Substring(8, 2) + "/" + apolice.data_fim.Substring(5, 2) + "/" + apolice.data_fim.Substring(0, 4));
 
     // Alterando dados do usuário no documento.
     documentoHTML = documentoHTML.Replace("{{NOMEUSUARIO}}", user.nome_completo);
