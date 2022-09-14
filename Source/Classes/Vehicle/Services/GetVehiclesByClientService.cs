@@ -12,8 +12,6 @@ static class GetVehiclesByClientService
 
     var vehicles = GetVehiclesByClientRepository.Get(id: id_cliente, connectionString: connectionString, pageNumber: pageNumber, size: size);
 
-    foreach (var vehicle in vehicles) vehicle.modelo = VehicleModelUnformatter.Unformat(vehicle.modelo);
-
     return Results.Ok(vehicles);
   }
 }

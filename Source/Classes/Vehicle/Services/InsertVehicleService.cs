@@ -14,8 +14,6 @@ public static class InsertVehicleService
     bool RenavamIsValid = RenavamValidator.Validate(vehicle.renavam);
     if (!RenavamIsValid) return Results.BadRequest(new { message = "O RENAVAM informado é inválido." });
 
-    vehicle.modelo = VehicleModelFormatter.Format(vehicle.modelo);
-
     bool vehicleIsValid = await VehicleFIPEValidator.Validate(vehicle.marca, vehicle.modelo, vehicle.ano);
     if (!vehicleIsValid) return Results.BadRequest(new { message = "Este veículo não existe na tabela FIPE. Confira todos os campos e tente novamente." });
 
