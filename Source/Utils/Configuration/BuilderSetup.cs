@@ -20,6 +20,16 @@ static class APISetup
       Description = "JSON Web Token based security",
     };
 
+    builder.Services.AddCors(options =>
+    {
+      options.AddPolicy("AllowAll", builder =>
+      {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+      });
+    });
+
     var securityReq = new OpenApiSecurityRequirement() { { new OpenApiSecurityScheme { Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" } }, new string[] { } } };
 
     builder.Services.AddSwaggerGen(options =>
