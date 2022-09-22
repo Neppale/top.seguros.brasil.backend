@@ -54,7 +54,7 @@ CREATE TABLE Apolices (
     id_usuario INT NOT NULL,
     id_cliente INT,
     id_veiculo INT,
-    status VARCHAR(15) DEFAULT 'Em Análise' NOT NULL
+    status VARCHAR(15) DEFAULT 'Em Analise' NOT NULL
 );
 
 CREATE TABLE Coberturas (
