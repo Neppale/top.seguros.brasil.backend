@@ -77,15 +77,31 @@ static class PolicyDocumentGenerator
     documentoHTML = documentoHTML.Replace("{{PREMIOAPOLICE}}", apolice.premio.ToString());
     documentoHTML = documentoHTML.Replace("{{INDENIZACAOAPOLICE}}", apolice.indenizacao.ToString());
 
-    string temporaryDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
+    try
+    {
+      if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Temp"))) Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "Temp"));
+      string temporaryDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
 
-    string filePath = Path.Combine(temporaryDirectory, $"{DateTime.Now.ToString("yyyy-MM-dd")}-{Guid.NewGuid()}.pdf");
-    var converter = new ConverterProperties();
-    converter.SetBaseUri(documentoHTML);
-    HtmlConverter.ConvertToPdf(documentoHTML, new FileStream(filePath, FileMode.Create), converter);
 
-    return filePath;
+      string filePath = Path.Combine(temporaryDirectory, $"{DateTime.Now.ToString("yyyy-MM-dd")}-{Guid.NewGuid()}.pdf");
+      var converter = new ConverterProperties();
+      converter.SetBaseUri(documentoHTML);
+      HtmlConverter.ConvertToPdf(documentoHTML, new FileStream(filePath, FileMode.Create), converter);
+
+      return filePath;
+    }
+    catch (SystemException)
+    {
+      string rootDirectory = Directory.GetCurrentDirectory();
+      string[] files = Directory.GetFiles(rootDirectory, "*.pdf");
+      foreach (string file in files) File.Delete(file);
+
+      string filePath = Path.Combine(rootDirectory, $"{DateTime.Now.ToString("yyyy-MM-dd")}-{Guid.NewGuid()}.pdf");
+      var converter = new ConverterProperties();
+      converter.SetBaseUri(documentoHTML);
+      HtmlConverter.ConvertToPdf(documentoHTML, new FileStream(filePath, FileMode.Create), converter);
+
+      return filePath;
+    }
   }
-
-
 }
