@@ -6,6 +6,9 @@ static class UpdateUserService
         bool hasValidProperties = NullPropertyValidator.Validate(usuario);
         if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
+        bool passwordIsValid = PasswordValidator.Validate(usuario.senha);
+        if (!passwordIsValid) return Results.BadRequest("A senha informada não corresponde aos requisitos de segurança.");
+
         var user = await GetUserByIdRepository.Get(id: id, connectionString: connectionString);
         if (user == null) return Results.NotFound(new { message = "Usuário não encontrado." });
 

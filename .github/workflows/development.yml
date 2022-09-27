@@ -1,0 +1,46 @@
+name: Development Pipeline
+
+on:
+  push:
+    branches: ["feature/**", "fix/**", "chore/**", "refactor/**"]
+  pull_request:
+    branches:
+      - "**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install .NET dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --no-restore
+
+  test:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install SQL Server through Docker
+        run: docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Password1234!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
+
+      - name: Install .NET dependencies
+        run: dotnet restore
+
+      - name: Run test script
+        run: sudo ./Source/Tests/Testing.bash
+
+  lint:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Super-Linter
+        uses: github/super-linter@v4.9.5
+        env:
+          VALIDATE_CSHARP: true

@@ -1,0 +1,63 @@
+name: Production Pipeline
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install .NET dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --no-restore
+
+  test:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install SQL Server through Docker
+        run: docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Password1234!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
+
+      - name: Install .NET dependencies
+        run: dotnet restore
+
+      - name: Run test script
+        run: sudo ./Source/Tests/Testing.bash
+
+  lint:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Super-Linter
+        uses: github/super-linter@v4.9.5
+        env:
+          VALIDATE_CSHARP: true
+
+  deploy:
+    needs: [build, lint, test]
+    steps:
+      - name: Deploy to Heroku
+        uses: gonuit/heroku-docker-deploy@v1.3.3
+        with:
+          email: ${{ secrets.HEROKU_EMAIL }}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+
+          dockerfile_directory: ./
+          dockerfile_name: Dockerfile
+
+          docker_options: "--no-cache"
+
+          process_type: web
