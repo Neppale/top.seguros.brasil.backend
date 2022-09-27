@@ -13,19 +13,19 @@ static class InsertPolicyService
     if (apolice.indenizacao <= 0) return Results.BadRequest(new { message = "Valor de indenização não pode ser menor ou igual a zero." });
     if (apolice.premio <= 0) return Results.BadRequest(new { message = "Valor de prêmio não pode ser menor ou igual a zero." });
 
-    var cliente = GetClientByIdRepository.Get(id: apolice.id_cliente, connectionString: connectionString);
+    var cliente = await GetClientByIdRepository.Get(id: apolice.id_cliente, connectionString: connectionString);
     if (cliente == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
-    var vehicle = GetVehicleByIdRepository.Get(id: apolice.id_veiculo, connectionString: connectionString);
+    var vehicle = await GetVehicleByIdRepository.Get(id: apolice.id_veiculo, connectionString: connectionString);
     if (vehicle == null) return Results.NotFound(new { message = "Veículo não encontrado." });
 
-    bool vehicleBelongsToClient = ClientVehicleValidator.Validate(id_cliente: apolice.id_cliente, id_veiculo: apolice.id_veiculo, connectionString: connectionString);
+    bool vehicleBelongsToClient = await ClientVehicleValidator.Validate(id_cliente: apolice.id_cliente, id_veiculo: apolice.id_veiculo, connectionString: connectionString);
     if (!vehicleBelongsToClient) return Results.BadRequest(new { message = "Veículo não pertence ao cliente." });
 
-    var coverage = GetCoverageByIdRepository.Get(id: apolice.id_cobertura, connectionString: connectionString);
+    var coverage = await GetCoverageByIdRepository.Get(id: apolice.id_cobertura, connectionString: connectionString);
     if (coverage == null) return Results.NotFound(new { message = "Cobertura não encontrada." });
 
-    var user = GetUserByIdRepository.Get(id: apolice.id_usuario, connectionString: connectionString);
+    var user = await GetUserByIdRepository.Get(id: apolice.id_usuario, connectionString: connectionString);
     if (user == null) return Results.NotFound(new { message = "Usuário não encontrado." });
 
     var createdPolicy = await InsertPolicyRepository.Insert(apolice: apolice, connectionString: connectionString);

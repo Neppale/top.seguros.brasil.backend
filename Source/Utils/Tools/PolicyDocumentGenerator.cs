@@ -3,10 +3,10 @@ static class PolicyDocumentGenerator
   /**<summary> Esta função gera um arquivo pdf em apólice. O retorno é o diretório do documento no sistema. </summary>**/
   public static async Task<string> Generate(Apolice apolice, SqlConnection connectionString)
   {
-    var user = GetUserByIdRepository.Get(id: apolice.id_usuario, connectionString: connectionString);
-    var client = GetClientByIdRepository.Get(id: apolice.id_cliente, connectionString: connectionString);
-    var vehicle = GetVehicleByIdRepository.Get(id: apolice.id_veiculo, connectionString: connectionString);
-    var coverage = GetCoverageByIdRepository.Get(id: apolice.id_cobertura, connectionString: connectionString);
+    var user = await GetUserByIdRepository.Get(id: apolice.id_usuario, connectionString: connectionString);
+    var client = await GetClientByIdRepository.Get(id: apolice.id_cliente, connectionString: connectionString);
+    var vehicle = await GetVehicleByIdRepository.Get(id: apolice.id_veiculo, connectionString: connectionString);
+    var coverage = await GetCoverageByIdRepository.Get(id: apolice.id_cobertura, connectionString: connectionString);
     HttpContent localizationResponse = await GetCepInfo.Get(client.cep);
     string localizationString = await localizationResponse.ReadAsStringAsync();
     decimal veiculoPreco = await VehiclePriceFinder.Find(vehicle.marca, vehicle.modelo, vehicle.ano);

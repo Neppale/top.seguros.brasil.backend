@@ -1,7 +1,7 @@
 static class GetVehicleByIdRepository
 {
-  public static Veiculo Get(int id, SqlConnection connectionString)
+  public static async Task<Veiculo> Get(int id, SqlConnection connectionString)
   {
-    return connectionString.QueryFirstOrDefault<Veiculo>("SELECT * FROM Veiculos WHERE id_Veiculo = @Id AND status = 'true'", new { Id = id });
+    return await connectionString.QueryFirstOrDefaultAsync<Veiculo>("SELECT * FROM Veiculos WHERE id_Veiculo = @Id AND status = 'true'", new { Id = id });
   }
 }

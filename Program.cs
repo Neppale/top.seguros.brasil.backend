@@ -1,7 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 var app = APISetup.Setup(builder);
 
-string dbConnectionString = builder.Configuration["connectionString"];
+string dbConnectionString = app.Environment.EnvironmentName == "Development" ? builder.Configuration["connectionStringDev"] : builder.Configuration["connectionString"];
 SqlConnection connectionString = new SqlConnection(dbConnectionString);
 connectionString.Open();
 

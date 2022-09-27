@@ -2,33 +2,33 @@ public static class CoverageController
 {
   public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString)
   {
-    app.MapGet("/cobertura/", [Authorize] (int? pageNumber, int? size) =>
+    app.MapGet("/cobertura/", [Authorize] async (int? pageNumber, int? size) =>
     {
-      return GetAllCoverageService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
+      return await GetAllCoverageService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
     })
     .WithName("Selecionar todas as coberturas");
 
-    app.MapGet("/cobertura/{id:int}", [Authorize] (int id) =>
+    app.MapGet("/cobertura/{id:int}", [Authorize] async (int id) =>
     {
-      return GetCoverageByIdService.Get(id: id, connectionString: connectionString);
+      return await GetCoverageByIdService.Get(id: id, connectionString: connectionString);
     })
     .WithName("Selecionar cobertura específica");
 
-    app.MapPost("/cobertura/", [Authorize] (Cobertura cobertura) =>
+    app.MapPost("/cobertura/", [Authorize] async (Cobertura cobertura) =>
     {
-      return InsertCoverageService.Insert(cobertura: cobertura, connectionString: connectionString);
+      return await InsertCoverageService.Insert(cobertura: cobertura, connectionString: connectionString);
     })
     .WithName("Inserir cobertura");
 
-    app.MapPut("/cobertura/{id:int}", [Authorize] (int id, Cobertura cobertura) =>
+    app.MapPut("/cobertura/{id:int}", [Authorize] async (int id, Cobertura cobertura) =>
     {
-      return UpdateCoverageService.Update(id: id, cobertura: cobertura, connectionString: connectionString);
+      return await UpdateCoverageService.Update(id: id, cobertura: cobertura, connectionString: connectionString);
     })
     .WithName("Alterar cobertura específica");
 
-    app.MapDelete("/cobertura/{id:int}", [Authorize] (int id) =>
+    app.MapDelete("/cobertura/{id:int}", [Authorize] async (int id) =>
     {
-      return DeleteCoverageService.Delete(id: id, connectionString: connectionString);
+      return await DeleteCoverageService.Delete(id: id, connectionString: connectionString);
     })
     .WithName("Desativar cobertura específica");
   }

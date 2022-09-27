@@ -1,7 +1,7 @@
 static class GetIncidentDocumentRepository
 {
-  public static DocumentDto Get(int id, SqlConnection connectionString)
+  public static Task<DocumentDto> Get(int id, SqlConnection connectionString)
   {
-    return connectionString.QueryFirstOrDefault<DocumentDto>("SELECT documento, tipoDocumento from Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
+    return connectionString.QueryFirstOrDefaultAsync<DocumentDto>("SELECT documento, tipoDocumento from Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
   }
 }

@@ -2,39 +2,39 @@ public static class VehicleController
 {
   public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString)
   {
-    app.MapGet("/veiculo/", [Authorize] (int? pageNumber, int? size) =>
+    app.MapGet("/veiculo/", [Authorize] async (int? pageNumber, int? size) =>
     {
-      return GetAllVehicleService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
+      return await GetAllVehicleService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
     })
     .WithName("Selecionar todos os veículos");
 
-    app.MapGet("/veiculo/{id:int}", [Authorize] (int id) =>
+    app.MapGet("/veiculo/{id:int}", [Authorize] async (int id) =>
     {
-      return GetVehicleByIdService.Get(id: id, connectionString: connectionString);
+      return await GetVehicleByIdService.Get(id: id, connectionString: connectionString);
     })
     .WithName("Selecionar veículo específico");
 
-    app.MapGet("/veiculo/cliente/{id:int}", [Authorize] (int id, int? pageNumber, int? size) =>
+    app.MapGet("/veiculo/cliente/{id:int}", [Authorize] async (int id, int? pageNumber, int? size) =>
     {
-      return GetVehiclesByClientService.Get(id_cliente: id, pageNumber: pageNumber, connectionString: connectionString, size: size);
+      return await GetVehiclesByClientService.Get(id_cliente: id, pageNumber: pageNumber, connectionString: connectionString, size: size);
     })
     .WithName("Selecionar veículo por cliente");
 
-    app.MapPost("/veiculo/", [Authorize] (Veiculo veiculo) =>
+    app.MapPost("/veiculo/", [Authorize] async (Veiculo veiculo) =>
     {
-      return InsertVehicleService.Insert(vehicle: veiculo, connectionString: connectionString);
+      return await InsertVehicleService.Insert(vehicle: veiculo, connectionString: connectionString);
     })
     .WithName("Inserir veículo");
 
-    app.MapPut("/veiculo/{id:int}", [Authorize] (int id, Veiculo veiculo) =>
+    app.MapPut("/veiculo/{id:int}", [Authorize] async (int id, Veiculo veiculo) =>
     {
-      return UpdateVehicleService.Update(id: id, vehicle: veiculo, connectionString: connectionString);
+      return await UpdateVehicleService.Update(id: id, vehicle: veiculo, connectionString: connectionString);
     })
     .WithName("Alterar veículo específico");
 
-    app.MapDelete("/veiculo/{id:int}", [Authorize] (int id) =>
+    app.MapDelete("/veiculo/{id:int}", [Authorize] async (int id) =>
     {
-      return DeleteVehicleService.Delete(id: id, connectionString: connectionString);
+      return await DeleteVehicleService.Delete(id: id, connectionString: connectionString);
     })
     .WithName("Deletar veículo específico");
 

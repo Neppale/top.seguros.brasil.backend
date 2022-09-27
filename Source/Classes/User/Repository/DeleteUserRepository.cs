@@ -1,10 +1,10 @@
 static class DeleteUserRepository
 {
-  public static int Delete(int id, SqlConnection connectionString)
+  public static async Task<int> Delete(int id, SqlConnection connectionString)
   {
     try
     {
-      connectionString.Query("UPDATE Usuarios SET status = 'false' WHERE id_Usuario = @Id", new { Id = id });
+      await connectionString.QueryAsync("UPDATE Usuarios SET status = 'false' WHERE id_Usuario = @Id", new { Id = id });
       return 1;
     }
     catch (SystemException)

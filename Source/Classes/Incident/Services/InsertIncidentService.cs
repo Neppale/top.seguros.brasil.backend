@@ -1,7 +1,7 @@
 static class InsertIncidentService
 {
   /** <summary> Esta função insere uma ocorrência no banco de dados. </summary>**/
-  public static IResult Insert(Ocorrencia ocorrencia, SqlConnection connectionString)
+  public static async Task<IResult> Insert(Ocorrencia ocorrencia, SqlConnection connectionString)
   {
 
     int? originalId_Terceirizado = ocorrencia.id_terceirizado;
@@ -25,16 +25,16 @@ static class InsertIncidentService
     ocorrencia.tipoDocumento = originalTipoDocumento;
     ocorrencia.documento = originalDocumento;
 
-    var client = GetClientByIdRepository.Get(id: ocorrencia.id_cliente, connectionString);
+    var client = await GetClientByIdRepository.Get(id: ocorrencia.id_cliente, connectionString);
     if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
-    var vehicle = GetVehicleByIdRepository.Get(id: ocorrencia.id_veiculo, connectionString);
+    var vehicle = await GetVehicleByIdRepository.Get(id: ocorrencia.id_veiculo, connectionString);
     if (vehicle == null) return Results.NotFound(new { message = "Veículo não encontrado." });
 
-    bool vehicleIsValid = ClientVehicleValidator.Validate(id_cliente: ocorrencia.id_cliente, id_veiculo: ocorrencia.id_veiculo, connectionString: connectionString);
+    bool vehicleIsValid = await ClientVehicleValidator.Validate(id_cliente: ocorrencia.id_cliente, id_veiculo: ocorrencia.id_veiculo, connectionString: connectionString);
     if (!vehicleIsValid) return Results.BadRequest(new { message = "Veículo não pertence ao cliente." });
 
-    var createdIncident = InsertIncidentRepository.Insert(incident: ocorrencia, connectionString: connectionString);
+    var createdIncident = await InsertIncidentRepository.Insert(incident: ocorrencia, connectionString: connectionString);
     if (createdIncident == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Created($"/ocorrencia/{createdIncident}", new { message = "Ocorrência criada com sucesso.", incident = createdIncident });

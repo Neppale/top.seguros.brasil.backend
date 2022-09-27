@@ -1,7 +1,7 @@
 static class GetOutsourcedByIdRepository
 {
-  public static Terceirizado Get(int id, SqlConnection connectionString)
+  public static async Task<Terceirizado> Get(int id, SqlConnection connectionString)
   {
-    return connectionString.QueryFirstOrDefault<Terceirizado>("SELECT * FROM Terceirizados WHERE id_terceirizado = @Id", new { Id = id });
+    return await connectionString.QueryFirstOrDefaultAsync<Terceirizado>("SELECT * FROM Terceirizados WHERE id_terceirizado = @Id", new { Id = id });
   }
 }

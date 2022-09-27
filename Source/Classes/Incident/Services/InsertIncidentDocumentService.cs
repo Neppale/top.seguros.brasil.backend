@@ -13,10 +13,10 @@ static class InsertIncidentDocumentService
     Stream fileReader = formFile.OpenReadStream();
     string fileBase64 = DocumentConverter.Encode(fileReader);
 
-    var incident = GetIncidentByIdRepository.Get(id, connectionString);
+    var incident = await GetIncidentByIdRepository.Get(id, connectionString);
     if (incident == null) return Results.NotFound(new { message = "Ocorrência não encontrada." });
 
-    var result = InsertIncidentDocumentRepository.Insert(id: id, fileType: formFile.ContentType, fileBase64: fileBase64, connectionString: connectionString);
+    var result = await InsertIncidentDocumentRepository.Insert(id: id, fileType: formFile.ContentType, fileBase64: fileBase64, connectionString: connectionString);
     if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Created($"/ocorrencia/{id}/documento", new { message = "Documento inserido com sucesso." });
