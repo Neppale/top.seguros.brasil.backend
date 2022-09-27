@@ -14,11 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: 6.0.x
-
       - name: Install .NET dependencies
         run: dotnet restore
 
@@ -31,21 +26,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install NodeJS
-        uses: actions/setup-node@v2
-        with:
-          node-version: "16.x"
-
-      - name: Install Newman package
-        run: npm install -g newman
-
       - name: Install SQL Server through Docker
         run: docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Password1234!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
-
-      - name: Install .NET
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: 6.0.x
 
       - name: Install .NET dependencies
         run: dotnet restore
@@ -60,7 +42,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: Super-Linter
         uses: github/super-linter@v4.9.5
-        VALIDATE_CSHARP: true
+        env:
+          VALIDATE_CSHARP: true
 
   deploy:
     needs: [build, lint, test]
