@@ -1,15 +1,15 @@
 static class LoginUserService
 {
   /** <summary> Esta função realiza o login do usuario. </summary>**/
-  public static IResult Login(UserLoginDto login, SqlConnection connectionString, WebApplicationBuilder builder)
+  public static async Task<IResult> Login(UserLoginDto login, SqlConnection connectionString, WebApplicationBuilder builder)
   {
-    string hashPassword = GetUserHashPasswordByEmailRepository.Get(email: login.email, connectionString: connectionString);
+    string hashPassword = await GetUserHashPasswordByEmailRepository.Get(email: login.email, connectionString: connectionString);
     if (hashPassword == null) return Results.BadRequest(new { message = "E-mail ou senha inválidos." });
 
     bool isValid = PasswordHasher.Verify(hashPassword, login.senha);
     if (!isValid) return Results.BadRequest(new { message = "E-mail ou senha inválidos." });
 
-    var user = GetUserByEmailRepository.Get(email: login.email, connectionString: connectionString);
+    var user = await GetUserByEmailRepository.Get(email: login.email, connectionString: connectionString);
 
     try
     {

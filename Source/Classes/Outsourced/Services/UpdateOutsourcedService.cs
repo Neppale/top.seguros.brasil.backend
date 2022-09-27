@@ -1,7 +1,7 @@
 public static class UpdateOutsourcedService
 {
   /** <summary> Esta função altera um terceirizado no banco de dados. </summary>**/
-  public static IResult Update(int id, Terceirizado terceirizado, SqlConnection connectionString)
+  public static async Task<IResult> Update(int id, Terceirizado terceirizado, SqlConnection connectionString)
   {
     bool hasValidProperties = NullPropertyValidator.Validate(terceirizado);
     if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
@@ -13,13 +13,13 @@ public static class UpdateOutsourcedService
     bool telefoneIsValid = StringFormatValidator.ValidateTelefone(terceirizado.telefone);
     if (!telefoneIsValid) return Results.BadRequest(new { message = "O telefone informado está mal formatado. Lembre-se de que o telefone deve estar no formato (99) 99999-9999." });
 
-    var outsourced = GetOutsourcedByIdRepository.Get(id: id, connectionString: connectionString);
+    var outsourced = await GetOutsourcedByIdRepository.Get(id: id, connectionString: connectionString);
     if (outsourced == null) return Results.NotFound(new { message = "Terceirizado não encontrado" });
 
-    bool terceirizadoIsValid = OutsourcedAlreadyExistsValidator.Validate(id: id, outsourced: terceirizado, connectionString: connectionString);
+    bool terceirizadoIsValid = await OutsourcedAlreadyExistsValidator.Validate(id: id, outsourced: terceirizado, connectionString: connectionString);
     if (!terceirizadoIsValid) return Results.Conflict(new { message = "Os dados deste terceirizado já estão cadastrados no banco de dados." });
 
-    var updatedOutsourced = UpdateOutsourcedRepository.Update(id: id, outsourced: terceirizado, connectionString: connectionString);
+    var updatedOutsourced = await UpdateOutsourcedRepository.Update(id: id, outsourced: terceirizado, connectionString: connectionString);
     if (updatedOutsourced == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Ok(new { message = "Terceirizado alterado com sucesso.", outsourced = updatedOutsourced });

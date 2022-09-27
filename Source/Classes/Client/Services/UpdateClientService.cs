@@ -40,7 +40,7 @@ static class UpdateClientService
 
     cliente.senha = PasswordHasher.HashPassword(cliente.senha);
 
-    var updatedClient = UpdateClientRepository.Update(id: id, cliente: cliente, connectionString: connectionString);
+    var updatedClient = await UpdateClientRepository.Update(id: id, cliente: cliente, connectionString: connectionString);
     if (updatedClient == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Ok(new { message = "Cliente atualizado com sucesso.", client = updatedClient });

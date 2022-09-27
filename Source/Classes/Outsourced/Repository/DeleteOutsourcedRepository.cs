@@ -1,11 +1,11 @@
 
 static class DeleteOutsourcedRepository
 {
-  public static int Delete(int id, SqlConnection connectionString)
+  public static async Task<int> Delete(int id, SqlConnection connectionString)
   {
     try
     {
-      connectionString.Query("UPDATE Terceirizados SET status = 'false' WHERE id_terceirizado = @Id", new { Id = id });
+      await connectionString.QueryAsync("UPDATE Terceirizados SET status = 'false' WHERE id_terceirizado = @Id", new { Id = id });
       return 1;
     }
     catch (SystemException)

@@ -1,13 +1,13 @@
 static class GetPolicyDocumentService
 {
-  public static IResult Get(int id, SqlConnection connectionString)
+  public static async Task<IResult> Get(int id, SqlConnection connectionString)
   {
-    var policy = GetPolicyByIdRepository.Get(id: id, connectionString: connectionString);
+    var policy = await GetPolicyByIdRepository.Get(id: id, connectionString: connectionString);
     if (policy == null) return Results.NotFound(new { message = "Apólice não encontrada." });
 
     try
     {
-      string document = GetPolicyDocumentRepository.Get(id: id, connectionString: connectionString);
+      string document = await GetPolicyDocumentRepository.Get(id: id, connectionString: connectionString);
       string filePath = DocumentConverter.Decode(document, "application/pdf");
 
       return Results.File(path: filePath, contentType: "application/pdf");

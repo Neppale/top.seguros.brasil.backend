@@ -2,39 +2,39 @@ public static class ClientController
 {
   public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString, WebApplicationBuilder builder)
   {
-    app.MapGet("/cliente/", [Authorize] (int? pageNumber, int? size) =>
+    app.MapGet("/cliente/", [Authorize] async (int? pageNumber, int? size) =>
     {
-      return GetAllClientService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
+      return await GetAllClientService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
     })
     .WithName("Selecionar todos os clientes");
-
-    app.MapGet("/cliente/{id:int}", [Authorize] (int id) =>
+    
+    app.MapGet("/cliente/{id:int}", [Authorize] async (int id) =>
     {
-      return GetClientByIdService.Get(id: id, connectionString: connectionString);
+      return await GetClientByIdService.Get(id: id, connectionString: connectionString);
     })
     .WithName("Selecionar cliente específico");
 
-    app.MapPost("/cliente/", [AllowAnonymous] (Cliente cliente) =>
+    app.MapPost("/cliente/", [AllowAnonymous] async (Cliente cliente) =>
     {
-      return InsertClientService.Insert(cliente: cliente, connectionString: connectionString);
+      return await InsertClientService.Insert(cliente: cliente, connectionString: connectionString);
     })
     .WithName("Inserir cliente");
 
-    app.MapPut("/cliente/{id:int}", [Authorize] (int id, Cliente cliente) =>
+    app.MapPut("/cliente/{id:int}", [Authorize] async (int id, Cliente cliente) =>
     {
-      return UpdateClientService.Update(id: id, cliente: cliente, connectionString: connectionString);
+      return await UpdateClientService.Update(id: id, cliente: cliente, connectionString: connectionString);
     })
     .WithName("Alterar cliente específico");
 
-    app.MapDelete("/cliente/{id:int}", [Authorize] (int id) =>
+    app.MapDelete("/cliente/{id:int}", [Authorize] async (int id) =>
     {
-      return DeleteClientService.Delete(id: id, connectionString: connectionString);
+      return await DeleteClientService.Delete(id: id, connectionString: connectionString);
     })
     .WithName("Desativar cliente específico");
 
-    app.MapPost("/cliente/login", [AllowAnonymous] (ClientLoginDto login) =>
+    app.MapPost("/cliente/login", [AllowAnonymous] async (ClientLoginDto login) =>
     {
-      return LoginClientService.Login(login: login, connectionString: connectionString, builder: builder);
+      return await LoginClientService.Login(login: login, connectionString: connectionString, builder: builder);
     })
     .WithName("Fazer login do cliente");
   }

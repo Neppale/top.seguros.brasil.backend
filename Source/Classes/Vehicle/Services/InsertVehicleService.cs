@@ -17,13 +17,13 @@ public static class InsertVehicleService
     bool vehicleIsValid = await VehicleFIPEValidator.Validate(vehicle.marca, vehicle.modelo, vehicle.ano);
     if (!vehicleIsValid) return Results.BadRequest(new { message = "Este veículo não existe na tabela FIPE. Confira todos os campos e tente novamente." });
 
-    bool plateOrRenavamIsValid = VehicleAlreadyExistsValidator.Validate(vehicle: vehicle, connectionString: connectionString);
+    bool plateOrRenavamIsValid = await VehicleAlreadyExistsValidator.Validate(vehicle: vehicle, connectionString: connectionString);
     if (!plateOrRenavamIsValid) return Results.BadRequest(new { message = "A placa ou o RENAVAM informado já está sendo utilizado em outro veículo." });
 
-    var client = GetClientByIdRepository.Get(id: vehicle.id_cliente, connectionString: connectionString);
+    var client = await GetClientByIdRepository.Get(id: vehicle.id_cliente, connectionString: connectionString);
     if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
-    var createdVehicle = InsertVehicleRepository.Insert(vehicle: vehicle, connectionString: connectionString);
+    var createdVehicle = await InsertVehicleRepository.Insert(vehicle: vehicle, connectionString: connectionString);
     if (createdVehicle == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Created($"/veiculo/{createdVehicle.id_veiculo}", new { message = "Veículo criado com sucesso.", vehicle = createdVehicle });

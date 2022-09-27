@@ -45,7 +45,7 @@ static class InsertClientService
 
     cliente.senha = PasswordHasher.HashPassword(cliente.senha);
 
-    var createdClient = InsertClientRepository.Insert(cliente: cliente, connectionString: connectionString);
+    var createdClient = await InsertClientRepository.Insert(cliente: cliente, connectionString: connectionString);
     if (createdClient == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     return Results.Created($"/cliente/{createdClient}", new { message = "Cliente criado com sucesso.", client = createdClient });

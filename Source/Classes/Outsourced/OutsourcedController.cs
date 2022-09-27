@@ -2,33 +2,33 @@ public static class OutsourcedController
 {
   public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString)
   {
-    app.MapGet("/terceirizado/", [Authorize] (int? pageNumber, int? size) =>
+    app.MapGet("/terceirizado/", [Authorize] async (int? pageNumber, int? size) =>
     {
-      return GetAllOutsourcedService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
+      return await GetAllOutsourcedService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
     })
     .WithName("Selecionar todos os terceirizados");
 
-    app.MapGet("/terceirizado/{id:int}", [Authorize] (int id) =>
+    app.MapGet("/terceirizado/{id:int}", [Authorize] async (int id) =>
     {
-      return GetOutsourcedByIdService.Get(id: id, connectionString: connectionString);
+      return await GetOutsourcedByIdService.Get(id: id, connectionString: connectionString);
     })
     .WithName("Selecionar terceirizado específico");
 
-    app.MapPost("/terceirizado/", [Authorize] (Terceirizado terceirizado) =>
+    app.MapPost("/terceirizado/", [Authorize] async (Terceirizado terceirizado) =>
     {
-      return InsertOutsourcedService.Insert(terceirizado: terceirizado, connectionString: connectionString);
+      return await InsertOutsourcedService.Insert(terceirizado: terceirizado, connectionString: connectionString);
     })
     .WithName("Inserir terceirizado");
 
-    app.MapPut("/terceirizado/{id:int}", [Authorize] (int id, Terceirizado terceirizado) =>
+    app.MapPut("/terceirizado/{id:int}", [Authorize] async (int id, Terceirizado terceirizado) =>
     {
-      return UpdateOutsourcedService.Update(id: id, terceirizado: terceirizado, connectionString: connectionString);
+      return await UpdateOutsourcedService.Update(id: id, terceirizado: terceirizado, connectionString: connectionString);
     })
     .WithName("Alterar terceirizado específico");
 
-    app.MapDelete("/terceirizado/{id:int}", [Authorize] (int id) =>
+    app.MapDelete("/terceirizado/{id:int}", [Authorize] async (int id) =>
     {
-      return DeleteOutsourcedService.Delete(id: id, connectionString: connectionString);
+      return await DeleteOutsourcedService.Delete(id: id, connectionString: connectionString);
     })
     .WithName("Desativar terceirizado específico");
   }
