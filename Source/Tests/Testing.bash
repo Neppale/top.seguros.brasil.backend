@@ -49,7 +49,7 @@ echo ----------------------------------------------------------------
 echo Reiniciando banco de dados.
 echo ----------------------------------------------------------------
 echo
-sqlcmd -S "localhost" -U "sa" -P "Password1234!" -i "Source\Scripts\CreateDatabase.sql"
+sqlcmd -S "localhost" -U "sa" -P "Password1234!" -i "Source/Scripts/CreateDatabase.sql"
 echo ----------------------------------------------------------------
 echo Banco de dados reiniciado.
 echo ----------------------------------------------------------------
