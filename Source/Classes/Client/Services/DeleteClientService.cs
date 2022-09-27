@@ -15,7 +15,7 @@ static class DeleteClientService
     if (result == 0) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
     var vehicles = await GetVehiclesByClientRepository.Get(id: id, connectionString: connectionString, pageNumber: 1, size: int.MaxValue);
-    foreach (var vehicle in vehicles) DeleteVehicleRepository.Delete(id: vehicle.id_veiculo, connectionString: connectionString);
+    foreach (var vehicle in vehicles) await DeleteVehicleRepository.Delete(id: vehicle.id_veiculo, connectionString: connectionString);
 
     return Results.NoContent();
   }
