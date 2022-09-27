@@ -1,11 +1,11 @@
-name: Integration Testing
+name: Production Pipeline
 
 on:
   push:
-    branches: ["feature/**", "fix/**", "chore/**", "refactor/**"]
+    branches: ["main"]
   pull_request:
-    branches:
-      - "**"
+    branches: ["main"]
+
   workflow_dispatch:
 
 jobs:
@@ -51,4 +51,29 @@ jobs:
         run: dotnet restore
 
       - name: Run test script
-        run: ./Source/Tests/Testing.bash
+        run: sudo ./Source/Tests/Testing.bash
+
+  lint:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Super-Linter
+        uses: github/super-linter@v4.9.5
+
+  deploy:
+    needs: [build, lint, test]
+    steps:
+      - name: Deploy to Heroku
+        uses: gonuit/heroku-docker-deploy@v1.3.3
+        with:
+          email: ${{ secrets.HEROKU_EMAIL }}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+
+          dockerfile_directory: ./
+          dockerfile_name: Dockerfile
+
+          docker_options: "--no-cache"
+
+          process_type: web
