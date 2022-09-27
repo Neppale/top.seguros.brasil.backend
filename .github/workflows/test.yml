@@ -7,10 +7,15 @@ on:
     branches:
       - "**"
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Build .NET"]
+    branches: ["**"]
+    types:
+      - completed
 
 jobs:
-  build:
-    needs: [build]
+  if ${{ github.event.workflow_run.conclusion == 'success' }}
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
