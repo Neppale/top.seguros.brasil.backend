@@ -57,8 +57,8 @@ echo
 echo ----------------------------------------------------------------
 echo Executando testes de integraçao.
 echo ----------------------------------------------------------------
-dotnet run --project . >nul 2>&1 &
-sleep 10
+dotnet run --project . >.log 2>&1 &
+sleep 20
 newman run "Source/Tests/Postman/PostmanCollection.json" -e "Source/Tests/Postman/PostmanEnvironment.json" -k
 EXIT_CODE=$?
 
