@@ -1,4 +1,4 @@
-name: Build .NET and Push to Heroku
+name: Build and Deploy to Heroku
 
 on:
   push:
@@ -9,26 +9,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    needs: [lint]
-    runs-on: ubuntu-latest
+  deploy:
+    needs: [build, lint, test]
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: 6.0.x
-
-      - name: Install .NET dependencies
-        run: dotnet restore
-
-      - name: Build project
-        run: dotnet build --no-restore
-
-  push:
-    needs: [build]
-      - name: Build and Push to Heroku
+      - name: Deploy to Heroku
         uses: gonuit/heroku-docker-deploy@v1.3.3
         with:
           email: ${{ secrets.HEROKU_EMAIL }}

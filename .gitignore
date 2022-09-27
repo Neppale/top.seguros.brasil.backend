@@ -380,3 +380,8 @@ FodyWeavers.xsd
 # Environment variables
 appsettings.Development.json
 .env
+
+# Shit happens.
+*.log
+*.bak
+nul

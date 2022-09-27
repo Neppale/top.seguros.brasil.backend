@@ -1,0 +1,41 @@
+name: Integration Testing
+
+on:
+  push:
+    branches: ["feature/**", "fix/**", "chore/**", "refactor/**"]
+  pull_request:
+    branches:
+      - "**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16.x"
+
+      - name: Install Newman package
+        run: npm install -g newman
+
+      - name: Install Docker
+        uses: docker://docker:20.10.8-dind
+
+      - name: Install SQL Server through Docker
+        run: docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Password1234!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Install .NET dependencies
+        run: dotnet restore
+
+      - name: Run test script
+        run: ./Source/Tests/Testing.bash
