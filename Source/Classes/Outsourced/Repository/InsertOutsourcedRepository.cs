@@ -1,17 +1,17 @@
 static class InsertOutsourcedRepository
 {
-  public static async Task<Terceirizado?> Insert(Terceirizado outsourced, SqlConnection connectionString)
-  {
-    try
+    public static async Task<Terceirizado?> Insert(Terceirizado outsourced, SqlConnection connectionString)
     {
-      await connectionString.QueryAsync("INSERT INTO Terceirizados (nome, funcao, cnpj, telefone, valor) VALUES (@Nome, @Funcao, @Cnpj, @Telefone, @Valor)", new { Nome = outsourced.nome, Funcao = outsourced.funcao, Cnpj = outsourced.cnpj, Telefone = outsourced.telefone, Valor = outsourced.valor });
+        try
+        {
+            await connectionString.QueryAsync("INSERT INTO Terceirizados (nome, funcao, cnpj, telefone, valor) VALUES (@Nome, @Funcao, @Cnpj, @Telefone, @Valor)", new { Nome = outsourced.nome, Funcao = outsourced.funcao, Cnpj = outsourced.cnpj, Telefone = outsourced.telefone, Valor = outsourced.valor });
 
-      var createdOutsourced = await connectionString.QueryFirstOrDefaultAsync<Terceirizado>("SELECT * FROM Terceirizados WHERE cnpj = @Cnpj", new { Cnpj = outsourced.cnpj });
-      return createdOutsourced;
+            var createdOutsourced = await connectionString.QueryFirstOrDefaultAsync<Terceirizado>("SELECT * FROM Terceirizados WHERE cnpj = @Cnpj", new { Cnpj = outsourced.cnpj });
+            return createdOutsourced;
+        }
+        catch (SystemException)
+        {
+            return null;
+        }
     }
-    catch (SystemException)
-    {
-      return null;
-    }
-  }
 }

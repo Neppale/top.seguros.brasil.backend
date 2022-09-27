@@ -1,34 +1,34 @@
 static class LoginUserService
 {
-  /** <summary> Esta função realiza o login do usuario. </summary>**/
-  public static async Task<IResult> Login(UserLoginDto login, SqlConnection connectionString, WebApplicationBuilder builder)
-  {
-    string hashPassword = await GetUserHashPasswordByEmailRepository.Get(email: login.email, connectionString: connectionString);
-    if (hashPassword == null) return Results.BadRequest(new { message = "E-mail ou senha inválidos." });
-
-    bool isValid = PasswordHasher.Verify(hashPassword, login.senha);
-    if (!isValid) return Results.BadRequest(new { message = "E-mail ou senha inválidos." });
-
-    var user = await GetUserByEmailRepository.Get(email: login.email, connectionString: connectionString);
-
-    try
+    /** <summary> Esta função realiza o login do usuario. </summary>**/
+    public static async Task<IResult> Login(UserLoginDto login, SqlConnection connectionString, WebApplicationBuilder builder)
     {
-      // Gerando token.
-      var issuer = builder.Configuration["JwtIssuer"];
-      var audience = builder.Configuration["JwtAudience"];
-      var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtKey"]));
-      var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        string hashPassword = await GetUserHashPasswordByEmailRepository.Get(email: login.email, connectionString: connectionString);
+        if (hashPassword == null) return Results.BadRequest(new { message = "E-mail ou senha inválidos." });
 
-      var token = new JwtSecurityToken(issuer: issuer, audience: audience, signingCredentials: credentials);
+        bool isValid = PasswordHasher.Verify(hashPassword, login.senha);
+        if (!isValid) return Results.BadRequest(new { message = "E-mail ou senha inválidos." });
 
-      var tokenHandler = new JwtSecurityTokenHandler();
-      var stringToken = tokenHandler.WriteToken(token);
+        var user = await GetUserByEmailRepository.Get(email: login.email, connectionString: connectionString);
 
-      return Results.Ok(new { user = user, token = stringToken });
+        try
+        {
+            // Gerando token.
+            var issuer = builder.Configuration["JwtIssuer"];
+            var audience = builder.Configuration["JwtAudience"];
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtKey"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(issuer: issuer, audience: audience, signingCredentials: credentials);
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var stringToken = tokenHandler.WriteToken(token);
+
+            return Results.Ok(new { user = user, token = stringToken });
+        }
+        catch (SystemException)
+        {
+            return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
+        }
     }
-    catch (SystemException)
-    {
-      return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
-    }
-  }
 }
