@@ -1,9 +1,11 @@
 static class GetCepInfo
 {
     private static readonly HttpClient client = new HttpClient();
-    public static async Task<HttpContent> Get(string cep)
+    public static async Task<CepInfo> Get(string cep)
     {
         HttpResponseMessage response = await client.GetAsync($"https://viacep.com.br/ws/{cep}/json/");
-        return response.Content;
+        var cepInfo = JsonSerializer.Deserialize<CepInfo>(await response.Content.ReadAsStringAsync());
+
+        return cepInfo;
     }
 }
