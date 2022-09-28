@@ -3,9 +3,7 @@ name: Development Pipeline
 on:
   push:
     branches: ["feature/**", "fix/**", "chore/**", "refactor/**"]
-  pull_request:
-    branches:
-      - "**"
+
   workflow_dispatch:
 
 jobs:
