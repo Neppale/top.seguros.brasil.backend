@@ -47,6 +47,7 @@ jobs:
 
   deploy:
     needs: [build, lint, test]
+    runs-on: ubuntu-latest
     steps:
       - name: Deploy to Heroku
         uses: gonuit/heroku-docker-deploy@v1.3.3
