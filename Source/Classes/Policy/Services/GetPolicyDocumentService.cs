@@ -8,10 +8,11 @@ static class GetPolicyDocumentService
         try
         {
             string document = await GetPolicyDocumentRepository.Get(id: id, connectionString: connectionString);
-            string filePath = DocumentConverter.Decode(document, "application/pdf");
+            var documentStream = DocumentConverter.Decode(document, "application/pdf");
 
-            return Results.File(path: filePath, contentType: "application/pdf");
+            string fileName = $"Apolice-{Guid.NewGuid()}.pdf";
 
+            return Results.File(documentStream, contentType: "application/pdf", fileDownloadName: fileName);
         }
         catch (SystemException)
         {

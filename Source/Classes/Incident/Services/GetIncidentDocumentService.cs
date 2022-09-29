@@ -6,8 +6,11 @@ static class GetIncidentDocumentService
         var document = await GetIncidentDocumentRepository.Get(id: id, connectionString: connectionString);
         if (document == null) return Results.NotFound(new { message = "Documento não encontrado." });
 
-        string fileName = DocumentConverter.Decode(document.documento, document.tipoDocumento);
+        var documentStream = DocumentConverter.Decode(document.documento, document.tipoDocumento);
 
-        return Results.File(fileName, contentType: document.tipoDocumento);
+        string fileType = document.tipoDocumento.Split('/')[1];
+        string fileName = $"Ocorrencia-{Guid.NewGuid()}.{fileType}";
+
+        return Results.File(documentStream, contentType: document.tipoDocumento, fileDownloadName: fileName);
     }
 }

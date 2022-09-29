@@ -2,15 +2,6 @@
 # Path: Source\Tests\Testing.bash
 # @echo off
 # setlocal
-
-# Atenção: Este script não deve ser executado diretamente.
-
-if [ -S "$1" ]; then
-    goto :DATABASERESTART
-fi
-
-
-# :START
 # cls
 
 echo "   _______ _____ ____    _____      _ _              ______             _                       _____ _____"
@@ -30,21 +21,6 @@ echo "                     |_|\___||___/\__|_|_| |_|\__, | |_|   |_|  \___/|_| |
 echo "                                               __/ |                           | |"
 echo "                                              |___/                            |_|                          "
 echo
-
-# TODO: Fazer funcionar.
-# echo Este programa:
-# echo
-# echo  1. Reinicia o banco de dados local;
-# echo  2. Executa os testes de integraçao;
-# echo  3. Apaga o novo banco de dados.
-# echo
-# echo Antes de continuar, certifique-se de que o servidor local esta [31mdesligado[0m.
-# echo ----------------------------------------------------------------
-# read -r -p "Deseja continuar? (S/[N]) " CHOICE
-# # if [ "$CHOICE" != "S" ]; then
-    
-# # fi
-
 echo ----------------------------------------------------------------
 echo Reiniciando banco de dados.
 echo ----------------------------------------------------------------
@@ -71,10 +47,12 @@ echo ----------------------------------------------------------------
 if [ "$EXIT_CODE" -eq 0 ]; then
     echo
     echo [32mTodos os testes foram executados com sucesso.[0m
+    cat .log
     echo
 else
     echo
     echo [31mHouve falha nos testes.[0m
+    cat .log
     echo
 fi
 echo ----------------------------------------------------------------

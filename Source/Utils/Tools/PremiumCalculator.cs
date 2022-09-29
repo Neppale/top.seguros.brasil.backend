@@ -6,7 +6,8 @@ static class PremiumCalculator
         var coverage = await GetCoverageByIdRepository.Get(id: id_cobertura, connectionString: connectionString);
         var coverageValue = Decimal.Parse(coverage.valor) / 100;
 
-        decimal premiumValue = (((vehicleValue / 2) * 0.01m) + coverageValue);
+        decimal premiumValue = (((vehicleValue) * 0.005m) + coverageValue);
+
         premiumValue = Math.Round(premiumValue, 2);
 
         return premiumValue;
