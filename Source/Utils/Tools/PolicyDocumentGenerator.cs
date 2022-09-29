@@ -1,6 +1,6 @@
 static class PolicyDocumentGenerator
 {
-    /**<summary> Esta função gera um arquivo pdf em apólice. O retorno é o diretório do documento no sistema. </summary>**/
+    /**<summary> Esta função gera um arquivo HTML da apólice. </summary>**/
     public static async Task<Stream> Generate(Apolice apolice, SqlConnection connectionString)
     {
         var user = await GetUserByIdRepository.Get(id: apolice.id_usuario, connectionString: connectionString);
@@ -13,17 +13,29 @@ static class PolicyDocumentGenerator
         string htmlDocument = await File.ReadAllTextAsync("./Source/Utils/Tools/Files/PolicyDocument.html");
         htmlDocument = FormatHtmlDocument(apolice, user, client, vehicle, coverage, localization, veiculoPreco, htmlDocument);
 
-        // TODO: Achar outra lib que não tenha marca d'água
-        var Renderer = new ChromePdfRenderer();
-        var pdf = Renderer.RenderHtmlAsPdf(htmlDocument);
-        var pdfStream = pdf.Stream;
-
-        return pdfStream;
+        var converter = new BasicConverter(new PdfTools());
+        var pdfDocument = new HtmlToPdfDocument()
+        {
+            GlobalSettings = {
+        ColorMode = ColorMode.Grayscale,
+        Orientation = Orientation.Portrait,
+        PaperSize = PaperKind.A4,
+    },
+            Objects = {
+        new ObjectSettings() {
+            PagesCount = true,
+            HtmlContent = htmlDocument,
+            WebSettings = { DefaultEncoding = "utf-8" },
+        }
+    }
+        };
+        byte[] pdfDocumentBytes = converter.Convert(pdfDocument);
+        return new MemoryStream(pdfDocumentBytes);
     }
 
-    private static string FormatHtmlDocument(Apolice apolice, GetUserDto user, GetClientDto client, Veiculo vehicle, Cobertura coverage, CepInfo localization, decimal veiculoPreco, string documentoHTML)
+    private static string FormatHtmlDocument(Apolice apolice, GetUserDto user, GetClientDto client, Veiculo vehicle, Cobertura coverage, CepInfo localization, decimal veiculoPreco, string htmlDocument)
     {
-        documentoHTML = documentoHTML.Replace("{{DATAHOJE}}", DateTime.Now.ToString("dd/MM/yyyy"))
+        htmlDocument = htmlDocument.Replace("{{DATAHOJE}}", DateTime.Now.ToString("dd/MM/yyyy"))
                                      .Replace("{{IDAPOLICE}}", apolice.id_apolice.ToString())
                                      .Replace("{{DATAINICIAL}}", apolice.data_inicio.Substring(8, 2) + "/" + apolice.data_inicio.Substring(5, 2) + "/" + apolice.data_inicio.Substring(0, 4))
                                      .Replace("{{DATAFINAL}}", apolice.data_fim.Substring(8, 2) + "/" + apolice.data_fim.Substring(5, 2) + "/" + apolice.data_fim.Substring(0, 4))
@@ -46,6 +58,6 @@ static class PolicyDocumentGenerator
                                      .Replace("{{VALORVEICULOFIPE}}", veiculoPreco.ToString())
                                      .Replace("{{PREMIOAPOLICE}}", apolice.premio.ToString())
                                      .Replace("{{INDENIZACAOAPOLICE}}", apolice.indenizacao.ToString());
-        return documentoHTML;
+        return htmlDocument;
     }
 }
