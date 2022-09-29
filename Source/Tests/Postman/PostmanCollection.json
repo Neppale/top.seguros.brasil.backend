@@ -166,7 +166,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"email\": \"jonathan.santos@topseguros.br\",\n\t\"senha\": \"Senha123-\"\n}"
+              "raw": "{\n\t\"email\": \"jonathan.santos@topseguros.br\",\n\t\"senha\": \"Senha124-\"\n}"
             },
             "url": {
               "raw": "{{ _.URL }}/usuario/login",
