@@ -128,7 +128,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"nome_completo\": \"Jonathan Henrique dos Santos\",\n\t\"email\": \"jonathan.santos@topseguros.br\",\n\t\"senha\": \"Senha123-\",\n\t\"tipo\": \"Analista\"\n}"
+              "raw": "{\n\t\"nome_completo\": \"Jonathan Henrique dos Santos\",\n\t\"email\": \"jonathan.santos@topseguros.br\",\n\t\"senha\": \"Senha124-\",\n\t\"tipo\": \"Corretor\"\n}"
             },
             "url": {
               "raw": "{{ _.URL }}/usuario/1",
