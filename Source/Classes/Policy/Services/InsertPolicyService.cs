@@ -13,6 +13,9 @@ static class InsertPolicyService
         if (apolice.indenizacao <= 0) return Results.BadRequest(new { message = "Valor de indenização não pode ser menor ou igual a zero." });
         if (apolice.premio <= 0) return Results.BadRequest(new { message = "Valor de prêmio não pode ser menor ou igual a zero." });
 
+        apolice.indenizacao = Decimal.Parse(apolice.indenizacao.ToString().Replace(",", "."));
+        apolice.premio = Decimal.Parse(apolice.premio.ToString().Replace(",", "."));
+
         var cliente = await GetClientByIdRepository.Get(id: apolice.id_cliente, connectionString: connectionString);
         if (cliente == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
