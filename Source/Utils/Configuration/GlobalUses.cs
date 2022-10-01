@@ -1,9 +1,8 @@
 global using Dapper;
-global using IronPdf;
 global using System.Net;
 global using System.Text;
 global using System.Text.Json;
-global using DinkToPdf;
+global using RestSharp;
 global using DocumentValidator;
 global using Microsoft.OpenApi.Models;
 global using Microsoft.Data.SqlClient;
