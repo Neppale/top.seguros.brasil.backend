@@ -12,25 +12,10 @@ static class PolicyDocumentGenerator
 
         string htmlDocument = await GetHtmlDocument();
         htmlDocument = FormatHtmlDocument(apolice, user, client, vehicle, coverage, localization, veiculoPreco, htmlDocument);
+        var generatedPDF = await GeneratePDF(htmlDocument);
+        if (generatedPDF == null) return null;
 
-        var converter = new BasicConverter(new PdfTools());
-        var pdfDocument = new HtmlToPdfDocument()
-        {
-            GlobalSettings = {
-            ColorMode = ColorMode.Grayscale,
-            Orientation = Orientation.Portrait,
-            PaperSize = PaperKind.A4,
-        },
-            Objects = {
-            new ObjectSettings() {
-                PagesCount = true,
-                HtmlContent = htmlDocument,
-                WebSettings = { DefaultEncoding = "utf-8" },
-            }
-    }
-        };
-        byte[] pdfDocumentBytes = converter.Convert(pdfDocument);
-        return new MemoryStream(pdfDocumentBytes);
+        return generatedPDF;
     }
 
     private static async Task<string> GetHtmlDocument()
@@ -69,5 +54,49 @@ static class PolicyDocumentGenerator
                                      .Replace("{{PREMIOAPOLICE}}", apolice.premio.ToString())
                                      .Replace("{{INDENIZACAOAPOLICE}}", apolice.indenizacao.ToString());
         return htmlDocument;
+    }
+
+    private static async Task<Stream> GeneratePDF(string htmlDocument)
+    {
+        var tryNumber = 0;
+        var requestBody = new
+        {
+            pdf = new
+            {
+                format = "A4",
+                printBackground = true,
+                scale = 1,
+            },
+            source = new
+            {
+                html = htmlDocument,
+            },
+            wait = new
+            {
+                @for = "navigation",
+                timeout = 250,
+                waitUntil = "load",
+            },
+        };
+
+        while (tryNumber < 1)
+        {
+            var request = new RestRequest("https://yakpdf.p.rapidapi.com/pdf", Method.Post);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddHeader("X-RapidAPI-Key", getApiKey(tryNumber));
+            request.AddHeader("X-RapidAPI-Host", "yakpdf.p.rapidapi.com");
+            request.AddParameter("application/json", JsonSerializer.Serialize(requestBody), ParameterType.RequestBody);
+
+            var response = await new RestClient().ExecuteAsync(request);
+            if (response.StatusCode == HttpStatusCode.OK) return new MemoryStream(response.RawBytes);
+            else tryNumber++;
+        }
+        return new MemoryStream();
+    }
+
+    private static string getApiKey(int tryNumber)
+    {
+        var apiKeys = new string[] { "221c10082bmshbf371bcfe5651b1p1fd52djsncdd5751bf22e", "467d78a7c2mshdaedfd1d085cdedp125ec9jsn032f08db5394" };
+        return apiKeys[tryNumber];
     }
 }
