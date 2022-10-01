@@ -26,6 +26,16 @@ static class PolicyDocumentGenerator
         }
     }
 
+    private static async Task<string> GetHtmlDocument()
+    {
+        using (HttpClient httpClient = new())
+        {
+            HttpResponseMessage response = await httpClient.GetAsync($"https://verissimo.dev/api/PolicyDocument.html");
+            string htmlDocument = await response.Content.ReadAsStringAsync();
+            return htmlDocument;
+        }
+    }
+
     private static string FormatHtmlDocument(Apolice apolice, GetUserDto user, GetClientDto client, Veiculo vehicle, Cobertura coverage, CepInfo localization, decimal veiculoPreco, string htmlDocument)
     {
         htmlDocument = htmlDocument.Replace("{{DATAHOJE}}", DateTime.Now.ToString("dd/MM/yyyy"))
