@@ -11,7 +11,7 @@ static class GeneratePolicyService
 
         decimal vehicleValue = await VehiclePriceFinder.Find(vehicle.marca, vehicle.modelo, vehicle.ano);
 
-        var coverage = GetCoverageByIdRepository.Get(id_cobertura, connectionString);
+        var coverage = await GetCoverageByIdRepository.Get(id_cobertura, connectionString);
         if (coverage == null) return Results.BadRequest(new { message = "Cobertura não encontrada." });
 
         bool vehicleBelongsToClient = await ClientVehicleValidator.Validate(id_cliente, id_veiculo, connectionString);

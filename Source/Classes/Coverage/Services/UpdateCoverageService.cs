@@ -6,7 +6,7 @@ public static class UpdateCoverageService
         bool hasValidProperties = NullPropertyValidator.Validate(cobertura);
         if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
-        double coverageValue = double.TryParse(cobertura.valor, out coverageValue) ? coverageValue : 0;
+        decimal coverageValue = cobertura.valor;
 
         if (cobertura.taxa_indenizacao <= 0) return Results.BadRequest(new { message = "Taxa de indenização não pode ser 0% ou menor." });
         if (cobertura.taxa_indenizacao > 100) return Results.BadRequest(new { message = "Taxa de indenização não pode ser maior que 100%." });
