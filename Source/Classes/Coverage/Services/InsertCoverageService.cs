@@ -7,7 +7,7 @@ public static class InsertCoverageService
         if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
         cobertura.status = true;
-        
+
         if (cobertura.taxa_indenizacao <= 0) return Results.BadRequest(new { message = "Taxa de indenização não pode ser 0% ou menor." });
         if (cobertura.taxa_indenizacao > 100) return Results.BadRequest(new { message = "Taxa de indenização não pode ser maior que 100%." });
         if (cobertura.valor <= 0) return Results.BadRequest(new { message = "Valor da cobertura não pode ser 0 ou menor." });
