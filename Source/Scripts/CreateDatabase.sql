@@ -59,7 +59,7 @@ CREATE TABLE Apolices (
 
 CREATE TABLE Coberturas (
     id_cobertura INT PRIMARY KEY IDENTITY NOT NULL,
-    nome VARCHAR(50) UNIQUE NOT NULL,
+    nome VARCHAR(50) NOT NULL,
     descricao VARCHAR(255) NOT NULL,
     valor DECIMAL(9, 2) NOT NULL,
     taxa_indenizacao DECIMAL(9, 2) NOT NULL,

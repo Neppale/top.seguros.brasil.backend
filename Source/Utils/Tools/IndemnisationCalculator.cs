@@ -5,10 +5,11 @@ static class IndemnisationCalculator
     {
         // TODO: This is wrong on production. Log every step of the process.
         var coverage = await GetCoverageByIdRepository.Get(id: id_cobertura, connectionString: connectionString);
-        decimal indemnisationTax = Decimal.Parse(coverage.taxa_indenizacao.ToString()) / 100;
-        Console.WriteLine("Indemnisation tax: " + indemnisationTax);
+        decimal indemnisationTax = coverage.taxa_indenizacao;
+        Console.WriteLine("Indemnisation tax: " + indemnisationTax + "%");
 
-        decimal indemnisationValue = vehicleValue * indemnisationTax;
+        // Indemnisation tax is a percentage, so we need to divide it by 100. Indemnisation value is the vehicle value multiplied by the indemnisation tax.
+        decimal indemnisationValue = (vehicleValue * (indemnisationTax / 100));
         Console.WriteLine("Indemnisation value: " + indemnisationValue);
 
         indemnisationValue = Math.Round(indemnisationValue, 2);
