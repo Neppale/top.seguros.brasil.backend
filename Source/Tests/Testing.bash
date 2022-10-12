@@ -45,15 +45,10 @@ echo
 echo ----------------------------------------------------------------
 
 if [ "$EXIT_CODE" -eq 0 ]; then
-    echo
     echo [32mTodos os testes foram executados com sucesso.[0m
-    cat .log
-    echo
 else
-    echo
     echo [31mHouve falha nos testes.[0m
     cat .log
-    echo
 fi
 echo ----------------------------------------------------------------
 

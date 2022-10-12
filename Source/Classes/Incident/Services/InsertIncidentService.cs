@@ -18,6 +18,8 @@ static class InsertIncidentService
         bool hasValidProperties = NullPropertyValidator.Validate(ocorrencia);
         if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
+        ocorrencia.data = SqlDateConverter.Convert(ocorrencia.data);
+
         bool dateIsValid = IncidentDateValidator.Validate(ocorrencia.data);
         if (!dateIsValid) return Results.BadRequest(new { message = "A data da ocorrência não pode ser maior que a data atual." });
 
