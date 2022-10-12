@@ -14,6 +14,8 @@ static class UpdateIncidentService
         bool hasValidProperties = NullPropertyValidator.Validate(ocorrencia);
         if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
+        ocorrencia.data = SqlDateConverter.Convert(ocorrencia.data);
+
         ocorrencia.id_terceirizado = originalTerceirizado;
 
         ocorrencia.status = ocorrencia.status.Substring(0, 1).ToUpper() + ocorrencia.status.Substring(1);

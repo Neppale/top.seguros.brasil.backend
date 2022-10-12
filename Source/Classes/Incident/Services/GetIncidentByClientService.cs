@@ -6,6 +6,7 @@ static class GetIncidentByClientService
         if (size == null) size = 5;
 
         var results = await GetIncidentByClientRepository.Get(id: id_cliente, connectionString: connectionString, pageNumber: pageNumber, size: size);
+        foreach (var result in results) result.data = SqlDateConverter.Convert(result.data);
 
         return Results.Ok(results);
     }
