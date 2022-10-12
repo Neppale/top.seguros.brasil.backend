@@ -5,6 +5,7 @@ static class GetIncidentByIdService
     {
         var incident = await GetIncidentByIdRepository.Get(id, connectionString);
         if (incident == null) return Results.NotFound(new { message = "Ocorrência não encontrada." });
+        incident.data = SqlDateConverter.Convert(incident.data);
 
         return Results.Ok(incident);
     }
