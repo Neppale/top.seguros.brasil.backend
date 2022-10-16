@@ -4,7 +4,7 @@ static class GetIncidentDocumentService
     public static async Task<IResult> Get(int id, SqlConnection connectionString)
     {
         var document = await GetIncidentDocumentRepository.Get(id: id, connectionString: connectionString);
-        if (document.documento == null || document.tipoDocumento == null) return Results.NotFound(new { message = "Documento não encontrado." });
+        if (document == null) return Results.NotFound(new { message = "Documento não encontrado." });
 
         var documentStream = DocumentConverter.Decode(document.documento, document.tipoDocumento);
 
