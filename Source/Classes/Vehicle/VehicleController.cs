@@ -2,9 +2,9 @@ public static class VehicleController
 {
     public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString)
     {
-        app.MapGet("/veiculo/", [Authorize] async (int? pageNumber, int? size) =>
+        app.MapGet("/veiculo/", [Authorize] async (int? pageNumber, int? size, string? search) =>
         {
-            return await GetAllVehicleService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
+            return await GetAllVehicleService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size, search: search);
         })
         .WithName("Selecionar todos os veículos");
 
