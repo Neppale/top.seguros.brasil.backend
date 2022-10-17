@@ -2,9 +2,9 @@ public static class IncidentController
 {
     public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString)
     {
-        app.MapGet("/ocorrencia/", [Authorize] async (int? pageNumber, int? size) =>
+        app.MapGet("/ocorrencia/", [Authorize] async (int? pageNumber, int? size, string? search) =>
         {
-            return await GetAllIncidentService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
+            return await GetAllIncidentService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size, search: search);
         })
         .WithName("Selecionar todas as ocorrências");
 

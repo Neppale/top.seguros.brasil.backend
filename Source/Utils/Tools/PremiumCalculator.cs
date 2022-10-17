@@ -8,6 +8,7 @@ static class PremiumCalculator
         Console.WriteLine("Coverage value: " + coverageValue);
 
         decimal premiumValue = (((vehicleValue) * 0.005m) + coverageValue);
+        Console.WriteLine("Vehicle value: " + vehicleValue);
         Console.WriteLine("Premium value: " + premiumValue);
 
         premiumValue = Math.Round(premiumValue, 2);
