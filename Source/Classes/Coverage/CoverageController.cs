@@ -2,9 +2,9 @@ public static class CoverageController
 {
     public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString)
     {
-        app.MapGet("/cobertura/", [Authorize] async (int? pageNumber, int? size) =>
+        app.MapGet("/cobertura/", [Authorize] async (int? pageNumber, int? size, string? search) =>
         {
-            return await GetAllCoverageService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
+            return await GetAllCoverageService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size, search: search);
         })
         .WithName("Selecionar todas as coberturas");
 
