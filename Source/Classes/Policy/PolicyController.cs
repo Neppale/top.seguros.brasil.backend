@@ -20,9 +20,9 @@ public static class PolicyController
         })
         .WithName("Selecionar documento de apólice específica");
 
-        app.MapGet("/apolice/usuario/{id:int}", [Authorize] async (int id, int? pageNumber, int? size) =>
+        app.MapGet("/apolice/usuario/{id:int}", [Authorize] async (int id, int? pageNumber, int? size, string? search) =>
         {
-            return await GetPolicyByUserService.Get(id_usuario: id, pageNumber: pageNumber, connectionString: connectionString, size: size);
+            return await GetPolicyByUserService.Get(id_usuario: id, pageNumber: pageNumber, connectionString: connectionString, size: size, search: search);
         })
         .WithName("Selecionar apólice por usuário");
 
