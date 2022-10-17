@@ -34,6 +34,8 @@ static class InsertPolicyService
         var createdPolicy = await InsertPolicyRepository.Insert(apolice: apolice, connectionString: connectionString);
         if (createdPolicy == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
 
+        apolice.id_apolice = createdPolicy.id_apolice;
+
         var document = await PolicyDocumentGenerator.Generate(apolice: apolice, connectionString: connectionString);
         var base64Document = DocumentConverter.Encode(document);
         await InsertPolicyDocumentRepository.Insert(id: createdPolicy.id_apolice, document: base64Document, connectionString: connectionString);
