@@ -26,5 +26,15 @@ public class GetPolicyDto
 
     public GetPolicyDto()
     {
+        // Default constructor
+        this.data_inicio = "any_date";
+        this.data_fim = "any_date";
+        this.premio = 0;
+        this.indenizacao = 0;
+        this.id_cobertura = 0;
+        this.id_usuario = 0;
+        this.id_cliente = 0;
+        this.id_veiculo = 0;
+        this.status = "any_status";
     }
 }

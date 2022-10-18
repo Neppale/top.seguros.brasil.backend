@@ -28,5 +28,16 @@
 
     public Cliente()
     {
+        // Default constructor
+        this.nome_completo = "any_name";
+        this.email = "any_email";
+        this.senha = "any_password";
+        this.cpf = "any_cpf";
+        this.cnh = "any_cnh";
+        this.cep = "any_cep";
+        this.data_nascimento = "any_birthdate";
+        this.telefone1 = "any_phone1";
+        this.telefone2 = "any_phone2";
+        this.status = true;
     }
 }

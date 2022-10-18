@@ -21,5 +21,12 @@ class GetVehicleByClientDto
 
     public GetVehicleByClientDto()
     {
+        // Default constructor
+        this.id_veiculo = 0;
+        this.marca = "any_brand";
+        this.modelo = "any_model";
+        this.ano = "any_year";
+        this.uso = "any_use";
+        this.placa = "any_plate";
     }
 }

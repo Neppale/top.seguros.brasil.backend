@@ -18,5 +18,11 @@ class GetAllVehicleDto
 
     public GetAllVehicleDto()
     {
+        // Default constructor
+        this.id_veiculo = 0;
+        this.marca = "any_brand";
+        this.modelo = "any_model";
+        this.dono = "any_owner";
+        this.placa = "any_plate";
     }
 }

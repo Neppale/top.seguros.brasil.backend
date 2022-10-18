@@ -11,5 +11,8 @@ class UserLoginDto
 
     public UserLoginDto()
     {
+        // Default constructor
+        this.email = "any_email";
+        this.senha = "any_password";
     }
 }

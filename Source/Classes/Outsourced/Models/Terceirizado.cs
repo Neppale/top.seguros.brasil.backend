@@ -21,5 +21,12 @@
 
     public Terceirizado()
     {
+        // Default constructor
+        this.nome = "any_name";
+        this.funcao = "any_funcao";
+        this.cnpj = "any_cnpj";
+        this.telefone = "any_telefone";
+        this.valor = 0.0;
+        this.status = true;
     }
 }

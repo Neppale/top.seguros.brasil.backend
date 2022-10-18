@@ -29,5 +29,17 @@ class GetIncidentByOutsourcedDto
 
     public GetIncidentByOutsourcedDto()
     {
+        // Default constructor
+        this.id_ocorrencia = 0;
+        this.data = "any_date";
+        this.local = "any_local";
+        this.UF = "any_uf";
+        this.municipio = "any_city";
+        this.descricao = "any_description";
+        this.tipo = "any_type";
+        this.id_veiculo = 0;
+        this.id_cliente = 0;
+        this.id_terceirizado = 0;
+        this.status = "any_status";
     }
 }

@@ -10,4 +10,20 @@
     public string gia { get; set; }
     public string ddd { get; set; }
     public string siafi { get; set; }
+
+    public CepInfo()
+    {
+        // Default constructor
+
+        cep = "any_cep";
+        logradouro = "any_logradouro";
+        complemento = "any_complemento";
+        bairro = "any_bairro";
+        localidade = "any_localidade";
+        uf = "any_uf";
+        ibge = "any_ibge";
+        gia = "any_gia";
+        ddd = "any_ddd";
+        siafi = "any_siafi";
+    }
 }
