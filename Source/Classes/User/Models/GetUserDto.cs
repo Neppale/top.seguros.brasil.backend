@@ -8,6 +8,12 @@ class GetUserDto
 
     public GetUserDto()
     {
+        // Default constructor
+        this.id_usuario = 0;
+        this.nome_completo = "any_name";
+        this.email = "any_email";
+        this.tipo = "any_type";
+        this.status = true;
     }
 
     public GetUserDto(int id_usuario, string nome_completo, string email, string tipo, bool status)

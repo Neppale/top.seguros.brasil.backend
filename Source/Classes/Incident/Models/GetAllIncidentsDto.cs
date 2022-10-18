@@ -18,5 +18,11 @@ class GetAllIncidentsDto
 
     GetAllIncidentsDto()
     {
+        // Default constructor
+        this.id_ocorrencia = 0;
+        this.nome = "any_name";
+        this.tipo = "any_type";
+        this.data = "any_date";
+        this.status = "any_status";
     }
 }

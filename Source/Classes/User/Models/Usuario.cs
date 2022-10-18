@@ -10,6 +10,13 @@
 
     public Usuario()
     {
+        // Default constructor
+        this.id_usuario = 0;
+        this.nome_completo = "any_name";
+        this.email = "any_email";
+        this.tipo = "any_type";
+        this.senha = "any_password";
+        this.status = true;
     }
 
     public Usuario(string nome_completo, string email, string senha, string tipo, bool status)

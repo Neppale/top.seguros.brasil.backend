@@ -11,5 +11,8 @@ class ClientLoginDto
 
     public ClientLoginDto()
     {
+        // Default constructor
+        this.email = "any_email";
+        this.senha = "any_password";
     }
 }
