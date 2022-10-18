@@ -39,5 +39,5 @@ class EnrichedPolicy
         this.cliente = new GetClientDto();
         this.veiculo = new Veiculo();
         this.status = "any_status";
-    }   
+    }
 }
