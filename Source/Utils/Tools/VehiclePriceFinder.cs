@@ -34,9 +34,10 @@ static class VehiclePriceFinder
         string vehicleData = await vehicleDataResponse.Content.ReadAsStringAsync();
 
         var price = JsonSerializer.Deserialize<VehiclePrice>(vehicleData);
-        var priceString = price?.Valor.Replace("R$", "").Replace(".", "");
-        Console.WriteLine("Vehicle price from FIPE: " + decimal.Parse(priceString));
-        return decimal.Parse(priceString);
+        // Remover tudo que não seja numero, e coloque duas casas decimais no fim.
+        var priceValue = decimal.Parse(Regex.Replace(price.Valor, "[^0-9]", ""), NumberStyles.AllowDecimalPoint) / 100;
+        Console.WriteLine("Vehicle price: " + priceValue);
 
+        return priceValue;
     }
 }
