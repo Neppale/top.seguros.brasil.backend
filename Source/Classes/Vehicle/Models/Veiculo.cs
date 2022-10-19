@@ -25,7 +25,16 @@
     }
     public Veiculo()
     {
+        // Default constructor
+        this.marca = "any_brand";
+        this.modelo = "any_model";
+        this.ano = "any_year";
+        this.uso = "any_use";
+        this.placa = "any_plate";
+        this.renavam = "any_renavam";
+        this.sinistrado = false;
+        this.id_cliente = 0;
+        this.status = true;
     }
-
 
 }

@@ -25,5 +25,15 @@ class GetClientDto
 
     public GetClientDto()
     {
+        // Default constructor
+        this.id_cliente = 0;
+        this.nome_completo = "any_name";
+        this.email = "any_email";
+        this.cpf = "any_cpf";
+        this.cnh = "any_cnh";
+        this.cep = "any_cep";
+        this.data_nascimento = "any_birthdate";
+        this.telefone1 = "any_phone1";
+        this.telefone2 = "any_phone2";
     }
 }

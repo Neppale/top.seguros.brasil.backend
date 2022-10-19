@@ -20,5 +20,11 @@ class GetPolicyByUserDto
 
     public GetPolicyByUserDto()
     {
+        // Default constructor
+        this.id_apolice = 0;
+        this.nome = "any_name";
+        this.tipo = "any_type";
+        this.veiculo = "any_vehicle";
+        this.status = "any_status";
     }
 }

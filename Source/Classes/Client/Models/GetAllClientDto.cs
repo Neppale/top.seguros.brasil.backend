@@ -19,5 +19,11 @@ class GetAllClientDto
 
     public GetAllClientDto()
     {
+        // Default constructor
+        this.id_cliente = 0;
+        this.nome_completo = "any_name";
+        this.email = "any_email";
+        this.cpf = "any_cpf";
+        this.telefone1 = "any_phone1";
     }
 }

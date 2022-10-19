@@ -11,5 +11,8 @@ class DocumentDto
 
     public DocumentDto()
     {
+        // Default constructor
+        this.documento = "any_document";
+        this.tipoDocumento = "any_document_type";
     }
 }
