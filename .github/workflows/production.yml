@@ -42,7 +42,7 @@ jobs:
           VALIDATE_CSHARP: true
 
   deploy:
-    needs: [build, lint, test]
+    needs: [build, test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
