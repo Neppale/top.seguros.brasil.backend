@@ -91,7 +91,13 @@ CREATE TABLE Terceirizados (
     valor DECIMAL(9, 2) NOT NULL,
     status BIT DEFAULT 1 NOT NULL
 );
- 
+
+CREATE TABLE Notificacoes (
+    id_notificacao INT PRIMARY KEY IDENTITY NOT NULL,
+    id_usuario INT NOT NULL,
+    quantidade INT NOT NULL DEFAULT 0,
+);
+
 ALTER TABLE Veiculos ADD CONSTRAINT FK_Veiculos_2
     FOREIGN KEY (id_cliente)
     REFERENCES Clientes (id_cliente) ON DELETE SET NULL;
@@ -119,6 +125,10 @@ ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_2
 ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_3
     FOREIGN KEY (id_cliente)
     REFERENCES Clientes (id_cliente) ON DELETE SET NULL;
+
+ALTER TABLE Notificacoes ADD CONSTRAINT FK_Notificacoes_1
+    FOREIGN KEY (id_usuario)
+    REFERENCES Usuarios (id_usuario);
  
 ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_4
     FOREIGN KEY (id_terceirizado)

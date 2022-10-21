@@ -39,6 +39,7 @@ static class InsertPolicyService
         var document = await PolicyDocumentGenerator.Generate(apolice: apolice, connectionString: connectionString);
         var base64Document = DocumentConverter.Encode(document);
         await InsertPolicyDocumentRepository.Insert(id: createdPolicy.id_apolice, document: base64Document, connectionString: connectionString);
+        await NotifyUserRepository.Notify(id: apolice.id_usuario, connectionString: connectionString);
 
         return Results.Created($"/apolice/{createdPolicy.id_apolice}", new { message = "Apólice criada com sucesso.", policy = createdPolicy });
     }
