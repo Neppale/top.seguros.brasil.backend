@@ -37,5 +37,17 @@ public static class UserController
             return await LoginUserService.Login(login: login, connectionString: connectionString, builder: builder);
         })
         .WithName("Fazer login do usuário");
+
+        app.MapPost("/usuario/notificacoes/{id:int}", [Authorize] (int id) =>
+        {
+            return ReadUserNotificationService.Read(id: id, connectionString: connectionString);
+        })
+        .WithName("Ler notificações do usuário");
+
+        app.MapGet("/usuario/notificacoes/{id:int}", [Authorize] async (int id) =>
+        {
+            return await GetUserNotificationService.Get(id: id, connectionString: connectionString);
+        })
+        .WithName("Selecionar notificações do usuário");
     }
 }
