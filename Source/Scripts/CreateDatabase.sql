@@ -40,6 +40,7 @@ CREATE TABLE Usuarios (
     email VARCHAR(50) UNIQUE NOT NULL,
     senha VARCHAR(max) NOT NULL,
     tipo VARCHAR(50) NOT NULL,
+    notificacoes INT DEFAULT 0 NOT NULL,
     status BIT DEFAULT 1 NOT NULL
 );
 
@@ -90,12 +91,6 @@ CREATE TABLE Terceirizados (
     cnpj VARCHAR(18) UNIQUE NOT NULL,
     valor DECIMAL(9, 2) NOT NULL,
     status BIT DEFAULT 1 NOT NULL
-);
-
-CREATE TABLE Notificacoes (
-    id_notificacao INT PRIMARY KEY IDENTITY NOT NULL,
-    id_usuario INT NOT NULL,
-    quantidade INT NOT NULL DEFAULT 0,
 );
 
 ALTER TABLE Veiculos ADD CONSTRAINT FK_Veiculos_2
