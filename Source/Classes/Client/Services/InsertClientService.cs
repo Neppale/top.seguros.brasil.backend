@@ -16,8 +16,6 @@ static class InsertClientService
         int age = AgeCalculator.Calculate(cliente.data_nascimento);
         if (age < 18) return Results.BadRequest(new { message = "Cliente não pode ser menor de idade." });
 
-        cliente.data_nascimento = SqlDateConverter.Convert(cliente.data_nascimento);
-
         bool isValidPassword = PasswordValidator.Validate(cliente.senha);
         if (!isValidPassword) return Results.BadRequest(new { message = "A senha informada não corresponde aos requisitos de segurança." });
 

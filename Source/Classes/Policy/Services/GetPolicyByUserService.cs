@@ -10,6 +10,8 @@ static class GetPolicyByUserService
         if (size == null) size = 5;
 
         var data = await GetPolicyByUserRepository.Get(id: id_usuario, connectionString: connectionString, pageNumber: pageNumber, size: size, search: search);
-        return Results.Ok(data);
+        var paginatedResponse = new paginatedResponse(data: data.policies, totalPages: data.totalPages);
+
+        return Results.Ok(paginatedResponse);
     }
 }

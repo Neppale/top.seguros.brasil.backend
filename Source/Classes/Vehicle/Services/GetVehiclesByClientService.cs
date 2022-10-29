@@ -11,7 +11,8 @@ static class GetVehiclesByClientService
         if (size == null) size = 5;
 
         var vehicles = await GetVehiclesByClientRepository.Get(id: id_cliente, connectionString: connectionString, pageNumber: pageNumber, size: size);
+        var paginatedResponse = new paginatedResponse(data: vehicles.vehicles, totalPages: vehicles.totalPages);
 
-        return Results.Ok(vehicles);
+        return Results.Ok(paginatedResponse);
     }
 }

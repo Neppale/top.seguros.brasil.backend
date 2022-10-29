@@ -5,9 +5,9 @@ static class GetIncidentByClientService
         if (pageNumber == null) pageNumber = 1;
         if (size == null) size = 5;
 
-        var results = await GetIncidentByClientRepository.Get(id: id_cliente, connectionString: connectionString, pageNumber: pageNumber, size: size);
-        foreach (var result in results) result.data = SqlDateConverter.Convert(result.data);
+        var incidents = await GetIncidentByClientRepository.Get(id: id_cliente, connectionString: connectionString, pageNumber: pageNumber, size: size);
+        var paginatedResponse = new paginatedResponse(data: incidents.incidents, totalPages: incidents.totalPages);
 
-        return Results.Ok(results);
+        return Results.Ok(paginatedResponse);
     }
 }

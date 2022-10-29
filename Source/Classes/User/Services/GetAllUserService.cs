@@ -6,7 +6,9 @@ static class GetAllUserService
         if (pageNumber == null) pageNumber = 1;
         if (size == null) size = 5;
 
-        var data = await GetAllUserRepository.Get(connectionString: connectionString, pageNumber: pageNumber, size: size, search: search);
-        return Results.Ok(data);
+        var users = await GetAllUserRepository.Get(connectionString: connectionString, pageNumber: pageNumber, size: size, search: search);
+        var paginatedResponse = new paginatedResponse(data: users.users, totalPages: users.totalPages);
+
+        return Results.Ok(paginatedResponse);
     }
 }

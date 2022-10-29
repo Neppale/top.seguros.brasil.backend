@@ -18,8 +18,6 @@ static class UpdateClientService
         int age = AgeCalculator.Calculate(cliente.data_nascimento);
         if (age < 18) return Results.BadRequest("Cliente não pode ser menor de idade.");
 
-        cliente.data_nascimento = SqlDateConverter.Convert(cliente.data_nascimento);
-
         bool passwordIsValid = PasswordValidator.Validate(cliente.senha);
         if (!passwordIsValid) return Results.BadRequest("A senha informada não corresponde aos requisitos de segurança.");
 

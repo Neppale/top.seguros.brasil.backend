@@ -10,11 +10,8 @@ static class GetPolicyByClientService
         if (size == null) size = 5;
 
         var policies = await GetPolicyByClientRepository.Get(id: id_cliente, connectionString: connectionString, pageNumber: pageNumber, size: size);
-        foreach (var policy in policies)
-        {
-            policy.data_inicio = SqlDateConverter.Convert(policy.data_inicio);
-            policy.data_fim = SqlDateConverter.Convert(policy.data_fim);
-        }
-        return Results.Ok(policies);
+        var paginatedResponse = new paginatedResponse(data: policies.policies, totalPages: policies.totalPages);
+
+        return Results.Ok(paginatedResponse);
     }
 }

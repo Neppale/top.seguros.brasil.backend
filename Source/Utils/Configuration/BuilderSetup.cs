@@ -71,16 +71,13 @@ static class APISetup
 
         var app = builder.Build();
 
+        app.UseCors();
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseSwagger();
         app.UseSwaggerUI();
         app.UseHttpsRedirection();
-        app.UseCors();
         builder.Services.AddAuthorization();
-
-        string temporaryDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
-        Directory.CreateDirectory(temporaryDirectory);
 
         return app;
     }

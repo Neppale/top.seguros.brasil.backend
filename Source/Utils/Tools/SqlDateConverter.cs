@@ -11,4 +11,13 @@ static class SqlDateConverter
 
         return date;
     }
+    public static DateTime ConvertToDate(string date)
+    {
+        int day = int.Parse(date.Substring(0, 2));
+        int month = int.Parse(date.Substring(3, 2));
+        int year = int.Parse(date.Substring(6, 4));
+
+        if (month > 12) return new DateTime(year, day, month);
+        else return new DateTime(year, month, day);
+    }
 }

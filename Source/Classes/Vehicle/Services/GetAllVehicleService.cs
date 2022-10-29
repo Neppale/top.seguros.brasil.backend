@@ -7,7 +7,8 @@ public static class GetAllVehicleService
         if (size == null) size = 5;
 
         var vehicles = await GetAllVehicleRepository.Get(connectionString: connectionString, pageNumber: pageNumber, size: size, search: search);
+        var paginatedResponse = new paginatedResponse(data: vehicles.vehicles, totalPages: vehicles.totalPages);
 
-        return Results.Ok(vehicles);
+        return Results.Ok(paginatedResponse);
     }
 }

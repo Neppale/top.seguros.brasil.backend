@@ -7,6 +7,6 @@ static class GetUserNotificationService
 
 
         var amount = await GetUserNotificationRepository.Get(id: id, connectionString: connectionString);
-        return Results.Ok(new { amount });
+        return Results.Ok(amount);
     }
 }
