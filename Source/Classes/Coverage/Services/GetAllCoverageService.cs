@@ -1,14 +1,14 @@
 public static class GetAllCoverageService
 {
-    /** <summary> Esta função retorna todas as coberturas no banco de dados. </summary>**/
-    public static async Task<IResult> Get(SqlConnection connectionString, int? pageNumber, int? size, string? search)
-    {
-        if (pageNumber == null) pageNumber = 1;
-        if (size == null) size = 5;
+  /** <summary> Esta função retorna todas as coberturas no banco de dados. </summary>**/
+  public static async Task<IResult> Get(SqlConnection connectionString, int? pageNumber, int? size, string? search)
+  {
+    if (pageNumber == null) pageNumber = 1;
+    if (size == null) size = 5;
 
-        var coverages = await GetAllCoverageRepository.Get(connectionString: connectionString, pageNumber: pageNumber, size: size, search: search);
-        var paginatedResponse = new PaginatedCoverages(coverages: coverages.coverages, totalPages: coverages.totalPages);
+    var coverages = await GetAllCoverageRepository.Get(connectionString: connectionString, pageNumber: pageNumber, size: size, search: search);
+    var paginatedResponse = new paginatedResponse(data: coverages.coverages, totalPages: coverages.totalPages);
 
-        return Results.Ok(paginatedResponse);
-    }
+    return Results.Ok(paginatedResponse);
+  }
 }
