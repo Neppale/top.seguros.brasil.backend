@@ -7,7 +7,7 @@ static class GetAllClientService
         if (size == null) size = 5;
 
         var clients = await GetAllClientRepository.Get(connectionString: connectionString, pageNumber: pageNumber, size: size, search: search);
-
-        return Results.Ok(clients);
+        var paginatedResponse = new paginatedResponse(data: clients.clients, totalPages: clients.totalPages);
+        return Results.Ok(paginatedResponse);
     }
 }

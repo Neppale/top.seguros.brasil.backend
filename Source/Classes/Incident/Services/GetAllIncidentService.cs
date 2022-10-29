@@ -6,8 +6,9 @@ static class GetAllIncidentService
         if (pageNumber == null) pageNumber = 1;
         if (size == null) size = 5;
 
-        var results = await GetAllIncidentRepository.Get(connectionString: connectionString, pageNumber: pageNumber, size: size, search: search);
+        var incidents = await GetAllIncidentRepository.Get(connectionString: connectionString, pageNumber: pageNumber, size: size, search: search);
+        var paginatedResponse = new paginatedResponse(data: incidents.incidents, totalPages: incidents.totalPages);
 
-        return Results.Ok(results);
+        return Results.Ok(paginatedResponse);
     }
 }
