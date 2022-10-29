@@ -33,17 +33,17 @@
     public Ocorrencia()
     {
         // Default constructor
-        this.data = "any_date";
-        this.local = "any_local";
-        this.UF = "any_uf";
-        this.municipio = "any_city";
-        this.descricao = "any_description";
-        this.tipo = "any_type";
-        this.documento = "any_document";
-        this.tipoDocumento = "any_document_type";
+        this.data = "";
+        this.local = "";
+        this.UF = "";
+        this.municipio = "";
+        this.descricao = "";
+        this.tipo = "";
+        this.documento = "";
+        this.tipoDocumento = "";
         this.id_veiculo = 0;
         this.id_cliente = 0;
         this.id_terceirizado = 0;
-        this.status = "any_status";
+        this.status = "";
     }
 }

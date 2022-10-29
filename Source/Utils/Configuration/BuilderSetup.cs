@@ -25,10 +25,10 @@ static class APISetup
             options.AddDefaultPolicy(
           builder =>
           {
-              builder.AllowAnyOrigin()
-                 .AllowAnyHeader()
-                 .AllowAnyMethod();
-          });
+                builder.AllowAnyOrigin()
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+            });
         });
 
         var securityReq = new OpenApiSecurityRequirement() { { new OpenApiSecurityScheme { Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" } }, new string[] { } } };
@@ -71,16 +71,13 @@ static class APISetup
 
         var app = builder.Build();
 
+        app.UseCors();
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseSwagger();
         app.UseSwaggerUI();
         app.UseHttpsRedirection();
-        app.UseCors();
         builder.Services.AddAuthorization();
-
-        string temporaryDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
-        Directory.CreateDirectory(temporaryDirectory);
 
         return app;
     }

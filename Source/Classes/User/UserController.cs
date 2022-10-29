@@ -49,5 +49,11 @@ public static class UserController
             return await GetUserNotificationService.Get(id: id, connectionString: connectionString);
         })
         .WithName("Selecionar notificações do usuário");
+
+        // rota de relatorio
+        app.MapGet("/usuario/relatorio/{id:int}", [Authorize] async (int id) =>
+        {
+            return await GetUserReportService.Get(connectionString: connectionString, id: id);
+        });
     }
 }

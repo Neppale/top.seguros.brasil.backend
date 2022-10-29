@@ -5,18 +5,10 @@ static class UpdateIncidentService
     public static async Task<IResult> Update(int id, Ocorrencia ocorrencia, SqlConnection connectionString)
     {
         ocorrencia.documento = "-";
-
-        int? originalTerceirizado = ocorrencia.id_terceirizado;
-        ocorrencia.id_terceirizado = 0;
-
         ocorrencia.tipoDocumento = "-";
 
         bool hasValidProperties = NullPropertyValidator.Validate(ocorrencia);
         if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
-
-        ocorrencia.data = SqlDateConverter.Convert(ocorrencia.data);
-
-        ocorrencia.id_terceirizado = originalTerceirizado;
 
         ocorrencia.status = ocorrencia.status.Substring(0, 1).ToUpper() + ocorrencia.status.Substring(1);
 
@@ -34,6 +26,7 @@ static class UpdateIncidentService
         bool veiculoIsValid = await ClientVehicleValidator.Validate(id_cliente: ocorrencia.id_cliente, id_veiculo: ocorrencia.id_veiculo, connectionString: connectionString);
         if (!veiculoIsValid) return Results.BadRequest(new { message = "Veículo não pertence ao cliente." });
 
+        if (ocorrencia.id_terceirizado == 0) ocorrencia.id_terceirizado = null;
         if (ocorrencia.id_terceirizado != null)
         {
             var outsourced = await GetOutsourcedByIdRepository.Get(id: (int)ocorrencia.id_terceirizado, connectionString: connectionString);
@@ -41,7 +34,7 @@ static class UpdateIncidentService
         }
 
         var storedDocument = await GetIncidentDocumentRepository.Get(id: id, connectionString: connectionString);
-        if (ocorrencia.status == "Concluida" && storedDocument.documento == null) return Results.BadRequest(new { message = "Não é possível alterar o status de uma ocorrência para Concluída sem um documento." });
+        if (ocorrencia.status == "Concluida" && (storedDocument.documento == null || storedDocument.documento == "-")) return Results.BadRequest(new { message = "Não é possível alterar o status de uma ocorrência para Concluída sem um documento." });
 
         var updatedIncident = await UpdateIncidentRepository.Update(id: id, incident: ocorrencia, connectionString: connectionString);
         if (updatedIncident == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
