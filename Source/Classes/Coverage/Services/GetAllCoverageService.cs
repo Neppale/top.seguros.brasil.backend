@@ -7,6 +7,8 @@ public static class GetAllCoverageService
         if (size == null) size = 5;
 
         var coverages = await GetAllCoverageRepository.Get(connectionString: connectionString, pageNumber: pageNumber, size: size, search: search);
-        return Results.Ok(coverages);
+        var paginatedResponse = new PaginatedCoverages(coverages: coverages.coverages, totalPages: coverages.totalPages);
+
+        return Results.Ok(paginatedResponse);
     }
 }
