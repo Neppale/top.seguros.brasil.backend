@@ -7,7 +7,8 @@ static class GetAllPolicyService
         if (size == null) size = 5;
 
         var result = await GetAllPolicyRepository.Get(connectionString: connectionString, pageNumber: pageNumber, size: size);
+        var paginatedResponse = new paginatedResponse(data: result.policies, totalPages: result.totalPages);
 
-        return Results.Ok(result);
+        return Results.Ok(paginatedResponse);
     }
 }

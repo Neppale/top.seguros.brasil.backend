@@ -10,7 +10,8 @@ static class GetPolicyByClientService
         if (size == null) size = 5;
 
         var policies = await GetPolicyByClientRepository.Get(id: id_cliente, connectionString: connectionString, pageNumber: pageNumber, size: size);
+        var paginatedResponse = new paginatedResponse(data: policies.policies, totalPages: policies.totalPages);
 
-        return Results.Ok(policies);
+        return Results.Ok(paginatedResponse);
     }
 }

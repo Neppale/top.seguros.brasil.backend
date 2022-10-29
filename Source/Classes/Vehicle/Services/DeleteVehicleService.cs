@@ -7,7 +7,7 @@ public static class DeleteVehicleService
         if (vehicle == null) return Results.NotFound(new { message = "Veículo não encontrado." });
 
         var policies = await GetPolicyByClientRepository.Get(id: vehicle.id_cliente, connectionString: connectionString, pageNumber: 1, size: int.MaxValue);
-        if (policies.Any(policy => (policy.status == "Ativa" || policy.status == "Em Analise") && policy.id_veiculo == vehicle.id_veiculo)) return Results.BadRequest(new { message = "Não é possível desativar um veículo com apólices ativas ou em análise." });
+        if (policies.policies.Any(policy => (policy.status == "Ativa" || policy.status == "Em Analise") && policy.id_veiculo == vehicle.id_veiculo)) return Results.BadRequest(new { message = "Não é possível desativar um veículo com apólices ativas ou em análise." });
 
         var incidents = await GetIncidentByClientRepository.Get(id: vehicle.id_cliente, connectionString: connectionString, pageNumber: 1, size: int.MaxValue);
         if (incidents.incidents.Any(incident => (incident.status == "Andamento" || incident.status == "Processando") && incident.id_veiculo == vehicle.id_veiculo)) return Results.BadRequest(new { message = "Não é possível desativar um veículo com ocorrências ativas ou em processamento." });

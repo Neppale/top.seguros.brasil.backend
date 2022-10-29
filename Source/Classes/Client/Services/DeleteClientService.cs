@@ -6,7 +6,7 @@ static class DeleteClientService
         if (client == null) return Results.NotFound(new { message = "Cliente não encontrado." });
 
         var policies = await GetPolicyByClientRepository.Get(id: id, connectionString: connectionString, pageNumber: 1, size: int.MaxValue);
-        if (policies.Any(policy => policy.status == "Ativa")) return Results.BadRequest(new { message = "Não é possível desativar um cliente com apólices ativas." });
+        if (policies.policies.Any(policy => policy.status == "Ativa")) return Results.BadRequest(new { message = "Não é possível desativar um cliente com apólices ativas." });
 
         var incidents = await GetIncidentByClientRepository.Get(id: id, connectionString: connectionString, pageNumber: 1, size: int.MaxValue);
         if (incidents.incidents.Any(incident => incident.status == "Andamento" || incident.status == "Processando")) return Results.BadRequest(new { message = "Não é possível desativar um cliente com ocorrências ativas ou em processamento." });
