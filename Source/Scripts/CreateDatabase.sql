@@ -120,10 +120,6 @@ ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_2
 ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_3
     FOREIGN KEY (id_cliente)
     REFERENCES Clientes (id_cliente) ON DELETE SET NULL;
-
-ALTER TABLE Notificacoes ADD CONSTRAINT FK_Notificacoes_1
-    FOREIGN KEY (id_usuario)
-    REFERENCES Usuarios (id_usuario);
  
 ALTER TABLE Ocorrencias ADD CONSTRAINT FK_Ocorrencias_4
     FOREIGN KEY (id_terceirizado)
