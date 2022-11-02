@@ -32,8 +32,8 @@ static class PolicyDocumentGenerator
     {
         htmlDocument = htmlDocument.Replace("{{DATAHOJE}}", DateTime.Now.ToString("dd/MM/yyyy"))
                                      .Replace("{{IDAPOLICE}}", apolice.id_apolice.ToString())
-                                     .Replace("{{DATAINICIAL}}", apolice.data_inicio.Substring(8, 2) + "/" + apolice.data_inicio.Substring(5, 2) + "/" + apolice.data_inicio.Substring(0, 4))
-                                     .Replace("{{DATAFINAL}}", apolice.data_fim.Substring(8, 2) + "/" + apolice.data_fim.Substring(5, 2) + "/" + apolice.data_fim.Substring(0, 4))
+                                        .Replace("{{DATAINICIAL}}", Regex.Replace(apolice.data_inicio, @"(\d{2})/(\d{2})/(\d{4})", "$2/$1/$3"))
+                                        .Replace("{{DATAFINAL}}", Regex.Replace(apolice.data_fim, @"(\d{2})/(\d{2})/(\d{4})", "$2/$1/$3"))
                                      .Replace("{{NOMEUSUARIO}}", user.nome_completo)
                                      .Replace("{{IDUSUARIO}}", user.id_usuario.ToString())
                                      .Replace("{{NOMECLIENTE}}", client.nome_completo)
