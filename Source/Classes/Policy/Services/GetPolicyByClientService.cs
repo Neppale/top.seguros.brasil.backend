@@ -10,7 +10,17 @@ static class GetPolicyByClientService
         if (size == null) size = 5;
 
         var policies = await GetPolicyByClientRepository.Get(id: id_cliente, connectionString: connectionString, pageNumber: pageNumber, size: size);
-        var paginatedResponse = new paginatedResponse(data: policies.policies, totalPages: policies.totalPages);
+
+        IEnumerable<EnrichedPolicy> enrichedPolicies = new List<EnrichedPolicy>();
+
+        foreach (var policy in policies.policies)
+        {
+            var enrichedPolicy = await PolicyEnrichment.Enrich(policy: policy, connectionString: connectionString);
+            enrichedPolicies = enrichedPolicies.Append(enrichedPolicy);
+        }
+
+        var enrichedPoliciesArray = enrichedPolicies.ToArray();
+        var paginatedResponse = new paginatedResponse(data: enrichedPoliciesArray, totalPages: policies.totalPages);
 
         return Results.Ok(paginatedResponse);
     }
