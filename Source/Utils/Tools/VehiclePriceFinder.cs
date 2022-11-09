@@ -36,7 +36,6 @@ static class VehiclePriceFinder
         var price = JsonSerializer.Deserialize<VehiclePrice>(vehicleData);
         // Remover tudo que não seja numero, e coloque duas casas decimais no fim.
         var priceValue = decimal.Parse(Regex.Replace(price.Valor, "[^0-9]", ""), NumberStyles.AllowDecimalPoint) / 100;
-        Console.WriteLine("Vehicle price: " + priceValue);
 
         return priceValue;
     }

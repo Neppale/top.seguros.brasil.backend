@@ -1,7 +1,7 @@
 static class PolicyDocumentGenerator
 {
     /**<summary> Esta função gera um arquivo HTML da apólice. </summary>**/
-    public static async Task<Stream> Generate(Apolice apolice, SqlConnection connectionString)
+    public static async Task<Stream?> Generate(Apolice apolice, SqlConnection connectionString)
     {
         var user = await GetUserByIdRepository.Get(id: apolice.id_usuario, connectionString: connectionString);
         var client = await GetClientByIdRepository.Get(id: apolice.id_cliente, connectionString: connectionString);
