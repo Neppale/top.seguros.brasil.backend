@@ -11,5 +11,8 @@ class PaginatedClients
 
     public PaginatedClients()
     {
+        // Default constructor
+        this.clients = new GetAllClientDto[0];
+        this.totalPages = 0;
     }
 }

@@ -12,5 +12,7 @@ class PaginatedOutsourced
     public PaginatedOutsourced()
     {
         // Default constructor
+        this.outsourceds = new Terceirizado[0];
+        this.totalPages = 0;
     }
 }

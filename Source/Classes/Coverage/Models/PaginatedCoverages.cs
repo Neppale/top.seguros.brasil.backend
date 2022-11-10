@@ -11,5 +11,8 @@ class PaginatedCoverages
 
     public PaginatedCoverages()
     {
+        // Default constructor
+        this.coverages = new Cobertura[0];
+        this.totalPages = 0;
     }
 }

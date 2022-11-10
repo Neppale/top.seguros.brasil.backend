@@ -15,6 +15,8 @@ static class GetPolicyByClientService
 
         foreach (var policy in policies.policies)
         {
+            policy.data_inicio = Regex.Replace(policy.data_inicio, @"(\d{2})/(\d{2})/(\d{4})", "$2/$1/$3");
+            policy.data_fim = Regex.Replace(policy.data_fim, @"(\d{2})/(\d{2})/(\d{4})", "$2/$1/$3");
             var enrichedPolicy = await PolicyEnrichment.Enrich(policy: policy, connectionString: connectionString);
             enrichedPolicies = enrichedPolicies.Append(enrichedPolicy);
         }
