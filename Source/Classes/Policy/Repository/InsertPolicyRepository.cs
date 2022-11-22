@@ -9,6 +9,9 @@ static class InsertPolicyRepository
             // Retornando a última apólice inserida.
             var createdPolicy = await connectionString.QueryFirstOrDefaultAsync<GetPolicyDto>("SELECT id_apolice, data_inicio, data_fim, premio, indenizacao, id_cobertura, id_usuario, id_cliente, id_veiculo, status from Apolices WHERE id_apolice = (SELECT MAX(id_apolice) FROM Apolices)");
 
+            createdPolicy.data_inicio = SqlDateConverter.ConvertToShow(createdPolicy.data_inicio);
+            createdPolicy.data_fim = SqlDateConverter.ConvertToShow(createdPolicy.data_fim);
+
             return createdPolicy;
         }
         catch (SystemException)
