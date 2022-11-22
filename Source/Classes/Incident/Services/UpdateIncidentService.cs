@@ -4,13 +4,23 @@ static class UpdateIncidentService
     private static string[] validStatuses = { "Andamento", "Processando", "Concluida", "Rejeitada" };
     public static async Task<IResult> Update(int id, Ocorrencia ocorrencia, SqlConnection connectionString)
     {
-        ocorrencia.documento = "-";
-        ocorrencia.tipoDocumento = "-";
+        string? originalDocumento = ocorrencia.documento;
+        if (ocorrencia.documento == null || ocorrencia.documento == "") ocorrencia.documento = "-";
+
+        string? originalTipoDocumento = ocorrencia.tipoDocumento;
+        if (ocorrencia.tipoDocumento == null || ocorrencia.tipoDocumento == "") ocorrencia.tipoDocumento = "-";
+
+        int? originalIdTerceirizado = ocorrencia.id_terceirizado;
+        if (ocorrencia.id_terceirizado == null) ocorrencia.id_terceirizado = 0;
+
+        ocorrencia.status = ocorrencia.status.Substring(0, 1).ToUpper() + ocorrencia.status.Substring(1);
 
         bool hasValidProperties = NullPropertyValidator.Validate(ocorrencia);
         if (!hasValidProperties) return Results.BadRequest(new { message = "Há um campo inválido na sua requisição." });
 
-        ocorrencia.status = ocorrencia.status.Substring(0, 1).ToUpper() + ocorrencia.status.Substring(1);
+        ocorrencia.documento = originalDocumento;
+        ocorrencia.tipoDocumento = originalTipoDocumento;
+        ocorrencia.id_terceirizado = originalIdTerceirizado;
 
         if (!validStatuses.Contains(ocorrencia.status)) return Results.BadRequest("Status inválido. Status permitidos: " + string.Join(", ", validStatuses));
 
