@@ -20,6 +20,7 @@ static class GetAllIncidentRepository
             totalPages = (int)Math.Ceiling((double)incidentCount / (double)size);
         }
 
+        foreach (var incident in incidents) incident.data = SqlDateConverter.ConvertToShow(incident.data);
         return new PaginatedIncidents(incidents: incidents, totalPages: totalPages);
     }
 }

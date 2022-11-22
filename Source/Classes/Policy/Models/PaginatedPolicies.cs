@@ -11,5 +11,8 @@ class PaginatedPolicies
 
     public PaginatedPolicies()
     {
+        // Default constructor
+        this.policies = new GetPolicyDto[0];
+        this.totalPages = 0;
     }
 }

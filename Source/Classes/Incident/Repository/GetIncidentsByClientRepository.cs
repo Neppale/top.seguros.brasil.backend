@@ -11,6 +11,7 @@ static class GetIncidentByClientRepository
         var incidentCount = await connectionString.QueryFirstOrDefaultAsync<int>("SELECT COUNT(*) FROM Ocorrencias WHERE id_cliente = @Id", new { Id = id });
         totalPages = (int)Math.Ceiling((double)incidentCount / (double)size);
 
+        foreach (var incident in incidents) incident.data = SqlDateConverter.ConvertToShow(incident.data);
         return new PaginatedIncidentsByClient(incidents: incidents, totalPages: totalPages);
     }
 }

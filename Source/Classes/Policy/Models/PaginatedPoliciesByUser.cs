@@ -11,5 +11,8 @@ class PaginatedPoliciesByUser
 
     public PaginatedPoliciesByUser()
     {
+        // Default constructor
+        this.policies = new GetPolicyByUserDto[0];
+        this.totalPages = 0;
     }
 }

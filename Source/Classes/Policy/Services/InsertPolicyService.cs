@@ -31,12 +31,19 @@ static class InsertPolicyService
         var user = await GetUserByIdRepository.Get(id: apolice.id_usuario, connectionString: connectionString);
         if (user == null) return Results.NotFound(new { message = "Usuário não encontrado." });
 
+        apolice.data_inicio = SqlDateConverter.ConvertToSave(apolice.data_inicio);
+        if (apolice.data_inicio == "0000-00-00") return Results.BadRequest(new { message = "Formato de data inválido. Formato correto: yyyy-MM-dd" });
+
+        apolice.data_fim = SqlDateConverter.ConvertToSave(apolice.data_fim);
+        if (apolice.data_fim == "0000-00-00") return Results.BadRequest(new { message = "Formato de data inválido. Formato correto: yyyy-MM-dd" });
+
         var createdPolicy = await InsertPolicyRepository.Insert(apolice: apolice, connectionString: connectionString);
         if (createdPolicy == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
-
         apolice.id_apolice = createdPolicy.id_apolice;
 
         var document = await PolicyDocumentGenerator.Generate(apolice: apolice, connectionString: connectionString);
+        if (document == null) return Results.Created($"/apolice/{createdPolicy.id_apolice}", new { message = "Apólice criada com sucesso, mas houve um erro ao gerar o documento." });
+
         var base64Document = DocumentConverter.Encode(document);
         await InsertPolicyDocumentRepository.Insert(id: createdPolicy.id_apolice, document: base64Document, connectionString: connectionString);
         await NotifyUserRepository.Notify(id: apolice.id_usuario, connectionString: connectionString);

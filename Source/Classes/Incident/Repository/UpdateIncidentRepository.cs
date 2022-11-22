@@ -8,6 +8,8 @@ static class UpdateIncidentRepository
 
             var updatedIncident = await connectionString.QueryFirstOrDefaultAsync<GetIncidentByIdDto>("SELECT id_ocorrencia, data, local, UF, municipio, descricao, tipo, status, id_veiculo, id_cliente, id_terceirizado FROM Ocorrencias WHERE id_ocorrencia = @Id", new { Id = id });
 
+            updatedIncident.data = SqlDateConverter.ConvertToShow(updatedIncident.data);
+
             return updatedIncident;
         }
         catch (System.Exception)

@@ -8,6 +8,12 @@ static class GetAllPolicyRepository
         var policyCount = await connectionString.QueryFirstOrDefaultAsync<int>("SELECT COUNT(*) FROM Apolices WHERE status != 'Rejeitada'");
         var totalPages = (int)Math.Ceiling((double)policyCount / (double)size);
 
+        foreach (var policy in policies)
+        {
+            policy.data_inicio = SqlDateConverter.ConvertToShow(policy.data_inicio);
+            policy.data_fim = SqlDateConverter.ConvertToShow(policy.data_fim);
+        }
+
         return new PaginatedPolicies(policies: policies, totalPages: totalPages);
     }
 }
