@@ -19,10 +19,10 @@ static class SqlDateConverter
     public static string ConvertToSave(string date)
     {
         var dateParts = date.Split('/');
-        var day = dateParts[0];
-        var month = dateParts[1];
+        var month = dateParts[0];
+        var day = dateParts[1];
         var year = dateParts[2];
 
-        return $"{year}-{month}-{day} 00:00:00";
+        return $"{year}-{month}-{day}";
     }
 }
