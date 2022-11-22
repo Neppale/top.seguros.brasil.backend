@@ -7,10 +7,10 @@ static class SqlDateConverter
     var datePart = dateParts[0];
     var timePart = dateParts[1];
 
-    var datePartsSplitted = datePart.Split('-');
-    var year = datePartsSplitted[0];
-    var month = datePartsSplitted[1];
-    var day = datePartsSplitted[2];
+    var datePartsSplitted = datePart.Split('/');
+    var month = datePartsSplitted[0];
+    var day = datePartsSplitted[1];
+    var year = datePartsSplitted[2];
 
     return $"{day}/{month}/{year}";
   }
