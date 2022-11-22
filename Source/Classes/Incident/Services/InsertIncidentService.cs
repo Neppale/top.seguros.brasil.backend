@@ -39,6 +39,7 @@ static class InsertIncidentService
         if (!vehicleIsValid) return Results.BadRequest(new { message = "Veículo não pertence ao cliente." });
 
         ocorrencia.data = SqlDateConverter.ConvertToSave(ocorrencia.data);
+        if (ocorrencia.data == "0000-00-00") return Results.BadRequest(new { message = "Formato de data inválido. Formato correto: yyyy-MM-dd" });
 
         var createdIncident = await InsertIncidentRepository.Insert(incident: ocorrencia, connectionString: connectionString);
         if (createdIncident == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });

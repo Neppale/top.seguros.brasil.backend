@@ -893,7 +893,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"data_inicio\": \"11/07/2022\",\n    \"data_fim\": \"11/07/2023\",\n    \"premio\": 389.02,\n    \"indenizacao\": 8012.70,\n    \"documento\": \"-\",\n    \"id_cobertura\": 1,\n    \"id_usuario\": 1,\n    \"id_cliente\": 1,\n    \"id_veiculo\": 1,\n    \"status\": \"Em Análise\"\n}"
+              "raw": "{\n    \"data_inicio\": \"2022-12-01\",\n    \"data_fim\": \"2023-12-01\",\n    \"premio\": 389.02,\n    \"indenizacao\": 8012.70,\n    \"documento\": \"-\",\n    \"id_cobertura\": 1,\n    \"id_usuario\": 1,\n    \"id_cliente\": 1,\n    \"id_veiculo\": 1,\n    \"status\": \"Em Análise\"\n}"
             },
             "url": {
               "raw": "{{ _.URL }}/apolice/",
@@ -1121,7 +1121,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"data\": \"2022-01-01\",\n\t\"local\": \"Av. Paulista, 900, Bela Vista\",\n\t\"uf\": \"SP\",\n\t\"municipio\": \"São Paulo\",\n\t\"descricao\": \"Colisão veicular\",\n\t\"tipo\": \"Acidente\",\n\t\"id_veiculo\": 1,\n\t\"id_cliente\": 1,\n    \"id_terceirizado\": 1\n}"
+              "raw": "{\n\t\"data\": \"2022-12-01\",\n\t\"local\": \"Av. Paulista, 900, Bela Vista\",\n\t\"uf\": \"SP\",\n\t\"municipio\": \"São Paulo\",\n\t\"descricao\": \"Colisão veicular\",\n\t\"tipo\": \"Acidente\",\n\t\"id_veiculo\": 1,\n\t\"id_cliente\": 1,\n    \"id_terceirizado\": 1\n}"
             },
             "url": {
               "raw": "{{ _.URL }}/ocorrencia/",
@@ -1275,7 +1275,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"data\": \"01/01/2022\",\n\t\"local\": \"Av. Paulista, 900, Bela Vista\",\n\t\"uf\": \"SP\",\n\t\"municipio\": \"São Paulo\",\n\t\"descricao\": \"Colisão veicular\",\n\t\"tipo\": \"Acidente\",\n\t\"id_veiculo\": 1,\n\t\"id_cliente\": 1,\n\t\"id_terceirizado\": 1,\n\t\"status\": \"Concluida\"\n}"
+              "raw": "{\n\t\"data\": \"2022-12-01\",\n\t\"local\": \"Av. Paulista, 900, Bela Vista\",\n\t\"uf\": \"SP\",\n\t\"municipio\": \"São Paulo\",\n\t\"descricao\": \"Colisão veicular\",\n\t\"tipo\": \"Acidente\",\n\t\"id_veiculo\": 1,\n\t\"id_cliente\": 1,\n\t\"id_terceirizado\": 1,\n\t\"status\": \"Concluida\"\n}"
             },
             "url": {
               "raw": "{{ _.URL }}/ocorrencia/1",

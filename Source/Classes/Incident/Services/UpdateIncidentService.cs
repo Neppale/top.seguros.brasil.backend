@@ -34,6 +34,7 @@ static class UpdateIncidentService
         }
 
         incident.data = SqlDateConverter.ConvertToSave(incident.data);
+        if (ocorrencia.data == "0000-00-00") return Results.BadRequest(new { message = "Formato de data inválido. Formato correto: yyyy-MM-dd" });
 
         var storedDocument = await GetIncidentDocumentRepository.Get(id: id, connectionString: connectionString);
         if (ocorrencia.status == "Concluida" && (storedDocument.documento == null || storedDocument.documento == "-")) return Results.BadRequest(new { message = "Não é possível alterar o status de uma ocorrência para Concluída sem um documento." });

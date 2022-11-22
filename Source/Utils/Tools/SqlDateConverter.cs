@@ -23,6 +23,8 @@ static class SqlDateConverter
         var day = dateParts[1];
         var year = dateParts[2];
 
+        if (int.Parse(month) > 12) return "0000-00-00";
+
         return $"{year}-{month}-{day}";
     }
 }
