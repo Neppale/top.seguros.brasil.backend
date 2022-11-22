@@ -1,4 +1,4 @@
-name: Development Pipeline
+name: Integration tests
 
 on:
   push:
@@ -7,19 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Install .NET dependencies
-        run: dotnet restore
-
-      - name: Build project
-        run: dotnet build --no-restore
-
   test:
-    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -32,13 +20,3 @@ jobs:
 
       - name: Run test script
         run: sudo ./Source/Tests/Testing.bash
-
-  lint:
-    needs: [build, test]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Super-Linter
-        uses: github/super-linter@v4.9.5
-        env:
-          VALIDATE_CSHARP: true
