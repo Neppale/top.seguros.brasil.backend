@@ -1,0 +1,19 @@
+name: Build
+
+on:
+  push:
+    branches: ["feature/**", "fix/**", "chore/**", "refactor/**"]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install .NET dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --no-restore

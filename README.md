@@ -1,10 +1,12 @@
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/2fe25d04adce953c2f24?action=collection%2Fimport#?env%5BTSB%20API%20Policy%20Engine%20DEV%5D=W3sia2V5IjoiIF8uVVJMICIsInZhbHVlIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzA5MyIsImVuYWJsZWQiOnRydWUsInNlc3Npb25WYWx1ZSI6Imh0dHBzOi8vbG9jYWxob3N0OjcwOTMiLCJzZXNzaW9uSW5kZXgiOjB9LHsia2V5IjoiQkVBUkVSIiwidmFsdWUiOiJleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKcGMzTWlPaUowYjNCelpXZDFjbTl6TG1KeUlpd2lZWFZrSWpvaWRHOXdjMlZuZFhKdmN5NWljaUo5LkJsZ2RYZFlfd3YwNkFiR3RsQlBScGVYcy1FeUdyeXAtMjBpSzNsTjBIRzgiLCJlbmFibGVkIjp0cnVlLCJ0eXBlIjoic2VjcmV0Iiwic2Vzc2lvblZhbHVlIjoiZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKMGIzQnpaV2QxY205ekxtSnlJaXdpWVhWa0lqb2lkRzl3YzJWbmRYSnZjeTVpY2lKOS5CbGdkWGRZX3d2MDZBYkd0bEJQUnBlWHMtRXlHcnlwLTIwaUszbE4uLi4iLCJzZXNzaW9uSW5kZXgiOjF9XQ==)
 
-[![Build, Testes de Integração e Linter](https://github.com/Neppale/tsb.mininal.policy.engine/actions/workflows/development.yml/badge.svg)](https://github.com/Neppale/tsb.mininal.policy.engine/actions/workflows/development.yml)
-É comum que o Linter falhe por conta de um bug no mesmo, porém o build e os testes de integração devem passar. Caso contrário, o merge não será permitido.
+[![Build](https://github.com/Neppale/top.seguros.brasil.backend/actions/workflows/build.yml/badge.svg)](https://github.com/Neppale/top.seguros.brasil.backend/actions/workflows/build.yml)
 
-[![Deploy Heroku](https://github.com/Neppale/tsb.mininal.policy.engine/actions/workflows/production.yml/badge.svg)](https://github.com/Neppale/tsb.mininal.policy.engine/actions/workflows/production.yml)
-O deploy é feito automaticamente após o merge na branch main. O deploy é feito no Heroku.
+[![Integration tests](https://github.com/Neppale/top.seguros.brasil.backend/actions/workflows/test.yml/badge.svg)](https://github.com/Neppale/top.seguros.brasil.backend/actions/workflows/test.yml)
+
+[![Lint](https://github.com/Neppale/top.seguros.brasil.backend/actions/workflows/lint.yml/badge.svg)](https://github.com/Neppale/top.seguros.brasil.backend/actions/workflows/lint.yml)
+
+É possível que o Lint falhe por conta de um bug no Super Linter, e por isso, não é obrigatório para o merge.
 
 ![Logotipo da Top Seguros Brasil](https://i.imgur.com/dEYYaYQ.png)
 
