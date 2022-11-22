@@ -18,7 +18,7 @@ static class SqlDateConverter
     /* <summary> Esta função converte uma data no formato brasileiro para o formato SQL. </summary> */
     public static string ConvertToSave(string date)
     {
-        var dateParts = date.Split('/');
+        var dateParts = date.Split('-');
         var month = dateParts[0];
         var day = dateParts[1];
         var year = dateParts[2];
