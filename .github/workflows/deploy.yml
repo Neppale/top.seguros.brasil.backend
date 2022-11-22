@@ -5,12 +5,9 @@ on:
     branches: [master]
     types: [closed]
 
-  workflow_dispatch:
-
 jobs:
   deploy:
-  if: github.event.pull_request.merged == true
-    needs: [build, test]
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
