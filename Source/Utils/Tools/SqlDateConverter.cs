@@ -1,23 +1,28 @@
 static class SqlDateConverter
 {
-    /* <summary> Esta função converte uma data no formato SQL para o formato brasileiro. </summary> */
-    public static string Convert(string date)
-    {
-        Regex sqlFormat = new Regex("[0-9]{4}-[0-9]{2}-[0-9]{2}");
-        Regex brazilianFormat = new Regex("[0-9]{2}/[0-9]{2}/[0-9]{4}");
+  /* <summary> Esta função converte uma data no formato SQL para o formato brasileiro. </summary> */
+  public static string ConvertToShow(string date)
+  {
+    var dateParts = date.Split(' ');
+    var datePart = dateParts[0];
+    var timePart = dateParts[1];
 
-        if (sqlFormat.IsMatch(date)) return date.Substring(8, 2) + "/" + date.Substring(5, 2) + "/" + date.Substring(0, 4);
-        if (brazilianFormat.IsMatch(date)) return date.Substring(6, 4) + "-" + date.Substring(3, 2) + "-" + date.Substring(0, 2);
+    var datePartsSplitted = datePart.Split('-');
+    var year = datePartsSplitted[0];
+    var month = datePartsSplitted[1];
+    var day = datePartsSplitted[2];
 
-        return date;
-    }
-    public static DateTime ConvertToDate(string date)
-    {
-        int day = int.Parse(date.Substring(0, 2));
-        int month = int.Parse(date.Substring(3, 2));
-        int year = int.Parse(date.Substring(6, 4));
+    return $"{day}/{month}/{year}";
+  }
 
-        if (month > 12) return new DateTime(year, day, month);
-        else return new DateTime(year, month, day);
-    }
+  /* <summary> Esta função converte uma data no formato brasileiro para o formato SQL. </summary> */
+  public static string ConvertToSave(string date)
+  {
+    var dateParts = date.Split('/');
+    var day = dateParts[0];
+    var month = dateParts[1];
+    var year = dateParts[2];
+
+    return $"{year}-{month}-{day} 00:00:00";
+  }
 }
