@@ -1,0 +1,18 @@
+name: Lint
+
+on:
+  push:
+    branches: ["feature/**", "fix/**", "chore/**", "refactor/**"]
+
+  workflow_dispatch:
+
+jobs:
+  lint:
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Super-Linter
+        uses: github/super-linter@v4.9.5
+        env:
+          VALIDATE_CSHARP: true
