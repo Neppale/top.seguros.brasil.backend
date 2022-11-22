@@ -8,6 +8,8 @@
 
 É possível que o Lint falhe por conta de um bug no Super Linter, e por isso, não é obrigatório para o merge.
 
+[![Deploy to Heroku](https://github.com/Neppale/top.seguros.brasil.backend/actions/workflows/deploy.yml/badge.svg)](https://github.com/Neppale/top.seguros.brasil.backend/actions/workflows/deploy.yml)
+
 ![Logotipo da Top Seguros Brasil](https://i.imgur.com/dEYYaYQ.png)
 
 Projeto Integrado Multidisciplinar do segundo semestre da Universidade Paulista, curso Análise e Desenvolvimento de Sistemas. Neste projeto, foi desenvolvido um sistema de gerenciamento de apólices de seguros para uma empresa. O sistema foi desenvolvido em linguagem de programação C#, utilizando o framework ASP.NET Core.
