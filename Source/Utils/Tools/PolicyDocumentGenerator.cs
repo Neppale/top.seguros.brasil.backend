@@ -88,7 +88,7 @@ static class PolicyDocumentGenerator
             request.AddParameter("application/json", JsonSerializer.Serialize(requestBody), ParameterType.RequestBody);
 
             var response = await new RestClient().ExecuteAsync(request);
-            if (response.StatusCode == HttpStatusCode.OK) return new MemoryStream(response.RawBytes);
+            if (response.StatusCode == HttpStatusCode.OK) return new MemoryStream(response.RawBytes!);
             else tryNumber++;
         }
         return new MemoryStream();
