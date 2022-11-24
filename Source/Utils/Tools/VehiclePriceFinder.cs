@@ -33,7 +33,7 @@ static class VehiclePriceFinder
         HttpResponseMessage vehicleDataResponse = await client.GetAsync($"https://parallelum.com.br/fipe/api/v1/carros/marcas/{foundBrand.codigo}/modelos/{foundModel.codigo}/anos/{foundYear.codigo}");
         string vehicleData = await vehicleDataResponse.Content.ReadAsStringAsync();
 
-        var price = JsonSerializer.Deserialize<VehiclePrice>(vehicleData);
+        var price = JsonSerializer.Deserialize<VehiclePrice>(vehicleData)!;
         // Remover tudo que não seja numero, e coloque duas casas decimais no fim.
         var priceValue = decimal.Parse(Regex.Replace(price.Valor, "[^0-9]", ""), NumberStyles.AllowDecimalPoint) / 100;
 
