@@ -8,6 +8,7 @@ static class UpdateClientRepository
               new { Email = cliente.email, Senha = cliente.senha, Nome = cliente.nome_completo, Cnh = cliente.cnh, Cep = cliente.cep, DataNascimento = cliente.data_nascimento, Telefone1 = cliente.telefone1, Telefone2 = cliente.telefone2, Id = id });
 
             var client = await connectionString.QueryFirstOrDefaultAsync<GetClientDto>("SELECT * FROM Clientes WHERE id_cliente = @Id", new { Id = id });
+            client.data_nascimento = SqlDateConverter.ConvertToShow(client.data_nascimento);
             return client;
         }
         catch (SystemException)
