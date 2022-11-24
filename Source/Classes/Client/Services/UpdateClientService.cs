@@ -37,6 +37,8 @@ static class UpdateClientService
         if (!clientIsValid) return Results.BadRequest("O CNH ou e-mail informado já está sendo utilizado em outra conta.");
 
         cliente.senha = PasswordHasher.HashPassword(cliente.senha);
+        cliente.data_nascimento = SqlDateConverter.ConvertToSave(cliente.data_nascimento);
+        if (cliente.data_nascimento == "0000-00-00") return Results.BadRequest(new { message = "Formato de data inválido. Formato correto: yyyy-MM-dd" });
 
         var updatedClient = await UpdateClientRepository.Update(id: id, cliente: cliente, connectionString: connectionString);
         if (updatedClient == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });

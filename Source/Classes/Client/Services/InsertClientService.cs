@@ -42,6 +42,8 @@ static class InsertClientService
         if (!telefone2IsValid) return Results.BadRequest(new { message = "O telefone2 informado está mal formatado. Lembre-se de que o telefone deve estar no formato: (99) 99999-9999." });
 
         cliente.senha = PasswordHasher.HashPassword(cliente.senha);
+        cliente.data_nascimento = SqlDateConverter.ConvertToSave(cliente.data_nascimento);
+        if (cliente.data_nascimento == "0000-00-00") return Results.BadRequest(new { message = "Formato de data inválido. Formato correto: yyyy-MM-dd" });
 
         var createdClient = await InsertClientRepository.Insert(cliente: cliente, connectionString: connectionString);
         if (createdClient == null) return Results.BadRequest(new { message = "Houve um erro ao processar sua requisição. Tente novamente mais tarde." });
