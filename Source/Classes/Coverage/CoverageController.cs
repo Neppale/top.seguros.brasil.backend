@@ -2,7 +2,7 @@ public static class CoverageController
 {
     public static void ActivateEndpoints(WebApplication app, SqlConnection connectionString)
     {
-        app.MapGet("/cobertura/", [Authorize] async (int? pageNumber, int? size, string? search) =>
+        app.MapGet("/cobertura/", [AllowAnonymous] async (int? pageNumber, int? size, string? search) =>
         {
             return await GetAllCoverageService.Get(connectionString: connectionString, pageNumber: pageNumber, size: size, search: search);
         })

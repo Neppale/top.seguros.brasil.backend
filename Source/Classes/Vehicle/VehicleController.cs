@@ -20,7 +20,7 @@ public static class VehicleController
         })
         .WithName("Selecionar veículo por cliente");
 
-        app.MapPost("/veiculo/", [Authorize] async (Veiculo veiculo) =>
+        app.MapPost("/veiculo/", [AllowAnonymous] async (Veiculo veiculo) =>
         {
             return await InsertVehicleService.Insert(vehicle: veiculo, connectionString: connectionString);
         })
