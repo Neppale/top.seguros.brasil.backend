@@ -15,6 +15,12 @@ static class ClientAlreadyExistsValidator
         string storedCnh = connectionString.QueryFirstOrDefault<string>("SELECT cnh FROM Clientes WHERE cnh = @Cnh AND status = 'true'", new { Cnh = cliente.cnh });
         if (storedCnh == cliente.cnh) return false;
 
+        string storedPhoneNumber1 = connectionString.QueryFirstOrDefault<string>("SELECT telefone1 FROM Clientes WHERE telefone1 = @Telefone1 AND status = 'true'", new { Telefone1 = cliente.telefone1 });
+        if (storedPhoneNumber1 == cliente.telefone1) return false;
+
+        string storedPhoneNumber2 = connectionString.QueryFirstOrDefault<string>("SELECT telefone2 FROM Clientes WHERE telefone2 = @Telefone2 AND status = 'true'", new { Telefone2 = cliente.telefone2 });
+        if (storedPhoneNumber2 == cliente.telefone2) return false;
+
         return true;
     }
 
@@ -28,6 +34,12 @@ static class ClientAlreadyExistsValidator
 
         string storedCnh = connectionString.QueryFirstOrDefault<string>("SELECT cnh FROM Clientes WHERE cnh = @Cnh AND id_cliente != @Id AND status = 'true'", new { Cnh = cliente.cnh, Id = id });
         if (storedCnh == cliente.cnh) return false;
+
+        string storedPhoneNumber1 = connectionString.QueryFirstOrDefault<string>("SELECT telefone1 FROM Clientes WHERE telefone1 = @Telefone1 AND id_cliente != @Id AND status = 'true'", new { Telefone1 = cliente.telefone1, Id = id });
+        if (storedPhoneNumber1 == cliente.telefone1) return false;
+
+        string storedPhoneNumber2 = connectionString.QueryFirstOrDefault<string>("SELECT telefone2 FROM Clientes WHERE telefone2 = @Telefone2 AND id_cliente != @Id AND status = 'true'", new { Telefone2 = cliente.telefone2, Id = id });
+        if (storedPhoneNumber2 == cliente.telefone2) return false;
 
         return true;
     }
