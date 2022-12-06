@@ -1,10 +1,15 @@
-
-
 static class APISetup
 {
     /** <summary> Esta função configura o Swagger para documentar a aplicação. </summary> */
     public static WebApplication Setup(WebApplicationBuilder builder)
     {
+        // increase memory buffer threshold
+        builder.Services.Configure<FormOptions>(options =>
+        {
+            options.MultipartBodyLengthLimit = 2147483647;
+            options.ValueLengthLimit = 2147483647;
+            options.MultipartHeadersLengthLimit = 2147483647;
+        });
         builder.Services.AddAuthentication();
         builder.Services.AddAuthorization();
         builder.Services.AddEndpointsApiExplorer();
@@ -25,10 +30,10 @@ static class APISetup
             options.AddDefaultPolicy(
           builder =>
           {
-              builder.AllowAnyOrigin()
-                 .AllowAnyHeader()
-                 .AllowAnyMethod();
-          });
+                builder.AllowAnyOrigin()
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+            });
         });
 
         var securityReq = new OpenApiSecurityRequirement() { { new OpenApiSecurityScheme { Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" } }, new string[] { } } };
