@@ -11,5 +11,6 @@ global using System.Globalization;
 global using Microsoft.IdentityModel.Tokens;
 global using System.IdentityModel.Tokens.Jwt;
 global using tsb.mininal.policy.engine.Utils;
+global using Microsoft.AspNetCore.Http.Features;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
